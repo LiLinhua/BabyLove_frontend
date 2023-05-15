@@ -1,2 +1,2 @@
-import Goods from './goods-list';
+import Goods from './custom/goods-list';
 export default Goods;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { history } from 'umi';
+// import { history } from 'umi';
 
 import './index.less';
 
@@ -9,10 +9,12 @@ class Footer extends React.Component{
         this.state = {};
     }
     handleToPage = (url) => {
-        if(location.pathname === url){
-            return;
-        }
-        history.push(url);
+        // if(location.pathname === url){
+        //     return;
+        // }
+        // history.pushState({}, "", url)
+        location.href = url;
+        // history.push(url);
     }
     render(){
         return (
