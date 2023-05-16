@@ -15,8 +15,8 @@ class ListItem extends React.Component {
     history.push("/goods/details?goodsCode=" + goodsCode);
   };
 
-  handleAddToCart = () => {
-    const { goodsCode } = this.props;
+  handleAddToCart = (e, goodsCode) => {
+    e.stopPropagation();
   };
 
   render() {
@@ -37,7 +37,7 @@ class ListItem extends React.Component {
             </span>
             <span
               className="baby-love-goods-list-item-add"
-              onClick={this.handleAddToCart}
+              onClick={(e) => this.handleAddToCart(e, goodsCode)}
             >
               <img src={ShoppingBagIcon} />
             </span>

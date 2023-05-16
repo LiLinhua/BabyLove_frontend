@@ -11,5 +11,6 @@ export default defineConfig({
     { path: "/admin/goods/list", component: "admin/goods-list" },
     { path: "/admin/goods/details", component: "admin/goods-details" },
     { path: "/admin/shopping-cart", component: "admin/shopping-cart" },
+    { path: "/admin/goods/edit", component: "admin/goods-edit" },
   ],
 });

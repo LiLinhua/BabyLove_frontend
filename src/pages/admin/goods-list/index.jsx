@@ -1,6 +1,7 @@
 import React from "react";
 import { history } from 'umi';
 import GoodsItem from "./goods-item";
+import { AddCircleOutline } from "antd-mobile-icons";
 import ShoppingCartIcon from "@/assets/shopping-cart.png";
 
 import "./index.less";
@@ -71,6 +72,9 @@ class GoodsList extends React.Component {
   }
   componentDidMount() {}
   handleGoToCart = () => {
+    if(location.pathname.startsWith("/admin/")){
+      return history.push("/admin/shopping-cart");
+    }
     history.push("/shopping-cart");
   };
   render() {
@@ -88,6 +92,11 @@ class GoodsList extends React.Component {
             <span>12</span>
             <img src={ShoppingCartIcon} />
         </div>
+        {/* 新增商品图标 */}
+        <div className="baby-love-admin-goods-add" onClick={this.handleAddGoods}>
+            <AddCircleOutline />
+        </div>
+
       </div>
     );
   }

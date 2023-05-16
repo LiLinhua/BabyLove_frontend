@@ -5,6 +5,7 @@
         width: 100%;
         padding: 0;
         margin: 0;
+        padding-bottom: 80px;
 
         li {
             display: flex;
@@ -16,12 +17,16 @@
             background-color: #fff;
             box-shadow: 0px 0px 10px 0 #ccc;
 
+            .baby-love-admin-shopping-cart-goods-select{
+                padding: 0 6px;
+            }
+
             .baby-love-admin-shopping-cart-goods-picture {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 33%;
-                min-width: 33%;
+                width: 100px;
+                min-width: 100px;
                 height: 100px;
             }
 
@@ -57,8 +62,14 @@
                         align-items: center;
                         font-size: 28px;
 
+                        span{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
                         .adm-input {
-                            margin: 0 8px;
+                            margin: 0 4px;
                             width: 42px;
                             border: 1px solid #ccc;
 
@@ -71,6 +82,37 @@
 
 
             }
+        }
+    }
+    .baby-love-admin-shopping-cart-goods-order{
+        position: absolute;
+        bottom: 41px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 12px;
+        background-color: #fff;
+        // border-top: 1px solid #ccc;
+
+        .baby-love-admin-shopping-cart-goods-order-price{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .baby-love-admin-shopping-cart-goods-total-price{
+                margin-left: 6px;
+                font-size: 16px;
+                font-weight: 800;
+            }
+        }
+
+        .baby-love-admin-shopping-cart-goods-remove-btn{
+            margin-right: 8px;
+        }
+        .adm-button{
+            width: 80px;
         }
     }
 }
