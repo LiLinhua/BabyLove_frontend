@@ -1,3 +1,5 @@
+import { login } from "@/common/apis";
+import request from "@/common/http";
 import { Button, Form, Input } from "antd-mobile";
 import React from "react";
 
@@ -6,16 +8,34 @@ import "./index.less";
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isLoading: false,
+    };
   }
   formRef = React.createRef();
   componentDidMount() {}
-  login = () => {
+  login = async () => {
+    this.setState({ isLoading: true });
+
     const { username, password } = this.formRef.current?.getFieldsValue([
       "username",
       "password",
     ]);
 
-    console.log("===========", username, password);
+    try {
+      const { success } = await request.post(login, {
+        username,
+        password,
+      });
+      if(success){
+        sessionStorage.setItem('babyLoveToken', '1');
+        location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.setState({ isLoading: false });
   };
   render() {
     return (
@@ -25,7 +45,14 @@ class Login extends React.Component {
             ref={this.formRef}
             layout="horizontal"
             footer={
-              <Button block type="submit" color="primary" size="large">
+              <Button
+                block
+                type="submit"
+                color="primary"
+                size="large"
+                onClick={this.login}
+                loading={this.state.isLoading}
+              >
                 登录
               </Button>
             }

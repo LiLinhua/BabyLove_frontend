@@ -40,7 +40,7 @@ class Goods extends React.Component {
   }
   componentDidMount() {}
   handleGoToCart = () => {
-    history.push("/shopping-cart");
+    history.push("/view/shopping-cart");
   };
   render() {
     const { goodsTitle, goodsSubtitle, goodsPrice, goodsDetails, pictures } =

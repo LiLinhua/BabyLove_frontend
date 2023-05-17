@@ -1,6 +1,7 @@
 import ShoppingBagIcon from "@/assets/shopping-bag.png";
+import NoPictureIcon from "@/assets/no-picture.png";
 import { DeleteOutline, EditSOutline } from "antd-mobile-icons";
-import { Dialog, Toast } from "antd-mobile";
+import { Dialog } from "antd-mobile";
 
 import React from "react";
 import { history } from "umi";
@@ -15,7 +16,7 @@ class ListItem extends React.Component {
 
   handleItemClick = () => {
     const { goodsCode } = this.props;
-    history.push("/goods/details?goodsCode=" + goodsCode);
+    history.push("/view/admin/goods/details?goodsCode=" + goodsCode);
   };
 
   handleAddToCart = (e, goodsCode) => {
@@ -27,7 +28,7 @@ class ListItem extends React.Component {
     e && e.stopPropagation();
   };
 
-  remove = async (e, record) => {
+  remove = async (e, goodsCode) => {
     this.stopPropagation(e);
 
     const result = await Dialog.confirm({
@@ -38,16 +39,17 @@ class ListItem extends React.Component {
     }
   };
 
-  edit = (e, record) => {
+  edit = (e, goodsCode) => {
     this.stopPropagation(e);
 
-    history.push('/admin/goods/edit');
+    history.push('/view/admin/goods/edit?goodsCode=' + goodsCode);
   };
 
   render() {
     const { goodsCode, goodsTitle, goodsSubtitle, goodsPrice, pictures } =
       this.props;
-    const picture = pictures && pictures[0] ? pictures[0] : null;
+      console.log('=======props=======', this.props);
+    const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div
         className="baby-love-admin-goods-list-item"
@@ -62,7 +64,7 @@ class ListItem extends React.Component {
           </span>
         </div>
         <div className="baby-love-admin-goods-list-item-picture">
-          <img key={picture.pictureCode} src={picture.pictureUrl} />
+          <img key={picture.pictureCode} src={picture.pictureUrl || NoPictureIcon} />
         </div>
         <div className="baby-love-admin-goods-list-item-content">
           <p className="baby-love-admin-goods-list-item-title">{goodsTitle}</p>

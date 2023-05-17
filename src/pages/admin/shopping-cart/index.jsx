@@ -158,7 +158,7 @@ class ShoppingCart extends React.Component {
    * @param {string} goodsCode
    */
   toGoodsDetails = (goodsCode) => {
-    history.push("/goods/details?goodsCode=" + goodsCode);
+    history.push("/view/goods/details?goodsCode=" + goodsCode);
   };
 
   /**

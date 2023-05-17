@@ -1,6 +1,7 @@
 import React from "react";
 import { history } from 'umi';
 import ShoppingBagIcon from "@/assets/shopping-bag.png";
+import NoPictureIcon from "@/assets/no-picture.png";
 
 import "./index.less";
 
@@ -12,7 +13,7 @@ class ListItem extends React.Component {
 
   handleItemClick = () => {
     const { goodsCode } = this.props;
-    history.push("/goods/details?goodsCode=" + goodsCode);
+    history.push("/view/goods/details?goodsCode=" + goodsCode);
   };
 
   handleAddToCart = (e, goodsCode) => {
@@ -22,11 +23,11 @@ class ListItem extends React.Component {
   render() {
     const { goodsCode, goodsTitle, goodsSubtitle, goodsPrice, pictures } =
       this.props;
-    const picture = pictures && pictures[0] ? pictures[0] : null;
+    const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div className="baby-love-goods-list-item" onClick={this.handleItemClick}>
         <div className="baby-love-goods-list-item-picture">
-          <img key={picture.pictureCode} src={picture.pictureUrl} />
+          <img key={picture.pictureCode} src={picture.pictureUrl || NoPictureIcon} />
         </div>
         <div className="baby-love-goods-list-item-content">
           <p className="baby-love-goods-list-item-title">{goodsTitle}</p>

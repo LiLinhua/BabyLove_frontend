@@ -14,7 +14,7 @@ export default function Layout() {
   };
 
   // 客户侧
-  if (!location.pathname.startsWith("/admin/")) {
+  if (!location.pathname.startsWith("/view/admin")) {
     const data = [
       {
         title: "商品",
@@ -41,7 +41,7 @@ export default function Layout() {
 
   // 管理后台
   // 登录校验
-  const isLogined = document.cookie.indexOf("babylove_token=") > -1;
+  const isLogined = sessionStorage.getItem('babyLoveToken');
   const data = [
     {
       title: "商品",
@@ -52,20 +52,6 @@ export default function Layout() {
       onClick: () => handleToPage("/admin/shopping-cart"),
     },
   ];
-  return (
-    <div className="baby-love-admin">
-      {/* 头部 */}
-      <Header />
-      {/* 页面内容 */}
-      <>
-        <div className="baby-love-admin-body">
-          <Outlet />
-        </div>
-        {/* 底部 */}
-        <Footer data={data} />
-      </>
-    </div>
-  );
 
   return (
     <div className="baby-love-admin">
