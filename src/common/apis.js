@@ -1,5 +1,6 @@
 export const adminAddGoods = '/admin/goods/addGoods';
 export const adminUpdateGoods = '/admin/goods/updateGoods';
+export const adminRemoveGoods = '/admin/goods/removeGoods';
 export const adminAddGoodsPictures = '/admin/goodsPictures/addGoodsPictures';
 export const adminShoppingCartAddGoods = '/admin/shoppingCarts/addGoods';
 export const adminShoppingCartRemoveGoods = '/admin/shoppingCarts/removeGoods';
@@ -17,6 +18,7 @@ export const customQueryAllGoods = '/custom/goods/queryAllGoods';
 export const customQueryDetailsGoods = '/custom/goods/queryGoodsDetails';
 export const customShoppingCartAddGoods = '/custom/shoppingCarts/addGoods';
 export const customShoppingCartRemoveGoods = '/custom/shoppingCarts/removeGoods';
+export const customQueryShoppingCartGoodsCount = '/custom/shoppingCarts/queryAllGoodsCount';
 
 
 export const login = '/user/login';

@@ -13,6 +13,8 @@
     "antd-mobile-icons": "^0.3.0",
     "axios": "^1.4.0",
     "draft-js": "^0.11.7",
+    "mobx": "^6.9.0",
+    "mobx-react": "^7.6.0",
     "react-quill": "^2.0.0",
     "umi": "^4.0.68"
   },

@@ -1,11 +1,12 @@
-import ShoppingCartIcon from "@/assets/shopping-cart.png";
-import { Button } from "antd-mobile";
+import { Button, Toast } from "antd-mobile";
 import React from "react";
 import { history } from "umi";
-import { adminQueryGoodsDetails } from "../../../common/apis";
+import { adminQueryGoodsDetails, adminShoppingCartAddGoods } from "../../../common/apis";
 import request from "../../../common/http";
+import { getShoppingCartCode } from "../../../common/utils";
 import GoodsBaseInfo from "./base-info";
 import GoodsSwiper from "./swiper";
+import ShoppingCartFloat from "../../../components/shopping-cart-float";
 
 import "./index.less";
 
@@ -30,6 +31,25 @@ class Goods extends React.Component {
     });
     if (data) {
       this.setState({ goodsDetails: data });
+    }
+  };
+  handleAddToCart = async () => {
+    const shoppingCartCode = await getShoppingCartCode();
+
+    const { success } = await request.post(adminShoppingCartAddGoods, {
+      shoppingCartCode,
+      goodsCode: this.goodsCode,
+      buyCount: 1,
+    });
+
+    if (success) {
+      Toast.show({
+        icon: "success",
+        content: "添加成功",
+      });
+
+      // 刷新购物车商品数据
+      this.props.ShoppingCart?.flushShoppingCartGoodsCount();
     }
   };
   handleGoToCart = () => {
@@ -57,16 +77,10 @@ class Goods extends React.Component {
           ></div>
           {/* 加入购物车 */}
           <div className="baby-love-admin-goods-details-add-to-cart">
-            <Button color="primary">加入购物车</Button>
+            <Button color="primary" onClick={this.handleAddToCart}>加入购物车</Button>
           </div>
           {/* 购物车图标 */}
-          <div
-            className="baby-love-admin-goods-to-cart"
-            onClick={this.handleGoToCart}
-          >
-            <span>12</span>
-            <img src={ShoppingCartIcon} />
-          </div>
+          <ShoppingCartFloat />
         </div>
       </div>
     );

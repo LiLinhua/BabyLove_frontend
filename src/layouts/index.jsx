@@ -1,8 +1,10 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import Login from "@/components/login";
+import { Provider } from "mobx-react";
 import { Outlet } from "umi";
 import "./index.less";
+import shores from "./stores";
 
 export default function Layout() {
   const handleToPage = (url) => {
@@ -18,57 +20,61 @@ export default function Layout() {
     const data = [
       {
         title: "商品",
-        onClick: () => handleToPage("/goods/list"),
+        onClick: () => handleToPage("/view/goods/list"),
       },
       {
         title: "购物车",
-        onClick: () => handleToPage("/shopping-cart"),
+        onClick: () => handleToPage("/view/shopping-cart"),
       },
     ];
     return (
-      <div className="baby-love">
-        {/* 头部 */}
-        <Header />
-        {/* 页面内容 */}
-        <div className="baby-love-body">
-          <Outlet />
+      <Provider {...shores}>
+        <div className="baby-love">
+          {/* 头部 */}
+          <Header />
+          {/* 页面内容 */}
+          <div className="baby-love-body">
+            <Outlet />
+          </div>
+          {/* 底部 */}
+          <Footer data={data} />
         </div>
-        {/* 底部 */}
-        <Footer data={data} />
-      </div>
+      </Provider>
     );
   }
 
   // 管理后台
   // 登录校验
-  const isLogined = sessionStorage.getItem('babyLoveToken');
+  const isLogined = sessionStorage.getItem("babyLoveToken");
   const data = [
     {
       title: "商品",
-      onClick: () => handleToPage("/admin/goods/list"),
+      onClick: () => handleToPage("/view/admin/goods/list"),
     },
     {
       title: "购物车",
-      onClick: () => handleToPage("/admin/shopping-cart"),
+      onClick: () => handleToPage("/view/admin/shopping-cart"),
     },
   ];
 
   return (
-    <div className="baby-love-admin">
-      {/* 头部 */}
-      <Header />
-      {/* 页面内容 */}
-      {isLogined ? (
-        <>
-          <div className="baby-love-admin-body">
-            <Outlet />
-          </div>
-          {/* 底部 */}
-          <Footer data={data} />
-        </>
-      ) : (
-        <Login />
-      )}
-    </div>
+    <Provider {...shores}>
+      <div className="baby-love-admin">
+        {/* 头部 */}
+        <Header />
+        {/* 页面内容 */}
+        {isLogined ? (
+          <>
+            <div className="baby-love-admin-body">
+              <Outlet />
+            </div>
+            {/* 底部 */}
+            <Footer data={data} />
+          </>
+        ) : (
+          <Login />
+        )}
+      </div>
+    </Provider>
   );
 }

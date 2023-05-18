@@ -1,10 +1,10 @@
-import ShoppingCartIcon from "@/assets/shopping-cart.png";
 import { DotLoading } from "antd-mobile";
 import { AddCircleOutline } from "antd-mobile-icons";
 import React from "react";
 import { history } from "umi";
 import { adminQueryAllGoods } from "../../../common/apis";
 import request from "../../../common/http";
+import ShoppingCartFloat from "../../../components/shopping-cart-float";
 import GoodsItem from "./goods-item";
 
 import "./index.less";
@@ -27,13 +27,8 @@ class GoodsList extends React.Component {
    */
   handleGetGoodsList = async () => {
     this.setState({ isLoading: true });
-    try {
-      const { data } = await request.get(adminQueryAllGoods);
-      this.setState({ goodsList: data });
-    } catch (error) {
-      console.error(error);
-    }
-    this.setState({ isLoading: false });
+    const { data } = await request.get(adminQueryAllGoods);
+    this.setState({ goodsList: data, isLoading: false });
   };
 
   /**
@@ -69,19 +64,17 @@ class GoodsList extends React.Component {
           ) : (
             <>
               {goodsList.map((goods) => (
-                <GoodsItem key={goods.goodsCode} {...goods} />
+                <GoodsItem
+                  key={goods.goodsCode}
+                  {...goods}
+                  getGoodsList={this.handleGetGoodsList}
+                />
               ))}
             </>
           )}
         </div>
         {/* 购物车图标 */}
-        <div
-          className="baby-love-admin-goods-to-cart"
-          onClick={this.handleGoToCart}
-        >
-          <span>12</span>
-          <img src={ShoppingCartIcon} />
-        </div>
+        <ShoppingCartFloat />
         {/* 新增商品图标 */}
         <div
           className="baby-love-admin-goods-add"
