@@ -46,14 +46,14 @@ class GoodsItem extends React.Component {
             <span className="baby-love-admin-shopping-cart-goods-count">
               <span
                 onClick={(e) => {
-                  changeCount(e, goodsItem, --goodsItem.goodsCount);
+                  changeCount(e, goodsItem, --goodsItem.buyCount);
                   stopPropagation(e);
                 }}
               >
                 <MinusCircleOutline />
               </span>
               <Input
-                value={goodsItem.goodsCount}
+                value={goodsItem.buyCount}
                 type="number"
                 min={1}
                 max={999}
@@ -64,7 +64,7 @@ class GoodsItem extends React.Component {
               />
               <AddCircleOutline
                 onClick={(e) => {
-                  changeCount(e, goodsItem, ++goodsItem.goodsCount);
+                  changeCount(e, goodsItem, ++goodsItem.buyCount);
                   stopPropagation(e);
                 }}
               />

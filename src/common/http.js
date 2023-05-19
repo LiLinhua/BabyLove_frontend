@@ -53,7 +53,7 @@ const errorHandler = (response) => {
 const instance = axios.create({ timeout: 12000 });
 
 // 设置post请求头
-instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+instance.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 // 请假拦截器
 instance.interceptors.request.use(

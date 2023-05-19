@@ -1,9 +1,13 @@
-import { Dialog, Toast } from "antd-mobile";
+import { Dialog, List, Modal, Toast } from "antd-mobile";
 import React from "react";
 import { history } from "umi";
-import { adminQueryAllShoppingCarts } from "../../../common/apis";
+import {
+  adminQueryAllShoppingCarts,
+  adminShoppingCartBatchRemoveGoods,
+  adminShoppingCartBatchUpdateSelected,
+  adminShoppingCartUpdateBuyCount,
+} from "../../../common/apis";
 import request from "../../../common/http";
-import { getShoppingCartCode } from "../../../common/utils";
 import GoodsItem from "./goods-item";
 import OrderInfo from "./order-info";
 
@@ -14,12 +18,16 @@ class ShoppingCart extends React.Component {
     super(props);
     this.state = {
       shoppingCartList: [],
+      goodsList: [],
       selectGoodsCodes: [],
       totalPrice: 0,
+      isShowSelectShoppingCartModal: true,
     };
+    this.shoppingCartCode = null;
   }
+
   componentDidMount() {
-    this.getGoodsList();
+    this.getShoppingCartList();
   }
 
   /**
@@ -31,16 +39,10 @@ class ShoppingCart extends React.Component {
   };
 
   /**
-   * 修改数量
+   * 查询购物车列表
    */
-  getGoodsList = async () => {
-    const shoppingCartCode = await getShoppingCartCode();
-
-    const { data } = await request.get(adminQueryAllShoppingCarts, {
-      params: {
-        shoppingCartCode,
-      },
-    });
+  getShoppingCartList = async () => {
+    const { data } = await request.get(adminQueryAllShoppingCarts);
 
     if (Array.isArray(data)) {
       this.setState({ shoppingCartList: data });
@@ -48,24 +50,75 @@ class ShoppingCart extends React.Component {
   };
 
   /**
+   * 显示选择购物车弹窗
+   */
+  showSelectShoppingCartModal = (isShow) => {
+    this.setState({
+      isShowSelectShoppingCartModal: isShow,
+    });
+  };
+
+  /**
+   * 选择购物车
+   */
+  selectShoppingCart = async (shoppingCart) => {
+    this.shoppingCartCode = shoppingCart.shoppingCartCode;
+    const goodsList = await this.getGoodsList(shoppingCart);
+    const selectGoodsCodes = [];
+    goodsList.forEach((good) => {
+      if (good.selected) {
+        selectGoodsCodes.push(good.goodsCode);
+      }
+    });
+    this.setState({
+      isShowSelectShoppingCartModal: false,
+      goodsList: goodsList || [],
+      selectGoodsCodes,
+    });
+  };
+
+  /**
+   * 获取商品列表
+   * @param {string} shoppingCart 购物车信息
+   */
+  getGoodsList = async (shoppingCart) => {
+    return shoppingCart?.goods || [];
+  };
+
+  /**
    * 修改数量
    * @param {Event} e
    * @param {Object} record
    */
-  changeCount = (e, record, count) => {
+  changeCount = async (e, record, count) => {
+    // 阻止事件冒泡
+    this.stopPropagation(e);
+
+    // 数量修正
+    count = count < 1 ? 1 : count;
+
+    // 修改后台购物车商品数量
+    const { success } = await request.post(adminShoppingCartUpdateBuyCount, {
+      shoppingCartCode: this.shoppingCartCode,
+      goodsCode: record.goodsCode,
+      buyCount: count,
+    });
+    if (!success) {
+      return;
+    }
+
+    // 修改前端数量
     const { goodsList } = this.state;
     for (let i = 0; i < goodsList.length; i++) {
       if (goodsList[i].goodsCode === record.goodsCode) {
-        goodsList[i].goodsCount = count < 1 ? 1 : count;
+        goodsList[i].buyCount = count < 1 ? 1 : count;
         this.setState({ goodsList: [...goodsList] });
         break;
       }
     }
+
     // 计算订单总价
     this.setTotalPrice();
-    // 阻止事件冒泡
-    this.stopPropagation(e);
-    return false;
   };
 
   /**
@@ -84,7 +137,7 @@ class ShoppingCart extends React.Component {
     let totalPrice = 0;
     goodsList.forEach((goodsItem) => {
       if (selectGoodsCodes.includes(goodsItem.goodsCode)) {
-        totalPrice += goodsItem.goodsPrice * goodsItem.goodsCount;
+        totalPrice += goodsItem.goodsPrice * goodsItem.buyCount;
       }
     });
 
@@ -95,9 +148,22 @@ class ShoppingCart extends React.Component {
    * 选择商品
    * @param {string} goodsCode
    */
-  selectGoods = (goodsCode, isSelect) => {
+  selectGoods = async (goodsCode, isSelect) => {
     let { selectGoodsCodes } = this.state;
 
+    const { success } = await request.post(
+      adminShoppingCartBatchUpdateSelected,
+      {
+        shoppingCartCode: this.shoppingCartCode,
+        goodsCodes: [goodsCode],
+        selected: isSelect ? 1 : 0,
+      }
+    );
+    if (!success) {
+      return;
+    }
+
+    debugger;
     const index = selectGoodsCodes.indexOf(goodsCode);
     if (isSelect && index === -1) {
       selectGoodsCodes.push(goodsCode);
@@ -117,12 +183,26 @@ class ShoppingCart extends React.Component {
   /**
    * 选择全部
    */
-  selectAllGoods = (isSelectAll) => {
+  selectAllGoods = async (isSelectAll) => {
+    debugger;
+    const selectGoodsCodes = isSelectAll
+      ? this.state.goodsList.map((goodsItem) => goodsItem.goodsCode)
+      : [];
+    const { success } = await request.post(
+      adminShoppingCartBatchUpdateSelected,
+      {
+        shoppingCartCode: this.shoppingCartCode,
+        goodsCodes: selectGoodsCodes,
+        selected: isSelectAll ? 1 : 0,
+      }
+    );
+    if (!success) {
+      return;
+    }
+
     this.setState(
       {
-        selectGoodsCodes: isSelectAll
-          ? this.state.goodsList.map((goodsItem) => goodsItem.goodsCode)
-          : [],
+        selectGoodsCodes,
       },
       this.setTotalPrice
     );
@@ -145,18 +225,26 @@ class ShoppingCart extends React.Component {
       return;
     }
 
+    const { success } = await request.post(adminShoppingCartBatchRemoveGoods, {
+      shoppingCartCode: this.shoppingCartCode,
+      goodsCodes: selectGoodsCodes,
+    });
+    if (!success) {
+      return;
+    }
+
     goodsList = goodsList.filter(
       (goodsItem) => !selectGoodsCodes.includes(goodsItem.goodsCode)
     );
 
-    this.setState({ goodsList });
+    this.setState({ goodsList, selectGoodsCodes: [] });
   };
 
   /**
    * 下单
    */
   buy = () => {
-    let { selectGoodsCodes, goodsList } = this.state;
+    let { selectGoodsCodes } = this.state;
 
     if (!selectGoodsCodes.length) {
       return Toast.show({ content: "请先选择商品" });
@@ -192,43 +280,60 @@ class ShoppingCart extends React.Component {
   };
 
   render() {
-    const { totalPrice, shoppingCartList, selectGoodsCodes } = this.state;
-    let totalGoods = [];
+    const {
+      totalPrice,
+      shoppingCartList,
+      selectGoodsCodes,
+      isShowSelectShoppingCartModal,
+      goodsList,
+    } = this.state;
+
     return (
       <div className="baby-love-admin-shopping-cart">
-        {shoppingCartList.map((shoppingCart) => {
-          totalGoods = totalGoods.concat(shoppingCart.goods);
-          return (
-            <ul>
-              <li className="baby-love-admin-shopping-cart-code">
-                {shoppingCart.shoppingCartCode}
-              </li>
-              {(shoppingCart.goods || []).map((goodsItem) => (
-                <li
-                  key={goodsItem.goodsCode}
-                  className="baby-love-admin-shopping-cart-goods-item"
-                  onClick={() => this.toGoodsDetails(goodsItem.goodsCode)}
-                >
-                  <GoodsItem
-                    goodsItem={goodsItem}
-                    selectGoodsCodes={selectGoodsCodes}
-                    selectGoods={this.selectGoods}
-                    changeCount={this.changeCount}
-                    stopPropagation={this.stopPropagation}
-                  />
-                </li>
-              ))}
-            </ul>
-          );
-        })}
-
+        {!goodsList.length ? (
+          <div className="baby-love-admin-shopping-cart-empty">暂无数据</div>
+        ) : null}
+        <ul>
+          {goodsList.map((goodsItem) => (
+            <li
+              key={goodsItem.goodsCode}
+              className="baby-love-admin-shopping-cart-goods-item"
+              onClick={() => this.toGoodsDetails(goodsItem.goodsCode)}
+            >
+              <GoodsItem
+                goodsItem={goodsItem}
+                selectGoodsCodes={selectGoodsCodes}
+                selectGoods={this.selectGoods}
+                changeCount={this.changeCount}
+                stopPropagation={this.stopPropagation}
+              />
+            </li>
+          ))}
+        </ul>
         <OrderInfo
           totalPrice={totalPrice}
-          goodsList={totalGoods}
+          goodsList={goodsList}
           selectGoodsCodes={selectGoodsCodes}
           selectAllGoods={this.selectAllGoods}
           remove={this.remove}
           buy={this.buy}
+        />
+        <Modal
+          title="选择购物车"
+          visible={isShowSelectShoppingCartModal}
+          content={
+            <div>
+              <List>
+                {shoppingCartList.map((shoppingCart) => (
+                  <List.Item
+                    onClick={() => this.selectShoppingCart(shoppingCart)}
+                  >
+                    {shoppingCart.shoppingCartCode}
+                  </List.Item>
+                ))}
+              </List>
+            </div>
+          }
         />
       </div>
     );
