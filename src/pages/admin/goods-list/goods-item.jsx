@@ -81,7 +81,6 @@ class ListItem extends React.Component {
   render() {
     const { goodsCode, goodsTitle, goodsSubtitle, goodsPrice, pictures } =
       this.props;
-    console.log("=======props=======", this.props);
     const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div

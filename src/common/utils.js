@@ -22,3 +22,11 @@ export const getShoppingCartCode = async () => {
     localStorage.setItem('babyloveShoppingCartCode', shoppingCartCode);
     return shoppingCartCode;
 }
+
+export const setShoppingCartCode = (shoppingCartCode) => {
+    if (!shoppingCartCode) {
+        return;
+    }
+
+    localStorage.setItem('babyloveShoppingCartCode', shoppingCartCode);
+}

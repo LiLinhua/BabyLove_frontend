@@ -8,6 +8,10 @@ import {
   adminShoppingCartUpdateBuyCount,
 } from "../../../common/apis";
 import request from "../../../common/http";
+import {
+  getShoppingCartCode,
+  setShoppingCartCode,
+} from "../../../common/utils";
 import GoodsItem from "./goods-item";
 import OrderInfo from "./order-info";
 
@@ -23,7 +27,6 @@ class ShoppingCart extends React.Component {
       totalPrice: 0,
       isShowSelectShoppingCartModal: true,
     };
-    this.shoppingCartCode = null;
   }
 
   componentDidMount() {
@@ -62,7 +65,8 @@ class ShoppingCart extends React.Component {
    * 选择购物车
    */
   selectShoppingCart = async (shoppingCart) => {
-    this.shoppingCartCode = shoppingCart.shoppingCartCode;
+    setShoppingCartCode(shoppingCart.shoppingCartCode);
+
     const goodsList = await this.getGoodsList(shoppingCart);
     const selectGoodsCodes = [];
     goodsList.forEach((good) => {
@@ -70,6 +74,7 @@ class ShoppingCart extends React.Component {
         selectGoodsCodes.push(good.goodsCode);
       }
     });
+
     this.setState({
       isShowSelectShoppingCartModal: false,
       goodsList: goodsList || [],
@@ -99,7 +104,7 @@ class ShoppingCart extends React.Component {
 
     // 修改后台购物车商品数量
     const { success } = await request.post(adminShoppingCartUpdateBuyCount, {
-      shoppingCartCode: this.shoppingCartCode,
+      shoppingCartCode: getShoppingCartCode(),
       goodsCode: record.goodsCode,
       buyCount: count,
     });
@@ -126,7 +131,7 @@ class ShoppingCart extends React.Component {
    * @param {string} goodsCode
    */
   toGoodsDetails = (goodsCode) => {
-    history.push("/view/goods/details?goodsCode=" + goodsCode);
+    history.push("/view/admin/goods/details?goodsCode=" + goodsCode);
   };
 
   /**
@@ -154,7 +159,7 @@ class ShoppingCart extends React.Component {
     const { success } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
-        shoppingCartCode: this.shoppingCartCode,
+        shoppingCartCode: getShoppingCartCode(),
         goodsCodes: [goodsCode],
         selected: isSelect ? 1 : 0,
       }
@@ -184,14 +189,13 @@ class ShoppingCart extends React.Component {
    * 选择全部
    */
   selectAllGoods = async (isSelectAll) => {
-    debugger;
     const selectGoodsCodes = isSelectAll
       ? this.state.goodsList.map((goodsItem) => goodsItem.goodsCode)
       : [];
     const { success } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
-        shoppingCartCode: this.shoppingCartCode,
+        shoppingCartCode: getShoppingCartCode(),
         goodsCodes: selectGoodsCodes,
         selected: isSelectAll ? 1 : 0,
       }
@@ -226,7 +230,7 @@ class ShoppingCart extends React.Component {
     }
 
     const { success } = await request.post(adminShoppingCartBatchRemoveGoods, {
-      shoppingCartCode: this.shoppingCartCode,
+      shoppingCartCode: getShoppingCartCode(),
       goodsCodes: selectGoodsCodes,
     });
     if (!success) {

@@ -46,7 +46,7 @@ class GoodsEdit extends React.Component {
           return { ...picture, url: picture.pictureUrl };
         });
       }
-      this.formRef.current?.setFieldsValue(data);
+      this.formRef.current?.setFieldsValue(formValues);
     }
   };
 
@@ -93,6 +93,7 @@ class GoodsEdit extends React.Component {
   };
   render() {
     const { goodsDetails } = this.state;
+    const values = this.formRef?.current?.getFieldsValue(['goodsCatalog']);
     return (
       <div className="baby-love-goods-edit">
         <div className="baby-love-goods-edit-form">

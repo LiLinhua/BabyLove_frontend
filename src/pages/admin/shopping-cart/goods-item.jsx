@@ -6,10 +6,14 @@ class GoodsItem extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
-    const { goodsItem, selectGoodsCodes, selectGoods, changeCount, stopPropagation } =
-      this.props;
+    const {
+      goodsItem,
+      selectGoodsCodes,
+      selectGoods,
+      changeCount,
+      stopPropagation,
+    } = this.props;
     return (
       <>
         <div
