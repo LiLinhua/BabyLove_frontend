@@ -17,6 +17,7 @@ export const customQueryShoppingCartAllGoods = '/custom/shoppingCarts/queryAllGo
 export const customShoppingCartUpdateBuyCount = '/custom/shoppingCarts/updateBuyCount';
 export const customQueryAllGoods = '/custom/goods/queryAllGoods';
 export const customQueryGoodsDetails = '/custom/goods/queryGoodsDetails';
+export const customAddShoppingCart = '/custom/shoppingCarts/addShoppingCart';
 export const customShoppingCartAddGoods = '/custom/shoppingCarts/addGoods';
 export const customShoppingCartBatchRemoveGoods = '/custom/shoppingCarts/batchRemoveGoods';
 export const customQueryShoppingCartGoodsCount = '/custom/shoppingCarts/queryAllGoodsCount';

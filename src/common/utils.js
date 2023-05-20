@@ -1,9 +1,10 @@
 import { history } from 'umi';
 import request from './http';
 import { Toast } from 'antd-mobile';
+import { customAddShoppingCart } from '../common/apis';
 
 export const addShoppingCartCode = async () => {
-    const { data } = await request.post(adminAddShoppingCart);
+    const { data } = await request.post(customAddShoppingCart);
 
     return data ? data.shoppingCartCode : null;
 }
