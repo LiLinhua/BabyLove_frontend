@@ -1,13 +1,36 @@
-.baby-love-shopping-cart {
+.baby-love-custom-shopping-cart {
 
     // background-color: #ccc;
+    padding: 0px 0 20px;
+
+    .adm-dot-loading {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        margin-top: 250px;
+        font-size: 24px;
+    }
+
+    .baby-love-custom-shopping-cart-empty {
+        width: 100%;
+        text-align: center;
+        margin-top: 200px;
+        color: #ccc;
+        font-size: 14px;
+    }
+
     ul {
         width: 100%;
         padding: 0;
         margin: 0;
-        padding-bottom: 80px;
+        padding-bottom: 40px;
 
-        li {
+        .baby-love-custom-shopping-cart-code {
+            padding: 0 12px;
+            margin-bottom: -10px;
+        }
+
+        .baby-love-custom-shopping-cart-goods-item {
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -17,11 +40,11 @@
             background-color: #fff;
             box-shadow: 0px 0px 10px 0 #ccc;
 
-            .baby-love-shopping-cart-goods-select{
+            .baby-love-custom-shopping-cart-goods-select {
                 padding: 0 6px;
             }
 
-            .baby-love-shopping-cart-goods-picture {
+            .baby-love-custom-shopping-cart-goods-picture {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -30,39 +53,39 @@
                 height: 100px;
             }
 
-            .baby-love-shopping-cart-goods-buy-info {
+            .baby-love-custom-shopping-cart-goods-buy-info {
                 width: 100%;
                 padding: 0 12px;
 
-                .baby-love-shopping-cart-goods-title {
+                .baby-love-custom-shopping-cart-goods-title {
                     width: 100%;
                     height: 20px;
                     overflow: hidden;
                     font-size: 16px;
                 }
 
-                .baby-love-shopping-cart-goods-subtitle {
+                .baby-love-custom-shopping-cart-goods-subtitle {
                     opacity: .2;
                 }
 
-                .baby-love-shopping-cart-goods-price-count {
+                .baby-love-custom-shopping-cart-goods-price-count {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     margin-top: 12px;
 
-                    .baby-love-shopping-cart-goods-price {
+                    .baby-love-custom-shopping-cart-goods-price {
                         font-size: 20px;
                         font-weight: 900;
                     }
 
-                    .baby-love-shopping-cart-goods-count {
+                    .baby-love-custom-shopping-cart-goods-count {
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         font-size: 28px;
 
-                        span{
+                        span {
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -84,7 +107,12 @@
             }
         }
     }
-    .baby-love-shopping-cart-goods-order{
+
+    ul:last-child {
+        padding-bottom: 80px;
+    }
+
+    .baby-love-custom-shopping-cart-goods-order {
         position: absolute;
         bottom: 41px;
         display: flex;
@@ -96,23 +124,35 @@
         background-color: #fff;
         // border-top: 1px solid #ccc;
 
-        .baby-love-shopping-cart-goods-order-price{
+        .baby-love-custom-shopping-cart-goods-order-price {
             display: flex;
             justify-content: center;
             align-items: center;
 
-            .baby-love-shopping-cart-goods-total-price{
+            .baby-love-custom-shopping-cart-goods-total-price {
                 margin-left: 6px;
                 font-size: 16px;
                 font-weight: 800;
             }
         }
 
-        .baby-love-shopping-cart-goods-remove-btn{
+        .baby-love-custom-shopping-cart-goods-remove-btn {
             margin-right: 8px;
         }
-        .adm-button{
+
+        .adm-button {
             width: 80px;
         }
+    }
+
+    .baby-love-custom-shopping-cart-select-cart {
+        min-height: 76px;
+    }
+
+    .baby-love-custom-shopping-cart-select-cart-empty {
+        width: 100%;
+        margin-top: 40px;
+        text-align: center;
+        color: #ccc;
     }
 }

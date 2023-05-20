@@ -1,12 +1,15 @@
-import { Button, Toast } from "antd-mobile";
+import { DotLoading, Toast } from "antd-mobile";
 import React from "react";
-import { history } from "umi";
-import { adminQueryGoodsDetails, adminShoppingCartAddGoods } from "../../../common/apis";
+import {
+  adminQueryGoodsDetails,
+  adminShoppingCartAddGoods,
+} from "../../../common/apis";
 import request from "../../../common/http";
 import { getShoppingCartCode } from "../../../common/utils";
+import ShoppingCartFloat from "../../../components/shopping-cart-float";
+import AddToShoppingCart from "./add-to-shopping-cart";
 import GoodsBaseInfo from "./base-info";
 import GoodsSwiper from "./swiper";
-import ShoppingCartFloat from "../../../components/shopping-cart-float";
 
 import "./index.less";
 
@@ -15,13 +18,28 @@ class Goods extends React.Component {
     super(props);
     this.state = {
       goodsDetails: {},
+      isShowLoading: true,
     };
+    // 产品编码
     const searchParams = new URLSearchParams(location.search);
     this.goodsCode = searchParams.get("goodsCode");
   }
+
   componentDidMount() {
     this.getGoodsDetails();
   }
+
+  /**
+   * 设置 loading 效果
+   * @param {boolean} isShowLoading 是否显示 loading 效果
+   */
+  setLoading = (isShowLoading) => {
+    this.setState({ isShowLoading });
+  };
+
+  /**
+   * 获取商品详情
+   */
   getGoodsDetails = async () => {
     if (!this.goodsCode) {
       return;
@@ -32,8 +50,13 @@ class Goods extends React.Component {
     if (data) {
       this.setState({ goodsDetails: data });
     }
+
+    this.setLoading(false);
   };
-  handleAddToCart = async () => {
+  /**
+   * 添加商品到购物车
+   */
+  addToCart = async () => {
     const shoppingCartCode = await getShoppingCartCode();
 
     const { success } = await request.post(adminShoppingCartAddGoods, {
@@ -52,9 +75,9 @@ class Goods extends React.Component {
       this.props.ShoppingCart?.flushShoppingCartGoodsCount();
     }
   };
-  handleGoToCart = () => {
-    history.push("/shopping-cart");
-  };
+  /**
+   * 渲染函数
+   */
   render() {
     const { goodsTitle, goodsSubtitle, goodsPrice, goodsDetails, pictures } =
       this.state.goodsDetails || {};
@@ -62,23 +85,25 @@ class Goods extends React.Component {
       <div className="baby-love-admin-goods">
         {/* 商品列表 */}
         <div className="baby-love-admin-goods-details">
-          {/* 轮播图 */}
-          <GoodsSwiper pictures={pictures} />
-          {/* 商品信息 */}
-          <GoodsBaseInfo
-            goodsTitle={goodsTitle}
-            goodsSubtitle={goodsSubtitle}
-            goodsPrice={goodsPrice}
-          />
-          {/* 商品详情 */}
-          <div
-            className="baby-love-admin-goods-details-details"
-            dangerouslySetInnerHTML={{ __html: goodsDetails }}
-          ></div>
-          {/* 加入购物车 */}
-          <div className="baby-love-admin-goods-details-add-to-cart">
-            <Button color="primary" onClick={this.handleAddToCart}>加入购物车</Button>
-          </div>
+          {this.state.isShowLoading ? (
+            // loading 效果
+            <DotLoading color="primary" />
+          ) : (
+            <>
+              {/* 轮播图 */}
+              <GoodsSwiper pictures={pictures} />
+              {/* 商品信息 */}
+              <GoodsBaseInfo
+                goodsTitle={goodsTitle}
+                goodsSubtitle={goodsSubtitle}
+                goodsDetails={goodsDetails}
+                goodsPrice={goodsPrice}
+              />
+              {/* 加入购物车 */}
+              <AddToShoppingCart addToCart={this.addToCart} />
+            </>
+          )}
+
           {/* 购物车图标 */}
           <ShoppingCartFloat />
         </div>

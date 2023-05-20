@@ -1,19 +1,24 @@
 import { Checkbox, Image, Input } from "antd-mobile";
 import { AddCircleOutline, MinusCircleOutline } from "antd-mobile-icons";
+import NoPictureIcon from "@/assets/no-picture.png";
 import React from "react";
 
 class GoodsItem extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
-    const { goodsItem, selectGoodsCodes, selectGoods, changeCount, stopPropagation } =
-      this.props;
+    const {
+      goodsItem,
+      selectGoodsCodes,
+      selectGoods,
+      changeCount,
+      stopPropagation,
+    } = this.props;
     return (
       <>
         <div
-          className="baby-love-shopping-cart-goods-select"
+          className="baby-love-custom-shopping-cart-goods-select"
           onClick={stopPropagation}
         >
           <Checkbox
@@ -23,37 +28,37 @@ class GoodsItem extends React.Component {
             }}
           />
         </div>
-        <div className="baby-love-shopping-cart-goods-picture">
+        <div className="baby-love-custom-shopping-cart-goods-picture">
           <Image
-            src={goodsItem.pictures?.[0]?.pictureUrl}
+            src={goodsItem.pictures?.[0]?.pictureUrl || NoPictureIcon}
             width="100%"
             height="100%"
             fit="contain"
             style={{ borderRadius: 4 }}
           />
         </div>
-        <div className="baby-love-shopping-cart-goods-buy-info">
-          <p className="baby-love-shopping-cart-goods-title">
+        <div className="baby-love-custom-shopping-cart-goods-buy-info">
+          <p className="baby-love-custom-shopping-cart-goods-title">
             {goodsItem.goodsTitle}
           </p>
-          {/* <p className="baby-love-shopping-cart-goods-subtitle">
+          {/* <p className="baby-love-custom-shopping-cart-goods-subtitle">
                   {goodsItem.goodsSubtitle}
                 </p> */}
-          <div className="baby-love-shopping-cart-goods-price-count">
-            <span className="baby-love-shopping-cart-goods-price">
+          <div className="baby-love-custom-shopping-cart-goods-price-count">
+            <span className="baby-love-custom-shopping-cart-goods-price">
               ¥{goodsItem.goodsPrice}
             </span>
-            <span className="baby-love-shopping-cart-goods-count">
+            <span className="baby-love-custom-shopping-cart-goods-count">
               <span
                 onClick={(e) => {
-                  changeCount(e, goodsItem, --goodsItem.goodsCount);
+                  changeCount(e, goodsItem, --goodsItem.buyCount);
                   stopPropagation(e);
                 }}
               >
                 <MinusCircleOutline />
               </span>
               <Input
-                value={goodsItem.goodsCount}
+                value={goodsItem.buyCount}
                 type="number"
                 min={1}
                 max={999}
@@ -64,7 +69,7 @@ class GoodsItem extends React.Component {
               />
               <AddCircleOutline
                 onClick={(e) => {
-                  changeCount(e, goodsItem, ++goodsItem.goodsCount);
+                  changeCount(e, goodsItem, ++goodsItem.buyCount);
                   stopPropagation(e);
                 }}
               />

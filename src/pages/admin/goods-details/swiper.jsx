@@ -1,5 +1,6 @@
-import React from "react";
+import NoPictureIcon from "@/assets/no-picture.png";
 import { Swiper } from "antd-mobile";
+import React from "react";
 
 class GoodsSwiper extends React.Component {
   constructor(props) {
@@ -9,15 +10,21 @@ class GoodsSwiper extends React.Component {
   render() {
     const { pictures } = this.props;
     return (
-      <Swiper autoplay loop>
-        {(pictures || []).map((picture) => (
-          <Swiper.Item key={picture.pictureCode}>
-            <div className="baby-love-admin-goods-details-swiper">
-              <img src={picture.pictureUrl} />
-            </div>
-          </Swiper.Item>
-        ))}
-      </Swiper>
+      <div className="baby-love-admin-goods-details-swiper">
+        {pictures?.length ? (
+          <Swiper autoplay loop>
+            {(pictures || []).map((picture) => (
+              <Swiper.Item key={picture.pictureCode}>
+                <div className="baby-love-admin-goods-details-swiper-item">
+                  <img src={picture.pictureUrl} />
+                </div>
+              </Swiper.Item>
+            ))}
+          </Swiper>
+        ) : (
+          <img src={NoPictureIcon} />
+        )}
+      </div>
     );
   }
 }

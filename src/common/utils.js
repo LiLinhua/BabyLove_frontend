@@ -1,4 +1,4 @@
-import { custom } from './apis';
+import { history } from 'umi';
 import request from './http';
 import { Toast } from 'antd-mobile';
 
@@ -29,4 +29,18 @@ export const setShoppingCartCode = (shoppingCartCode) => {
     }
 
     localStorage.setItem('babyloveShoppingCartCode', shoppingCartCode);
+}
+
+export const goTo = (url) => {
+    if (!url) {
+        return;
+    }
+
+    if (location.pathname.startsWith('/view/admin/')) {
+        url = `/view/admin${url}`;
+    } else {
+        url = `/view${url}`;
+    }
+
+    history.push(url);
 }

@@ -1,6 +1,5 @@
-import { Dialog, List, Modal, Toast } from "antd-mobile";
+import { Dialog, Toast } from "antd-mobile";
 import React from "react";
-import { history } from "umi";
 import {
   adminQueryAllShoppingCarts,
   adminShoppingCartBatchRemoveGoods,
@@ -8,12 +7,14 @@ import {
   adminShoppingCartUpdateBuyCount,
 } from "../../../common/apis";
 import request from "../../../common/http";
+import { goTo } from "../../../common/utils";
 import {
   getShoppingCartCode,
   setShoppingCartCode,
 } from "../../../common/utils";
-import GoodsItem from "./goods-item";
+import GoodsList from "./goods-list";
 import OrderInfo from "./order-info";
+import SelectShoppingCartModal from "./select-shopping-cart-modal";
 
 import "./index.less";
 
@@ -26,6 +27,7 @@ class ShoppingCart extends React.Component {
       selectGoodsCodes: [],
       totalPrice: 0,
       isShowSelectShoppingCartModal: true,
+      isShowModalLoading: true,
     };
   }
 
@@ -50,10 +52,13 @@ class ShoppingCart extends React.Component {
     if (Array.isArray(data)) {
       this.setState({ shoppingCartList: data });
     }
+
+    this.setState({ isShowModalLoading: false });
   };
 
   /**
    * 显示选择购物车弹窗
+   * @param {boolean} isShow 是否显示选择购物车弹窗
    */
   showSelectShoppingCartModal = (isShow) => {
     this.setState({
@@ -63,6 +68,7 @@ class ShoppingCart extends React.Component {
 
   /**
    * 选择购物车
+   * @param {Object} shoppingCart 购物车信息
    */
   selectShoppingCart = async (shoppingCart) => {
     setShoppingCartCode(shoppingCart.shoppingCartCode);
@@ -93,7 +99,8 @@ class ShoppingCart extends React.Component {
   /**
    * 修改数量
    * @param {Event} e
-   * @param {Object} record
+   * @param {Object} record 修改的商品
+   * @param {number} count 修改的数量
    */
   changeCount = async (e, record, count) => {
     // 阻止事件冒泡
@@ -103,13 +110,21 @@ class ShoppingCart extends React.Component {
     count = count < 1 ? 1 : count;
 
     // 修改后台购物车商品数量
-    const { success } = await request.post(adminShoppingCartUpdateBuyCount, {
-      shoppingCartCode: getShoppingCartCode(),
+    const { success, data, errCode } = await request.post(adminShoppingCartUpdateBuyCount, {
+      shoppingCartCode: await getShoppingCartCode(),
       goodsCode: record.goodsCode,
       buyCount: count,
     });
     if (!success) {
       return;
+    }
+
+    if(errCode === 'OUT_OF_STOCK'){
+      // 库存不足
+      Toast.show({
+        content: '该商品库存不足'
+      });
+      count = data;
     }
 
     // 修改前端数量
@@ -128,10 +143,10 @@ class ShoppingCart extends React.Component {
 
   /**
    * 跳转商品详情页
-   * @param {string} goodsCode
+   * @param {string} goodsCode 商品编码
    */
   toGoodsDetails = (goodsCode) => {
-    history.push("/view/admin/goods/details?goodsCode=" + goodsCode);
+    goTo("/goods/details?goodsCode=" + goodsCode);
   };
 
   /**
@@ -151,7 +166,8 @@ class ShoppingCart extends React.Component {
 
   /**
    * 选择商品
-   * @param {string} goodsCode
+   * @param {string} goodsCode 商品编码
+   * @param {boolean} isSelect 是否选择商品
    */
   selectGoods = async (goodsCode, isSelect) => {
     let { selectGoodsCodes } = this.state;
@@ -159,7 +175,7 @@ class ShoppingCart extends React.Component {
     const { success } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
-        shoppingCartCode: getShoppingCartCode(),
+        shoppingCartCode: await getShoppingCartCode(),
         goodsCodes: [goodsCode],
         selected: isSelect ? 1 : 0,
       }
@@ -168,7 +184,6 @@ class ShoppingCart extends React.Component {
       return;
     }
 
-    debugger;
     const index = selectGoodsCodes.indexOf(goodsCode);
     if (isSelect && index === -1) {
       selectGoodsCodes.push(goodsCode);
@@ -187,6 +202,7 @@ class ShoppingCart extends React.Component {
 
   /**
    * 选择全部
+   * @param {string} isSelectAll 是否选择全部
    */
   selectAllGoods = async (isSelectAll) => {
     const selectGoodsCodes = isSelectAll
@@ -195,7 +211,7 @@ class ShoppingCart extends React.Component {
     const { success } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
-        shoppingCartCode: getShoppingCartCode(),
+        shoppingCartCode: await getShoppingCartCode(),
         goodsCodes: selectGoodsCodes,
         selected: isSelectAll ? 1 : 0,
       }
@@ -213,7 +229,7 @@ class ShoppingCart extends React.Component {
   };
 
   /**
-   * 删除
+   * 删除商品
    */
   remove = async () => {
     let { selectGoodsCodes, goodsList } = this.state;
@@ -228,14 +244,18 @@ class ShoppingCart extends React.Component {
     if (!result) {
       return;
     }
-
     const { success } = await request.post(adminShoppingCartBatchRemoveGoods, {
-      shoppingCartCode: getShoppingCartCode(),
+      shoppingCartCode: await getShoppingCartCode(),
       goodsCodes: selectGoodsCodes,
     });
     if (!success) {
       return;
     }
+
+    Toast.show({
+      icon: "success",
+      content: "删除成功！",
+    });
 
     goodsList = goodsList.filter(
       (goodsItem) => !selectGoodsCodes.includes(goodsItem.goodsCode)
@@ -290,30 +310,19 @@ class ShoppingCart extends React.Component {
       selectGoodsCodes,
       isShowSelectShoppingCartModal,
       goodsList,
+      isShowModalLoading,
     } = this.state;
 
     return (
       <div className="baby-love-admin-shopping-cart">
-        {!goodsList.length ? (
-          <div className="baby-love-admin-shopping-cart-empty">暂无数据</div>
-        ) : null}
-        <ul>
-          {goodsList.map((goodsItem) => (
-            <li
-              key={goodsItem.goodsCode}
-              className="baby-love-admin-shopping-cart-goods-item"
-              onClick={() => this.toGoodsDetails(goodsItem.goodsCode)}
-            >
-              <GoodsItem
-                goodsItem={goodsItem}
-                selectGoodsCodes={selectGoodsCodes}
-                selectGoods={this.selectGoods}
-                changeCount={this.changeCount}
-                stopPropagation={this.stopPropagation}
-              />
-            </li>
-          ))}
-        </ul>
+        <GoodsList
+          goodsList={goodsList}
+          selectGoodsCodes={selectGoodsCodes}
+          selectGoods={this.selectGoods}
+          changeCount={this.changeCount}
+          stopPropagation={this.stopPropagation}
+          toGoodsDetails={this.toGoodsDetails}
+        />
         <OrderInfo
           totalPrice={totalPrice}
           goodsList={goodsList}
@@ -322,22 +331,11 @@ class ShoppingCart extends React.Component {
           remove={this.remove}
           buy={this.buy}
         />
-        <Modal
-          title="选择购物车"
-          visible={isShowSelectShoppingCartModal}
-          content={
-            <div>
-              <List>
-                {shoppingCartList.map((shoppingCart) => (
-                  <List.Item
-                    onClick={() => this.selectShoppingCart(shoppingCart)}
-                  >
-                    {shoppingCart.shoppingCartCode}
-                  </List.Item>
-                ))}
-              </List>
-            </div>
-          }
+        <SelectShoppingCartModal
+          isShowSelectShoppingCartModal={isShowSelectShoppingCartModal}
+          isShowModalLoading={isShowModalLoading}
+          shoppingCartList={shoppingCartList}
+          selectShoppingCart={this.selectShoppingCart}
         />
       </div>
     );

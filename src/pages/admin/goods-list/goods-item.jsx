@@ -4,13 +4,12 @@ import { Dialog, Ellipsis, Toast } from "antd-mobile";
 import { DeleteOutline, EditSOutline } from "antd-mobile-icons";
 import { inject, observer } from "mobx-react";
 import React from "react";
-import { history } from "umi";
 import {
   adminRemoveGoods,
   adminShoppingCartAddGoods,
 } from "../../../common/apis";
 import request from "../../../common/http";
-import { getShoppingCartCode } from "../../../common/utils";
+import { getShoppingCartCode, goTo } from "../../../common/utils";
 
 import "./index.less";
 
@@ -20,16 +19,24 @@ class ListItem extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {}
 
-  handleItemClick = () => {
+  /**
+   * 跳转商品详情页
+   */
+  toGoodsDetails = () => {
     const { goodsCode } = this.props;
-    history.push("/view/admin/goods/details?goodsCode=" + goodsCode);
+    goTo("/goods/details?goodsCode=" + goodsCode);
   };
 
-  handleAddToCart = async (e, goodsCode) => {
+  /**
+   * 添加商品到购物车
+   * @param {event} e
+   * @param {string} goodsCode
+   */
+  addToCart = async (e, goodsCode) => {
     this.stopPropagation(e);
 
+    // 获取当前购物车编码
     const shoppingCartCode = await getShoppingCartCode();
 
     const { success } = await request.post(adminShoppingCartAddGoods, {
@@ -49,10 +56,20 @@ class ListItem extends React.Component {
     }
   };
 
+  /**
+   * 阻止事件冒泡
+   * @param {event} e
+   */
   stopPropagation = (e) => {
     e && e.stopPropagation();
   };
 
+  /**
+   * 删除商品
+   * @param {event} e 事件
+   * @param {string} goodsCode 商品编码
+   * @returns
+   */
   remove = async (e, goodsCode) => {
     this.stopPropagation(e);
 
@@ -72,20 +89,28 @@ class ListItem extends React.Component {
     }
   };
 
+  /**
+   * 去编辑商品
+   * @param {event} e 事件
+   * @param {string} goodsCode 商品编码
+   */
   edit = (e, goodsCode) => {
     this.stopPropagation(e);
 
-    history.push("/view/admin/goods/edit?goodsCode=" + goodsCode);
+    goTo.push("/goods/edit?goodsCode=" + goodsCode);
   };
 
+  /**
+   * 渲染函数
+   */
   render() {
-    const { goodsCode, goodsTitle, goodsSubtitle, goodsPrice, pictures } =
+    const { goodsCode, goodsTitle, goodsPrice, pictures } =
       this.props;
     const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div
         className="baby-love-admin-goods-list-item"
-        onClick={this.handleItemClick}
+        onClick={this.toGoodsDetails}
       >
         <div className="baby-love-admin-goods-list-action">
           <span onClick={(e) => this.edit(e, goodsCode)}>
@@ -97,6 +122,11 @@ class ListItem extends React.Component {
         </div>
         <div className="baby-love-admin-goods-list-item-picture">
           <img
+            className={
+              picture.pictureUrl
+                ? ""
+                : "baby-love-admin-goods-list-item-empty-picture"
+            }
             key={picture.pictureCode}
             src={picture.pictureUrl || NoPictureIcon}
           />
@@ -113,7 +143,7 @@ class ListItem extends React.Component {
             </span>
             <span
               className="baby-love-admin-goods-list-item-add"
-              onClick={(e) => this.handleAddToCart(e, goodsCode)}
+              onClick={(e) => this.addToCart(e, goodsCode)}
             >
               <img src={ShoppingBagIcon} />
             </span>

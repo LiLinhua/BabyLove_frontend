@@ -26,11 +26,16 @@ class GoodsEdit extends React.Component {
     const searchParams = new URLSearchParams(location.search);
     this.goodsCode = searchParams.get("goodsCode");
   }
+
   formRef = React.createRef();
+
   componentDidMount() {
     this.getGoodsDetails();
   }
 
+  /**
+   * 获取商品详情
+   */
   getGoodsDetails = async () => {
     if (!this.goodsCode) {
       return;
@@ -39,6 +44,7 @@ class GoodsEdit extends React.Component {
     const { data } = await request.get(adminQueryGoodsDetails, {
       params: { goodsCode: this.goodsCode },
     });
+    // 处理 form 表单数据
     if (data) {
       const formValues = { ...data };
       if (Array.isArray(data.pictures)) {
@@ -50,6 +56,10 @@ class GoodsEdit extends React.Component {
     }
   };
 
+  /**
+   * 上传商品图片
+   * @param {File} imgFile
+   */
   uploadImgFile = async (imgFile) => {
     const formData = new FormData();
     formData.append("files", imgFile);
@@ -70,6 +80,9 @@ class GoodsEdit extends React.Component {
     }
   };
 
+  /**
+   * 保存商品信息
+   */
   save = async () => {
     const values = this.formRef.current?.getFieldsValue();
 
@@ -91,9 +104,11 @@ class GoodsEdit extends React.Component {
       !this.goodsCode && this.formRef.current?.resetFields();
     }
   };
+  /**
+   * 渲染函数
+   */
   render() {
     const { goodsDetails } = this.state;
-    const values = this.formRef?.current?.getFieldsValue(['goodsCatalog']);
     return (
       <div className="baby-love-goods-edit">
         <div className="baby-love-goods-edit-form">

@@ -1,5 +1,6 @@
 import { Checkbox, Image, Input } from "antd-mobile";
 import { AddCircleOutline, MinusCircleOutline } from "antd-mobile-icons";
+import NoPictureIcon from "@/assets/no-picture.png";
 import React from "react";
 
 class GoodsItem extends React.Component {
@@ -29,7 +30,7 @@ class GoodsItem extends React.Component {
         </div>
         <div className="baby-love-admin-shopping-cart-goods-picture">
           <Image
-            src={goodsItem.pictures?.[0]?.pictureUrl}
+            src={goodsItem.pictures?.[0]?.pictureUrl || NoPictureIcon}
             width="100%"
             height="100%"
             fit="contain"

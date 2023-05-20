@@ -1,47 +1,73 @@
-.baby-love-goods {
-    .baby-love-goods-details{
+.baby-love-custom-goods {
+    .baby-love-custom-goods-details {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .baby-love-goods-details-swiper{
+
+        .adm-swiper {
+            min-height: 300px;
+        }
+
+        .adm-dot-loading{
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+            margin-top: 250px;
+            font-size: 24px;
+        }
+
+        .baby-love-custom-goods-details-swiper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 300px;
+        }
+
+        .baby-love-custom-goods-details-swiper-item {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100vw;
             height: 300px;
 
-            img{
+            img {
                 width: 100%;
             }
         }
-        .baby-love-goods-details-base-info{
+
+        .baby-love-custom-goods-details-base-info {
             width: 100%;
             margin: 16px 0;
             // padding: 0 12px;
             font-size: 14px;
-            p{
+
+            p {
                 padding: 0 12px;
             }
-            .baby-love-goods-details-price{
+
+            .baby-love-custom-goods-details-price {
                 font-size: 24px;
                 font-weight: 900;
             }
-            .baby-love-goods-details-title{
+
+            .baby-love-custom-goods-details-title {
                 margin-top: 8px;
             }
-            .baby-love-goods-details-subtitle{
+
+            .baby-love-custom-goods-details-subtitle {
                 margin-top: 4px;
                 opacity: 0.2;
             }
         }
 
-        .baby-love-goods-details-details{
+        .baby-love-custom-goods-details-details {
             width: 100%;
             padding-bottom: 80px;
         }
 
-        .baby-love-goods-details-add-to-cart{
+        .baby-love-custom-goods-details-add-to-cart {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,11 +77,11 @@
             padding: 0 12px;
             box-sizing: border-box;
 
-            button{
+            button {
                 width: calc(100% - 24px);
             }
         }
-        
+
     }
-    
+
 }

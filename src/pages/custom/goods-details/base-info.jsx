@@ -6,13 +6,25 @@ class GoodsBaseInfo extends React.Component {
   }
 
   render() {
-    const { goodsTitle, goodsSubtitle, goodsPrice } = this.props;
+    const { goodsTitle, goodsSubtitle, goodsPrice, goodsDetails } = this.props;
     return (
-      <div className="baby-love-goods-details-base-info">
-        <p className="baby-love-goods-details-price">¥{goodsPrice}</p>
-        <p className="baby-love-goods-details-title">{goodsTitle}</p>
-        <p className="baby-love-goods-details-subtitle">{goodsSubtitle}</p>
-      </div>
+      <>
+        <div className="baby-love-custom-goods-details-base-info">
+          <p className="baby-love-custom-goods-details-price">
+            ¥{goodsPrice || "--"}
+          </p>
+          <p className="baby-love-custom-goods-details-title">
+            {goodsTitle || "--"}
+          </p>
+          <p className="baby-love-custom-goods-details-subtitle">
+            {goodsSubtitle}
+          </p>
+        </div>
+        <div
+          className="baby-love-custom-goods-details-details"
+          dangerouslySetInnerHTML={{ __html: goodsDetails }}
+        ></div>
+      </>
     );
   }
 }

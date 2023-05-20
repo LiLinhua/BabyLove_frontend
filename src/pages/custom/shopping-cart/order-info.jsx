@@ -16,9 +16,9 @@ class ShoppingCart extends React.Component {
       buy,
     } = this.props;
     return (
-      <div className="baby-love-shopping-cart-goods-order">
-        <span className="baby-love-shopping-cart-goods-order-price">
-          <span className="baby-love-shopping-cart-goods-select-all">
+      <div className="baby-love-custom-shopping-cart-goods-order">
+        <span className="baby-love-custom-shopping-cart-goods-order-price">
+          <span className="baby-love-custom-shopping-cart-goods-select-all">
             <Checkbox
               checked={
                 selectGoodsCodes.length !== 0 &&
@@ -27,13 +27,13 @@ class ShoppingCart extends React.Component {
               onChange={selectAllGoods}
             />
           </span>
-          <span className="baby-love-shopping-cart-goods-total-price">
+          <span className="baby-love-custom-shopping-cart-goods-total-price">
             合计：¥{totalPrice.toFixed(2)}
           </span>
         </span>
 
         <div>
-          <Button className="baby-love-shopping-cart-goods-remove-btn" color="default" onClick={remove}>
+          <Button className="baby-love-custom-shopping-cart-goods-remove-btn" color="default" onClick={remove}>
             删除
           </Button>
           <Button color="primary" onClick={buy}>
