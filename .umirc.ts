@@ -16,19 +16,19 @@ export default defineConfig({
   ],
   proxy: {
     '/admin': {
-      'target': 'http://localhost:7001/',
+      'target': 'http://localhost/',
       'changeOrigin': true,
     },
     '/custom': {
-      'target': 'http://localhost:7001/',
+      'target': 'http://localhost/',
       'changeOrigin': true,
     },
     '/user': {
-      'target': 'http://localhost:7001/',
+      'target': 'http://localhost/',
       'changeOrigin': true,
     },
     '/public': {
-      'target': 'http://localhost:7001/',
+      'target': 'http://localhost/',
       'changeOrigin': true,
     },
   },

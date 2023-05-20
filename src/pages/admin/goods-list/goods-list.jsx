@@ -7,7 +7,7 @@ class GoodsList extends Component {
     const { goodsList, isLoading, getGoodsList } = this.props;
 
     let content = <DotLoading color="primary" />;
-    if (!goodsList.length) {
+    if (!goodsList?.length) {
       if (!isLoading) {
         content = <p className="baby-love-admin-goods-list-empty">暂无数据</p>;
       }

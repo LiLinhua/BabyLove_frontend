@@ -1,4 +1,4 @@
-import { Checkbox, Image, Input } from "antd-mobile";
+import { Checkbox, Image, Input, Ellipsis } from "antd-mobile";
 import { AddCircleOutline, MinusCircleOutline } from "antd-mobile-icons";
 import NoPictureIcon from "@/assets/no-picture.png";
 import React from "react";
@@ -39,7 +39,7 @@ class GoodsItem extends React.Component {
         </div>
         <div className="baby-love-custom-shopping-cart-goods-buy-info">
           <p className="baby-love-custom-shopping-cart-goods-title">
-            {goodsItem.goodsTitle}
+            <Ellipsis direction="end" rows={1} content={goodsItem.goodsTitle} />
           </p>
           {/* <p className="baby-love-custom-shopping-cart-goods-subtitle">
                   {goodsItem.goodsSubtitle}

@@ -21,8 +21,8 @@ class ShoppingCart extends React.Component {
           <span className="baby-love-admin-shopping-cart-goods-select-all">
             <Checkbox
               checked={
-                selectGoodsCodes.length !== 0 &&
-                selectGoodsCodes.length === goodsList.length
+                selectGoodsCodes?.length !== 0 &&
+                selectGoodsCodes?.length === goodsList.length
               }
               onChange={selectAllGoods}
             />

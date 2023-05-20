@@ -16,7 +16,7 @@ class GoodsList extends React.Component {
     } = this.props;
     return (
       <>
-        {goodsList.length ? (
+        {goodsList?.length ? (
           <ul>
             {goodsList.map((goodsItem) => (
               <li
