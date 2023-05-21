@@ -61,6 +61,7 @@ class ShoppingCart extends React.Component {
       params: { shoppingCartCode: this.shoppingCartCode },
     });
 
+    let updateState = { isShowLoading: false };
     if (data && Array.isArray(data.goods)) {
       const selectGoodsCodes = [];
       data.goods.forEach((good) => {
@@ -68,10 +69,10 @@ class ShoppingCart extends React.Component {
           selectGoodsCodes.push(good.goodsCode);
         }
       });
-      this.setState({ goodsList: data.goods, selectGoodsCodes });
+      updateState = { ...updateState, goodsList: data.goods, selectGoodsCodes };
     }
 
-    this.setState({ isShowLoading: false });
+    this.setState(updateState, this.setTotalPrice);
   };
 
   /**
@@ -88,19 +89,22 @@ class ShoppingCart extends React.Component {
     count = count < 1 ? 1 : count;
 
     // 修改后台购物车商品数量
-    const { success, data, errCode } = await request.post(customShoppingCartUpdateBuyCount, {
-      shoppingCartCode: this.shoppingCartCode,
-      goodsCode: record.goodsCode,
-      buyCount: count,
-    });
+    const { success, data, errCode } = await request.post(
+      customShoppingCartUpdateBuyCount,
+      {
+        shoppingCartCode: this.shoppingCartCode,
+        goodsCode: record.goodsCode,
+        buyCount: count,
+      }
+    );
     if (!success) {
       return;
     }
 
-    if(errCode === 'OUT_OF_STOCK'){
+    if (errCode === "OUT_OF_STOCK") {
       // 库存不足
       Toast.show({
-        content: '该商品库存不足'
+        content: "该商品库存不足",
       });
       count = data;
     }

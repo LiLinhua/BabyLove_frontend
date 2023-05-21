@@ -1,6 +1,7 @@
 import { login } from "@/common/apis";
 import request from "@/common/http";
 import { Button, Form, Input } from "antd-mobile";
+import { goTo } from "@/common/utils";
 import React from "react";
 
 import "./index.less";
@@ -13,7 +14,10 @@ class Login extends React.Component {
     };
   }
   formRef = React.createRef();
-  componentDidMount() {}
+
+  /**
+   * 登录
+   */
   login = async () => {
     this.setState({ isLoading: true });
 
@@ -27,9 +31,9 @@ class Login extends React.Component {
         username,
         password,
       });
-      if(success){
-        sessionStorage.setItem('babyLoveToken', '1');
-        location.reload();
+      if (success) {
+        sessionStorage.setItem("babyLoveToken", "1");
+        return goTo('/');
       }
     } catch (error) {
       console.error(error);
@@ -37,6 +41,10 @@ class Login extends React.Component {
 
     this.setState({ isLoading: false });
   };
+
+  /**
+   * 渲染函数
+   */
   render() {
     return (
       <div className="baby-love-login">

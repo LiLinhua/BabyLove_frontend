@@ -97,7 +97,7 @@ class ListItem extends React.Component {
   edit = (e, goodsCode) => {
     this.stopPropagation(e);
 
-    goTo.push("/goods/edit?goodsCode=" + goodsCode);
+    goTo("/goods/edit?goodsCode=" + goodsCode);
   };
 
   /**

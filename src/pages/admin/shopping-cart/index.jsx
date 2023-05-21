@@ -85,7 +85,7 @@ class ShoppingCart extends React.Component {
       isShowSelectShoppingCartModal: false,
       goodsList: goodsList || [],
       selectGoodsCodes,
-    });
+    }, this.setTotalPrice);
   };
 
   /**

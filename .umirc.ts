@@ -8,6 +8,9 @@ export default defineConfig({
     { path: "/view/goods/details", component: "custom/goods-details" },
     { path: "/view/shopping-cart", component: "custom/shopping-cart" },
 
+    { path: "/view/login", component: "login" },
+    { path: "/view/admin/login", component: "login" },
+
     { path: "/view/admin", component: "admin/goods-list" },
     { path: "/view/admin/goods/list", component: "admin/goods-list" },
     { path: "/view/admin/goods/details", component: "admin/goods-details" },
