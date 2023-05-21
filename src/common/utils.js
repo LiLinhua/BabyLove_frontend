@@ -98,4 +98,26 @@ export const getNavConfig = () => {
     return navConfig.custom;
 }
 
+/**
+ * 复制
+ */
+export const copy = (content) => {
+    if (!content) {
+        return;
+    }
+
+    try {
+        let input = document.createElement('input');
+        input.value = content;
+        input.style.height = 0;
+        document.body.append(input);
+        input.select();
+        document.execCommand('Copy');
+        input.remove();
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 

@@ -7,9 +7,10 @@ import {
   adminShoppingCartUpdateBuyCount,
 } from "../../../common/apis";
 import request from "../../../common/http";
-import { goTo } from "../../../common/utils";
 import {
+  copy,
   getShoppingCartCode,
+  goTo,
   setShoppingCartCode,
 } from "../../../common/utils";
 import GoodsList from "./goods-list";
@@ -81,11 +82,14 @@ class ShoppingCart extends React.Component {
       }
     });
 
-    this.setState({
-      isShowSelectShoppingCartModal: false,
-      goodsList: goodsList || [],
-      selectGoodsCodes,
-    }, this.setTotalPrice);
+    this.setState(
+      {
+        isShowSelectShoppingCartModal: false,
+        goodsList: goodsList || [],
+        selectGoodsCodes,
+      },
+      this.setTotalPrice
+    );
   };
 
   /**
@@ -110,19 +114,22 @@ class ShoppingCart extends React.Component {
     count = count < 1 ? 1 : count;
 
     // 修改后台购物车商品数量
-    const { success, data, errCode } = await request.post(adminShoppingCartUpdateBuyCount, {
-      shoppingCartCode: await getShoppingCartCode(),
-      goodsCode: record.goodsCode,
-      buyCount: count,
-    });
+    const { success, data, errCode } = await request.post(
+      adminShoppingCartUpdateBuyCount,
+      {
+        shoppingCartCode: await getShoppingCartCode(),
+        goodsCode: record.goodsCode,
+        buyCount: count,
+      }
+    );
     if (!success) {
       return;
     }
 
-    if(errCode === 'OUT_OF_STOCK'){
+    if (errCode === "OUT_OF_STOCK") {
       // 库存不足
       Toast.show({
-        content: '该商品库存不足'
+        content: "该商品库存不足",
       });
       count = data;
     }
@@ -274,7 +281,7 @@ class ShoppingCart extends React.Component {
       return Toast.show({ content: "请先选择商品" });
     }
 
-    Dialog.alert({
+    Dialog.confirm({
       image: "/public/pictures/WX20230519-011105.png",
       title: "专属客服下单",
       content: (
@@ -284,21 +291,16 @@ class ShoppingCart extends React.Component {
           <p>购物车地址：{location.href}</p>
         </>
       ),
-      confirmText: "复制购物车地址",
+      confirmText: "复制地址",
       onConfirm: () => {
-        navigator &&
-          navigator.clipboard &&
-          navigator.clipboard
-            .writeText(location.href)
-            .then((res) => {
-              Toast.show({ content: "复制成功", icon: "success" });
-            })
-            .catch((err) => {
-              Toast.show({
-                content: "复制失败，请手动复制上面的购物车地址",
-                icon: "fail",
-              });
-            });
+        const copyResult = copy(location.href);
+        if (copyResult) {
+          setTimeout(() => {
+            Toast.show({ content: "复制成功", icon: "success" });
+          }, 300);
+        } else {
+          Toast.show({ content: "复制失败，请手动复制", icon: "fail" });
+        }
       },
     });
   };

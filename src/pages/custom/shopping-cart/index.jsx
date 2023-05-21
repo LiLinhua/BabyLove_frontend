@@ -7,7 +7,7 @@ import {
   customShoppingCartUpdateBuyCount,
 } from "../../../common/apis";
 import request from "../../../common/http";
-import { getShoppingCartCode, goTo } from "../../../common/utils";
+import { copy, getShoppingCartCode, goTo } from "../../../common/utils";
 import GoodsList from "./goods-list";
 import OrderInfo from "./order-info";
 
@@ -256,7 +256,7 @@ class ShoppingCart extends React.Component {
       return Toast.show({ content: "请先选择商品" });
     }
 
-    Dialog.alert({
+    Dialog.confirm({
       image: "/public/pictures/WX20230519-011105.png",
       title: "专属客服下单",
       content: (
@@ -266,21 +266,16 @@ class ShoppingCart extends React.Component {
           <p>购物车地址：{location.href}</p>
         </>
       ),
-      confirmText: "复制购物车地址",
-      onConfirm: () => {
-        navigator &&
-          navigator.clipboard &&
-          navigator.clipboard
-            .writeText(location.href)
-            .then((res) => {
-              Toast.show({ content: "复制成功", icon: "success" });
-            })
-            .catch((err) => {
-              Toast.show({
-                content: "复制失败，请手动复制上面的购物车地址",
-                icon: "fail",
-              });
-            });
+      confirmText: "复制地址",
+      onConfirm: async () => {
+        const copyResult = copy(location.href);
+        if (copyResult) {
+          setTimeout(() => {
+            Toast.show({ content: "复制成功", icon: "success" });
+          }, 300);
+        } else {
+          Toast.show({ content: "复制失败，请手动复制", icon: "fail" });
+        }
       },
     });
   };
