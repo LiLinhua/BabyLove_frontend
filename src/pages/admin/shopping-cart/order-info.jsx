@@ -28,12 +28,19 @@ class ShoppingCart extends React.Component {
             />
           </span>
           <span className="baby-love-admin-shopping-cart-goods-total-price">
-            合计：¥{totalPrice.toFixed(2)}
+            合计：
+            <span className="baby-love-admin-shopping-cart-goods-total-price-num">
+              ¥{totalPrice.toFixed(2)}
+            </span>
           </span>
         </span>
 
-        <div>
-          <Button className="baby-love-admin-shopping-cart-goods-remove-btn" color="default" onClick={remove}>
+        <div className="baby-love-admin-shopping-cart-goods-actions">
+          <Button
+            className="baby-love-admin-shopping-cart-goods-remove-btn"
+            color="default"
+            onClick={remove}
+          >
             删除
           </Button>
           <Button color="primary" onClick={buy}>

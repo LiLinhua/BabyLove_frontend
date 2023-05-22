@@ -1,6 +1,6 @@
 import { history } from 'umi';
 import request from './http';
-import { navConfig } from './config';
+import { getNavConfig as navConfig } from './config';
 import { Toast } from 'antd-mobile';
 import { customAddShoppingCart } from '../common/apis';
 
@@ -90,12 +90,14 @@ export const setShoppingCartCode = (shoppingCartCode) => {
 /**
  * 获取页面底部导航数据
  */
-export const getNavConfig = () => {
+export const getNavConfig = async () => {
+    const shoppingCartCode = await getShoppingCartCode();
+    const config = navConfig(shoppingCartCode);
     if (isAdmin) {
-        return navConfig.admin;
+        return config.admin;
     }
 
-    return navConfig.custom;
+    return config.custom;
 }
 
 /**

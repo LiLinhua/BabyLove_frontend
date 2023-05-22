@@ -145,7 +145,7 @@ class GoodsEdit extends React.Component {
             <Form.Item
               name="goodsSubtitle"
               label="商品副标题"
-              rules={[{ required: true, message: "商品副标题不能为空" }]}
+              rules={[{ required: false, message: "商品副标题不能为空" }]}
             >
               <Input placeholder="请输入商品副标题" />
             </Form.Item>
@@ -173,7 +173,7 @@ class GoodsEdit extends React.Component {
             <Form.Item
               name="goodsDetails"
               label="商品详情"
-              rules={[{ required: true, message: "商品详情不能为空" }]}
+              rules={[{ required: false, message: "商品详情不能为空" }]}
             >
               <ReactQuill
                 theme="snow"

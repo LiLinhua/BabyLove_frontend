@@ -5,13 +5,31 @@ import "./index.less";
 class Footer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      navConfig: [],
+    };
   }
+
+  componentDidMount() {
+    this.getConfig();
+  }
+
+  /**
+   * 获取配置
+   */
+  getConfig = async () => {
+    const navConfig = await getNavConfig();
+    this.setState({ navConfig });
+  };
+
+  /**
+   * 渲染函数
+   * @returns
+   */
   render() {
-    const navConfig = getNavConfig();
     return (
       <footer className="baby-love-footer">
-        {navConfig.map((item) => {
+        {this.state.navConfig.map((item) => {
           return (
             <div className="baby-love-footer-item" onClick={item.onClick}>
               {item.title}

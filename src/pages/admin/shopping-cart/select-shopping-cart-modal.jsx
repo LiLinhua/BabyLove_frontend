@@ -1,4 +1,4 @@
-import { DotLoading, List, Modal } from "antd-mobile";
+import { DotLoading, List, Modal, SearchBar } from "antd-mobile";
 import React from "react";
 
 class SelectShoppingCartModal extends React.Component {
@@ -11,6 +11,8 @@ class SelectShoppingCartModal extends React.Component {
       isShowModalLoading,
       shoppingCartList,
       selectShoppingCart,
+      closeModal,
+      searchShoppingCart,
     } = this.props;
 
     let modalContent = <DotLoading color="primary" />;
@@ -35,9 +37,19 @@ class SelectShoppingCartModal extends React.Component {
       <Modal
         title="选择购物车"
         visible={isShowSelectShoppingCartModal}
+        onClose={closeModal}
+        showCloseButton
+        onAction={closeModal}
+        actions={[
+          {
+            key: "close",
+            text: "关闭",
+          },
+        ]}
         content={
           <div className="baby-love-admin-shopping-cart-select-cart">
-            {modalContent}
+            <div className="baby-love-admin-shopping-cart-select-cart-content">{modalContent}</div>
+            <SearchBar placeholder="请输入内容" onChange={searchShoppingCart} />
           </div>
         }
       />

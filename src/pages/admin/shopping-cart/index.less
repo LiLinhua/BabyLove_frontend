@@ -3,6 +3,13 @@
     // background-color: #ccc;
     padding: 0px 0 20px;
 
+    .baby-love-admin-shopping-cart-show-select-btn {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        padding-top: 8px;
+    }
+
     .baby-love-admin-shopping-cart-empty {
         width: 100%;
         text-align: center;
@@ -130,8 +137,17 @@
             .baby-love-admin-shopping-cart-goods-total-price {
                 margin-left: 6px;
                 font-size: 16px;
-                font-weight: 800;
+                // font-weight: 800;
+
+                .baby-love-admin-shopping-cart-goods-total-price-num{
+                    font-size: 20px;
+                    font-weight: 800;
+                }
             }
+        }
+
+        .baby-love-admin-shopping-cart-goods-actions{
+            display: flex;
         }
 
         .baby-love-admin-shopping-cart-goods-remove-btn {
@@ -144,7 +160,21 @@
     }
 
     .baby-love-admin-shopping-cart-select-cart {
+        position: relative;
         min-height: 76px;
+        overflow: hidden;
+
+        .baby-love-admin-shopping-cart-select-cart-content {
+            max-height: 300px;
+            overflow: auto;
+            padding-bottom: 50px;
+        }
+
+        .adm-search-bar {
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+        }
     }
 
     .baby-love-admin-shopping-cart-select-cart-empty {

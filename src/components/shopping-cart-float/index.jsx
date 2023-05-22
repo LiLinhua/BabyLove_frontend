@@ -1,7 +1,7 @@
 import ShoppingCartIcon from "@/assets/shopping-cart.png";
 import { inject, observer } from "mobx-react";
 import { Component } from "react";
-import { history } from "umi";
+import { goTo, getShoppingCartCode } from "../../common/utils";
 import "./index.less";
 
 @inject("ShoppingCart")
@@ -20,11 +20,9 @@ class ShoppingCartFloat extends Component {
    * 跳转购物车页
    * @returns
    */
-  handleGoToCart = () => {
-    if (location.pathname.startsWith("/view/admin/")) {
-      return history.push("/view/admin/shopping-cart");
-    }
-    history.push("/view/shopping-cart");
+  handleGoToCart = async () => {
+    const shoppingCartCode = await getShoppingCartCode();
+    goTo(`/shopping-cart?shoppingCartCode=${shoppingCartCode || ''}`);
   };
 
   render() {

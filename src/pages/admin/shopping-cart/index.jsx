@@ -1,7 +1,8 @@
-import { Dialog, Toast } from "antd-mobile";
+import { Button, Dialog, Toast } from "antd-mobile";
 import React from "react";
 import {
   adminQueryAllShoppingCarts,
+  adminQueryShoppingCartAllGoods,
   adminShoppingCartBatchRemoveGoods,
   adminShoppingCartBatchUpdateSelected,
   adminShoppingCartUpdateBuyCount,
@@ -23,18 +24,37 @@ class ShoppingCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      allShoppingCartList: [],
       shoppingCartList: [],
       goodsList: [],
       selectGoodsCodes: [],
       totalPrice: 0,
-      isShowSelectShoppingCartModal: true,
+      isShowSelectShoppingCartModal: false,
       isShowModalLoading: true,
     };
   }
 
   componentDidMount() {
-    this.getShoppingCartList();
+    this.initData();
   }
+
+  /**
+   * 初始化数据
+   */
+  initData = async () => {
+    await this.setShoppingCartCodeToThis();
+    await this.getGoodsList(this.shoppingCartCode);
+  };
+
+  /**
+   * 挂载购物车编码到 this
+   */
+  setShoppingCartCodeToThis = async () => {
+    const searchParams = new URLSearchParams(location.search);
+
+    this.shoppingCartCode =
+      searchParams.get("shoppingCartCode") || (await getShoppingCartCode());
+  };
 
   /**
    * 阻止事件冒泡
@@ -51,7 +71,7 @@ class ShoppingCart extends React.Component {
     const { data } = await request.get(adminQueryAllShoppingCarts);
 
     if (Array.isArray(data)) {
-      this.setState({ shoppingCartList: data });
+      this.setState({ shoppingCartList: data, allShoppingCartList: [...data] });
     }
 
     this.setState({ isShowModalLoading: false });
@@ -74,7 +94,23 @@ class ShoppingCart extends React.Component {
   selectShoppingCart = async (shoppingCart) => {
     setShoppingCartCode(shoppingCart.shoppingCartCode);
 
-    const goodsList = await this.getGoodsList(shoppingCart);
+    goTo(`/shopping-cart?shoppingCartCode=${shoppingCart.shoppingCartCode}`);
+
+    this.setState({ isShowSelectShoppingCartModal: false }, () => {
+      const goodsList = this.getGoodsListFromShoppingCartInfo(shoppingCart);
+
+      this.setGoodsListToState(goodsList);
+    });
+  };
+
+  /**
+   * 更新商品列表数据
+   * @param {array} goodsList 商品数据
+   */
+  setGoodsListToState = (goodsList) => {
+    if (!Array.isArray(goodsList)) {
+      return;
+    }
     const selectGoodsCodes = [];
     goodsList.forEach((good) => {
       if (good.selected) {
@@ -84,7 +120,6 @@ class ShoppingCart extends React.Component {
 
     this.setState(
       {
-        isShowSelectShoppingCartModal: false,
         goodsList: goodsList || [],
         selectGoodsCodes,
       },
@@ -94,9 +129,25 @@ class ShoppingCart extends React.Component {
 
   /**
    * 获取商品列表
+   * @param {string} shoppingCartCode 购物车编码
+   */
+  getGoodsList = async (shoppingCartCode) => {
+    if (!shoppingCartCode) {
+      return;
+    }
+
+    const { data } = await request.get(adminQueryShoppingCartAllGoods, {
+      params: { shoppingCartCode },
+    });
+
+    this.setGoodsListToState(data?.goods);
+  };
+
+  /**
+   * 从购物车信息中获取商品列表
    * @param {string} shoppingCart 购物车信息
    */
-  getGoodsList = async (shoppingCart) => {
+  getGoodsListFromShoppingCartInfo = (shoppingCart) => {
     return shoppingCart?.goods || [];
   };
 
@@ -169,6 +220,36 @@ class ShoppingCart extends React.Component {
     });
 
     this.setState({ totalPrice });
+  };
+
+  /**
+   * 显示选择购物车弹窗
+   */
+  showSelectShoppingCartModal = () => {
+    this.setState({ isShowSelectShoppingCartModal: true });
+    this.getShoppingCartList();
+  };
+
+  /**
+   * 关闭选择购物车弹窗
+   */
+  closeSelectShoppingCartModal = () => {
+    this.setState({ isShowSelectShoppingCartModal: false });
+  };
+
+  /**
+   * 搜索购物车
+   */
+  searchShoppingCart = (keyword) => {
+    const { allShoppingCartList } = this.state;
+    return this.setState({
+      shoppingCartList: !keyword
+        ? [...allShoppingCartList]
+        : allShoppingCartList.filter(
+            (shoppingCart) =>
+              shoppingCart.shoppingCartCode.indexOf(keyword) > -1
+          ),
+    });
   };
 
   /**
@@ -317,6 +398,15 @@ class ShoppingCart extends React.Component {
 
     return (
       <div className="baby-love-admin-shopping-cart">
+        <div className="baby-love-admin-shopping-cart-show-select-btn">
+          <Button
+            color="primary"
+            size="mini"
+            onClick={this.showSelectShoppingCartModal}
+          >
+            选择购物车
+          </Button>
+        </div>
         <GoodsList
           goodsList={goodsList}
           selectGoodsCodes={selectGoodsCodes}
@@ -338,6 +428,8 @@ class ShoppingCart extends React.Component {
           isShowModalLoading={isShowModalLoading}
           shoppingCartList={shoppingCartList}
           selectShoppingCart={this.selectShoppingCart}
+          closeModal={this.closeSelectShoppingCartModal}
+          searchShoppingCart={this.searchShoppingCart}
         />
       </div>
     );
