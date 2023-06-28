@@ -7,8 +7,6 @@ import "./index.less";
 import shores from "./stores";
 
 export default function Layout() {
-  return (<>开发中，敬请期待...</>);
-
   const isLogin = isLoginPage || !isAdmin || (isAdmin && isLogined);
   if (!isLogin) {
     return toLogin();
