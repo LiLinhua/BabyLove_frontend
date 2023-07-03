@@ -31,7 +31,7 @@ class Footer extends React.Component {
       <footer className="baby-love-footer">
         {this.state.navConfig.map((item) => {
           return (
-            <div className="baby-love-footer-item" onClick={item.onClick}>
+            <div key={item.title} className="baby-love-footer-item" onClick={item.onClick}>
               {item.title}
             </div>
           );

@@ -5,9 +5,6 @@ import { Toast } from 'antd-mobile';
 import { customAddShoppingCart } from '../common/apis';
 
 
-// 是否登录
-export const isLogined = !!sessionStorage.getItem("babyLoveToken");
-
 // 是否是管理后台
 export const isAdmin = location.pathname.startsWith("/view/admin");
 
@@ -44,6 +41,28 @@ export const goTo = (url, isReload) => {
 export const toLogin = () => {
     goTo('/login', true);
 };
+
+/**
+ * 设置登录成功标识
+ */
+export const setLoginSuccessFlag = () => {
+    sessionStorage.setItem("babyLoveToken", "1");
+};
+
+/**
+ * 删除登录成功标识
+ */
+export const removeLoginSuccessFlag = () => {
+    sessionStorage.removeItem("babyLoveToken");
+};
+
+/**
+ * 判断是否登录
+ */
+export const checkIsLogin = () => {
+    return !!sessionStorage.getItem("babyLoveToken");
+};
+
 
 /**
  * 添加购物车

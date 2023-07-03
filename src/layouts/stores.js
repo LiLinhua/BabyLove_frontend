@@ -1,6 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
-import { getShoppingCartCode } from '../common/utils';
-import { customQueryShoppingCartGoodsCount } from '../common/apis';
+import { getShoppingCartCode, isAdmin } from '../common/utils';
+import { customQueryShoppingCartGoodsCount, adminQueryShoppingCartGoodsCount } from '../common/apis';
 import request from '../common/http';
 
 class ShoppingCartStore {
@@ -14,7 +14,7 @@ class ShoppingCartStore {
     flushShoppingCartGoodsCount = async () => {
         const shoppingCartCode = await getShoppingCartCode();
 
-        const { data } = await request.get(customQueryShoppingCartGoodsCount, {
+        const { data } = await request.get(isAdmin ? adminQueryShoppingCartGoodsCount : customQueryShoppingCartGoodsCount, {
             params: { shoppingCartCode },
         });
 

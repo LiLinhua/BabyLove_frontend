@@ -1,7 +1,7 @@
 import { login } from "@/common/apis";
 import request from "@/common/http";
 import { Button, Form, Input } from "antd-mobile";
-import { goTo } from "@/common/utils";
+import { goTo, setLoginSuccessFlag } from "@/common/utils";
 import React from "react";
 
 import "./index.less";
@@ -32,7 +32,7 @@ class Login extends React.Component {
         password,
       });
       if (success) {
-        sessionStorage.setItem("babyLoveToken", "1");
+        setLoginSuccessFlag();
         return goTo('/');
       }
     } catch (error) {

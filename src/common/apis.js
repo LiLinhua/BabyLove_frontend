@@ -5,6 +5,7 @@ export const adminAddGoodsPictures = '/admin/goodsPictures/addGoodsPictures';
 export const adminShoppingCartAddGoods = '/admin/shoppingCarts/addGoods';
 export const adminShoppingCartBatchRemoveGoods = '/admin/shoppingCarts/batchRemoveGoods';
 export const adminShoppingCartUpdateBuyCount = '/admin/shoppingCarts/updateBuyCount';
+export const adminQueryShoppingCartGoodsCount = '/admin/shoppingCarts/queryAllGoodsCount';
 export const adminAddShoppingCart = '/admin/shoppingCarts/addShoppingCart';
 export const adminQueryAllGoods = '/admin/goods/queryAllGoods';
 export const adminQueryGoodsDetails = '/admin/goods/queryGoodsDetails';
