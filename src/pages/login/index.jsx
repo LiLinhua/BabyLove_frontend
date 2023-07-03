@@ -1,7 +1,7 @@
 import { login } from "@/common/apis";
 import request from "@/common/http";
-import { Button, Form, Input } from "antd-mobile";
 import { goTo, setLoginSuccessFlag } from "@/common/utils";
+import { Button, Form, Input } from "antd-mobile";
 import React from "react";
 
 import "./index.less";
@@ -33,7 +33,9 @@ class Login extends React.Component {
       });
       if (success) {
         setLoginSuccessFlag();
-        return goTo('/');
+        // 产品编码
+        const searchParams = new URLSearchParams(location.search);
+        return goTo(searchParams.get("callback") || "/", false, true);
       }
     } catch (error) {
       console.error(error);

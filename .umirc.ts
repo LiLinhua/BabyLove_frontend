@@ -18,22 +18,25 @@ export default defineConfig({
     { path: "/view/admin/goods/details", component: "admin/goods-details" },
     { path: "/view/admin/shopping-cart", component: "admin/shopping-cart" },
     { path: "/view/admin/goods/edit", component: "admin/goods-edit" },
+
+    { path: "/view/admin/order/list", component: "admin/order-list" },
+    { path: "/view/admin/order/details", component: "admin/order-details" },
   ],
   proxy: {
     '/admin': {
-      'target': 'http://localhost/',
+      'target': 'http://localhost:7001/',
       'changeOrigin': true,
     },
     '/custom': {
-      'target': 'http://localhost/',
+      'target': 'http://localhost:7001/',
       'changeOrigin': true,
     },
     '/user': {
-      'target': 'http://localhost/',
+      'target': 'http://localhost:7001/',
       'changeOrigin': true,
     },
     '/public': {
-      'target': 'http://localhost/',
+      'target': 'http://localhost:7001/',
       'changeOrigin': true,
     },
   },

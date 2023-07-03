@@ -15,17 +15,20 @@ export const isLoginPage = ["/view/admin/login", "/view/custom/login", "/view/lo
  * 页面跳转
  * @param {string} url 页面地址
  * @param {boolean} isReload 是否刷新页面
+ * @param {boolean} isUseOriginUrl 是否使用原地址
  * @returns 
  */
-export const goTo = (url, isReload) => {
+export const goTo = (url, isReload, isUseOriginUrl) => {
     if (!url) {
         return;
     }
 
-    if (location.pathname.startsWith('/view/admin/')) {
-        url = `/view/admin${url}`;
-    } else {
-        url = `/view${url}`;
+    if (!isUseOriginUrl) {
+        if (location.pathname.startsWith('/view/admin/')) {
+            url = `/view/admin${url}`;
+        } else {
+            url = `/view${url}`;
+        }
     }
 
     if (isReload) {
@@ -39,7 +42,7 @@ export const goTo = (url, isReload) => {
  * 跳转登录页
  */
 export const toLogin = () => {
-    goTo('/login', true);
+    goTo(`/login?callback=${location.pathname}`, true);
 };
 
 /**
