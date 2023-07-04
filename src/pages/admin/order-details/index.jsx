@@ -1,15 +1,11 @@
-import { DotLoading, Toast } from "antd-mobile";
+import { DotLoading } from "antd-mobile";
 import React from "react";
-import {
-  adminQueryGoodsDetails,
-  adminShoppingCartAddGoods,
-} from "../../../common/apis";
+import { adminQueryGoodsDetails } from "../../../common/apis";
 import request from "../../../common/http";
-import { getShoppingCartCode } from "../../../common/utils";
-import ShoppingCartFloat from "../../../components/shopping-cart-float";
-import AddToShoppingCart from "./add-to-shopping-cart";
-import GoodsBaseInfo from "./base-info";
-import GoodsSwiper from "./swiper";
+import OrderBaseInfo from "./order-base-info";
+import OrderStatus from "./order-status";
+import OrderGoods from "./order-goods";
+import OrderActions from "./order-actions";
 
 import "./index.less";
 
@@ -17,8 +13,8 @@ class Goods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goodsDetails: {},
-      isShowLoading: true,
+      orderDetails: {},
+      isShowLoading: false,
     };
     // 产品编码
     const searchParams = new URLSearchParams(location.search);
@@ -26,7 +22,7 @@ class Goods extends React.Component {
   }
 
   componentDidMount() {
-    this.getGoodsDetails();
+    this.getOrderDetails();
   }
 
   /**
@@ -38,9 +34,9 @@ class Goods extends React.Component {
   };
 
   /**
-   * 获取商品详情
+   * 获取订单详情
    */
-  getGoodsDetails = async () => {
+  getOrderDetails = async () => {
     if (!this.goodsCode) {
       return;
     }
@@ -48,65 +44,30 @@ class Goods extends React.Component {
       params: { goodsCode: this.goodsCode },
     });
     if (data) {
-      this.setState({ goodsDetails: data });
+      this.setState({ orderDetails: data });
     }
 
     this.setLoading(false);
   };
   /**
-   * 添加商品到购物车
-   */
-  addToCart = async () => {
-    const shoppingCartCode = await getShoppingCartCode();
-
-    const { success } = await request.post(adminShoppingCartAddGoods, {
-      shoppingCartCode,
-      goodsCode: this.goodsCode,
-      buyCount: 1,
-    });
-
-    if (success) {
-      Toast.show({
-        icon: "success",
-        content: "添加成功",
-      });
-
-      // 刷新购物车商品数据
-      this.props.ShoppingCart?.flushShoppingCartGoodsCount();
-    }
-  };
-  /**
    * 渲染函数
    */
   render() {
-    const { goodsTitle, goodsSubtitle, goodsPrice, goodsDetails, pictures } =
-      this.state.goodsDetails || {};
-    return (
-      <div className="baby-love-admin-goods">
-        {/* 商品列表 */}
-        <div className="baby-love-admin-goods-details">
-          {this.state.isShowLoading ? (
-            // loading 效果
-            <DotLoading color="primary" />
-          ) : (
-            <>
-              {/* 轮播图 */}
-              <GoodsSwiper pictures={pictures} />
-              {/* 商品信息 */}
-              <GoodsBaseInfo
-                goodsTitle={goodsTitle}
-                goodsSubtitle={goodsSubtitle}
-                goodsDetails={goodsDetails}
-                goodsPrice={goodsPrice}
-              />
-              {/* 加入购物车 */}
-              <AddToShoppingCart addToCart={this.addToCart} />
-            </>
-          )}
+    const { goodsTitle, goodsSubtitle, goodsPrice, orderDetails, pictures } =
+      this.state.orderDetails || {};
 
-          {/* 购物车图标 */}
-          <ShoppingCartFloat />
-        </div>
+    return (
+      <div className="baby-love-admin-order-details">
+        {this.state.isShowLoading ? (
+          <DotLoading color="primary" />
+        ) : (
+          <>
+            <OrderStatus />
+            <OrderBaseInfo />
+            <OrderGoods />
+            <OrderActions />
+          </>
+        )}
       </div>
     );
   }

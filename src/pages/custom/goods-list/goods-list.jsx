@@ -6,6 +6,7 @@ class GoodsList extends Component {
   render() {
     const { goodsList, isLoading, getGoodsList } = this.props;
 
+    // 默认 Loading 效果
     let content = <DotLoading color="primary" />;
     if (!goodsList?.length) {
       if (!isLoading) {

@@ -1,11 +1,51 @@
 import NoPictureIcon from "@/assets/no-picture.png";
-import { Button, Ellipsis } from "antd-mobile";
+import { Button, Ellipsis, Toast } from "antd-mobile";
+import { copy } from "@/common/utils";
 import React from "react";
 
 class GoodsItem extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  /**
+   * 复制物流单号
+   */
+  copyOrderNumber = () => {
+    if(copy('2342342')){
+      Toast.show({
+        icon: "success",
+        content: "复制成功",
+      });
+      return;
+    }
+    Toast.show({
+      icon: "fail",
+      content: "复制失败",
+    });
+  }
+
+  /**
+   * 查看物流
+   */
+  lookLogistics = () => {
+    if(copy('2342342')){
+      Toast.show({
+        icon: "success",
+        content: "物流单号已复制，跳转查询中...",
+        duration: 2000,
+      });
+      setTimeout(()=>{
+        window.open('https://m.kuaidi100.com/index.jsp');
+      }, 2000);
+      return;
+    }
+    Toast.show({
+      icon: "fail",
+      content: "物流单号复制失败",
+    });
+  }
+
   render() {
     const {
       goodsItem,
@@ -61,7 +101,10 @@ class GoodsItem extends React.Component {
               })}
           </ul>
         </div>
-        <div className="baby-love-admin-order-list-item-footer">
+        <div
+          className="baby-love-admin-order-list-item-footer"
+          onClick={stopPropagation}
+        >
           <div className="baby-love-admin-order-list-item-price">
             <span className="baby-love-admin-order-list-item-price-label">
               实付：
@@ -69,10 +112,10 @@ class GoodsItem extends React.Component {
             ¥1000
           </div>
           <div className="baby-love-admin-order-list-item-actions">
-            <Button color="primary" fill="none">
+            <Button color="primary" fill="none" onClick={this.copyOrderNumber}>
               复制单号
             </Button>
-            <Button color="primary" fill="none">
+            <Button color="primary" fill="none" onClick={this.lookLogistics}>
               查看物流
             </Button>
           </div>

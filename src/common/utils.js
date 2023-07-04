@@ -127,7 +127,7 @@ export const getNavConfig = async () => {
  */
 export const copy = (content) => {
     if (!content) {
-        return;
+        return false;
     }
 
     try {

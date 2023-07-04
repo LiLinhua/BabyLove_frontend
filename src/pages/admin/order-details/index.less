@@ -1,91 +1,164 @@
-.baby-love-admin-goods {
-    .baby-love-admin-goods-details {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+.baby-love-admin-order-details {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100vh - 83px);
+    overflow: hidden;
 
-        .adm-swiper {
-            min-height: 300px;
-        }
-
-        .adm-dot-loading{
-            width: 100%;
-            display: inline-block;
-            text-align: center;
-            margin-top: 250px;
-            font-size: 24px;
-        }
-
-        .baby-love-admin-goods-details-swiper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            min-height: 300px;
-        }
-
-        .baby-love-admin-goods-details-swiper-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100vw;
-            height: 300px;
-
-            img {
-                width: 100%;
-            }
-        }
-
-        .baby-love-admin-goods-details-base-info {
-            width: 100%;
-            margin: 16px 0;
-            // padding: 0 12px;
-            font-size: 14px;
-
-            p {
-                padding: 0 12px;
-            }
-
-            .baby-love-admin-goods-details-price {
-                font-size: 24px;
-                font-weight: 900;
-            }
-
-            .baby-love-admin-goods-details-title {
-                margin-top: 8px;
-            }
-
-            .baby-love-admin-goods-details-subtitle {
-                margin-top: 4px;
-                opacity: 0.2;
-            }
-        }
-
-        .baby-love-admin-goods-details-details {
-            width: 100%;
-            padding-bottom: 80px;
-
-            img{
-                width: 100%;
-            }
-        }
-
-        .baby-love-admin-goods-details-add-to-cart {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            bottom: 50px;
-            width: 100%;
-            padding: 0 12px;
-            box-sizing: border-box;
-
-            button {
-                width: calc(100% - 24px);
-            }
-        }
-
+    .adm-dot-loading {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        margin-top: 250px;
+        font-size: 24px;
     }
 
+    .baby-love-admin-order-details-status {
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        background-color: chartreuse;
+        width: 100%;
+        // box-shadow: 0px 0px 10px 0 #ccc;
+
+        svg {
+            font-size: 32px;
+        }
+
+        span {
+            font-size: 26px;
+            margin-left: 6px;
+        }
+    }
+
+    .baby-love-admin-order-details-base-info {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 0;
+        padding: 4px 16px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 0 #ccc;
+
+        .baby-love-admin-order-details-base-info-item {
+            padding: 6px 0;
+
+            span:first-child {
+                color: #878888;
+                // font-weight: 600;
+            }
+
+            span {
+                color: #1d1e1e;
+                font-family: PingFangSC-Regular;
+                font-weight: 400;
+                font-size: 16px;
+            }
+
+            .adm-button {
+                padding: 0 4px;
+                margin-left: 6px;
+            }
+
+            button span {
+                color: inherit !important;
+                font-size: 12px;
+            }
+
+        }
+    }
+
+    .baby-love-admin-order-details-goods {
+        width: 100%;
+        height: calc(100vh - 415px);
+        box-sizing: border-box;
+        margin-top: 20px;
+        padding: 10px 0 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 0 #ccc;
+
+        .baby-love-admin-order-details-goods-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 30px;
+            border-bottom: 1px solid #ccc;
+            padding: 0 16px;
+            line-height: 30px;
+        }
+
+        .baby-love-admin-order-details-goods-total-shop {
+            color: #000;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .baby-love-admin-order-details-goods-total-count {
+            color: #999;
+        }
+
+        ul{
+            height: calc(100% - 31px);
+            overflow: scroll;
+        }
+
+        ul li {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .baby-love-admin-order-details-goods-picture {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            min-width: 100px;
+            min-height: 100px;
+            background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F89af5057-4785-4642-9c4b-d425322e1c75%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1691080053&t=def7f269cdd2734680ed3885ffe21cf6);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .baby-love-admin-order-details-goods-title {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .baby-love-admin-order-details-goods-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 10px;
+
+            .baby-love-admin-order-details-goods-item-price {
+                font-size: 16px;
+                font-weight: 600;
+                color: #000;
+            }
+
+            .baby-love-admin-order-details-goods-item-count {
+                font-size: 14px;
+                color: #999;
+            }
+        }
+    }
+
+    .baby-love-admin-order-details-actions{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        // height: 30px;
+        border-top: 1px solid #ccc;
+        box-sizing: border-box;
+        padding: 6px 16px;
+        background-color: #fff;
+        text-align: right;
+        box-shadow: 0px 0px 10px 0 #ccc;
+    }
 }
