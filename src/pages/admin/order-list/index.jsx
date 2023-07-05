@@ -16,7 +16,7 @@ import {
 } from "../../../common/utils";
 import GoodsList from "./order-list";
 import SearchBar from "./order-search";
-import OrderAdd from "./order-add";
+// import OrderAdd from "./order-add";
 
 import "./index.less";
 
@@ -108,7 +108,7 @@ class OrderList extends React.Component {
           toGoodsDetails={this.toGoodsDetails}
           isShowLoading={isShowLoading}
         />
-        <OrderAdd />
+        {/* <OrderAdd /> */}
       </div>
     );
   }

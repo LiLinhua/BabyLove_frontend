@@ -1,6 +1,6 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import { Button, Ellipsis, Toast } from "antd-mobile";
-import { copy } from "@/common/utils";
+import { copy, goTo } from "@/common/utils";
 import React from "react";
 
 class GoodsItem extends React.Component {
@@ -44,6 +44,13 @@ class GoodsItem extends React.Component {
       icon: "fail",
       content: "物流单号复制失败",
     });
+  }
+
+  /**
+   * 修改订单
+   */
+  updateOrder = () => {
+    goTo('/order/edit');
   }
 
   render() {
@@ -118,7 +125,7 @@ class GoodsItem extends React.Component {
             <Button color="primary" fill="none" onClick={this.lookLogistics}>
               查看物流
             </Button>
-            <Button color="primary" fill="none" onClick={this.lookLogistics}>
+            <Button color="primary" fill="none" onClick={this.updateOrder}>
               修改订单
             </Button>
           </div>
