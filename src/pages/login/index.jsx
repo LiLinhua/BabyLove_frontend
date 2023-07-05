@@ -77,7 +77,7 @@ class Login extends React.Component {
             <Form.Item
               name="password"
               label="登录密码"
-              rules={[{ required: true, message: "登录名不能为空" }]}
+              rules={[{ required: true, message: "登录密码不能为空" }]}
             >
               <Input
                 type="password"

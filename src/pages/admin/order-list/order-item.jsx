@@ -118,6 +118,9 @@ class GoodsItem extends React.Component {
             <Button color="primary" fill="none" onClick={this.lookLogistics}>
               查看物流
             </Button>
+            <Button color="primary" fill="none" onClick={this.lookLogistics}>
+              修改订单
+            </Button>
           </div>
         </div>
       </div>

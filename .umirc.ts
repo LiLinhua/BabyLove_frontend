@@ -21,6 +21,7 @@ export default defineConfig({
 
     { path: "/view/admin/order/list", component: "admin/order-list" },
     { path: "/view/admin/order/details", component: "admin/order-details" },
+    { path: "/view/admin/order/edit", component: "admin/order-edit" },
   ],
   proxy: {
     '/admin': {

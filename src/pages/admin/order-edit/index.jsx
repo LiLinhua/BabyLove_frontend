@@ -5,11 +5,10 @@ import request from "../../../common/http";
 import OrderActions from "./order-actions";
 import OrderBaseInfo from "./order-base-info";
 import OrderGoods from "./order-goods";
-import OrderStatus from "./order-status";
 
 import "./index.less";
 
-class OrderDetails extends React.Component {
+class OrderEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,11 +62,9 @@ class OrderDetails extends React.Component {
         ) : (
           <>
             <div className="baby-love-admin-order-details-info">
-              <OrderStatus />
               <OrderBaseInfo />
               <OrderGoods />
             </div>
-
             <OrderActions />
           </>
         )}
@@ -76,4 +73,4 @@ class OrderDetails extends React.Component {
   }
 }
 
-export default OrderDetails;
+export default OrderEdit;

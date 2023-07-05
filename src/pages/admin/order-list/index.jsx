@@ -16,10 +16,11 @@ import {
 } from "../../../common/utils";
 import GoodsList from "./order-list";
 import SearchBar from "./order-search";
+import OrderAdd from "./order-add";
 
 import "./index.less";
 
-class ShoppingCart extends React.Component {
+class OrderList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -107,9 +108,10 @@ class ShoppingCart extends React.Component {
           toGoodsDetails={this.toGoodsDetails}
           isShowLoading={isShowLoading}
         />
+        <OrderAdd />
       </div>
     );
   }
 }
 
-export default ShoppingCart;
+export default OrderList;
