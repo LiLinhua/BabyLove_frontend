@@ -1,7 +1,8 @@
 import NoPictureIcon from "@/assets/no-picture.png";
-import { Button, Ellipsis, Toast } from "antd-mobile";
 import { copy, goTo } from "@/common/utils";
+import { Button, Ellipsis, Toast } from "antd-mobile";
 import React from "react";
+import { orderStatus } from "@/common/constant";
 
 class GoodsItem extends React.Component {
   constructor(props) {
@@ -9,10 +10,11 @@ class GoodsItem extends React.Component {
   }
 
   /**
-   * 复制物流单号
+   * 复制单号
    */
   copyOrderNumber = () => {
-    if(copy('2342342')){
+    const { orderItem } = this.props;
+    if (copy(orderItem.orderCode)) {
       Toast.show({
         icon: "success",
         content: "复制成功",
@@ -23,85 +25,86 @@ class GoodsItem extends React.Component {
       icon: "fail",
       content: "复制失败",
     });
-  }
+  };
 
   /**
    * 查看物流
    */
   lookLogistics = () => {
-    if(copy('2342342')){
+    const { orderItem } = this.props;
+    if (!orderItem.expressCode) {
+      return Toast.show({
+        icon: "fail",
+        content: "暂无物流信息",
+      });
+    }
+    if (copy(orderItem.expressCode)) {
       Toast.show({
         icon: "success",
         content: "物流单号已复制，跳转查询中...",
         duration: 2000,
       });
-      setTimeout(()=>{
-        window.open('https://m.kuaidi100.com/index.jsp');
+      setTimeout(() => {
+        window.open("https://m.kuaidi100.com/index.jsp");
       }, 2000);
+
       return;
     }
     Toast.show({
       icon: "fail",
       content: "物流单号复制失败",
     });
-  }
+  };
 
   /**
    * 修改订单
    */
   updateOrder = () => {
-    goTo('/order/edit');
-  }
+    goTo(`/order/edit?orderCode=${this.props.orderItem.orderCode}`);
+  };
 
   render() {
-    const {
-      goodsItem,
-      selectGoodsCodes,
-      selectGoods,
-      changeCount,
-      stopPropagation,
-    } = this.props;
+    const { orderItem, stopPropagation } = this.props;
+    const isCanNotUpdateOrder = [
+      orderStatus.FINISHED.value,
+      orderStatus.CANCELED.value,
+    ].includes(orderItem.status);
     return (
       <div>
         <div className="baby-love-admin-order-list-item-header">
           <span className="baby-love-admin-order-list-item-header-left">
             <span className="baby-love-admin-order-list-item-number">
-              123456789011
+              {orderItem.orderCode}
             </span>
             <span className="baby-love-admin-order-list-item-time">
-              2023-01-01 12:00:00
+              {orderItem.createdAt}
             </span>
           </span>
-          <span className="baby-love-admin-order-list-item-status">已完成</span>
+          <span className="baby-love-admin-order-list-item-status">
+            {orderStatus[orderItem.status]?.title || "未知"}
+          </span>
         </div>
         <div className="baby-love-admin-order-list-goods-picture">
           <ul>
-            {goodsItem.pictures &&
-              goodsItem.pictures.map((picture) => {
+            {orderItem.goods &&
+              orderItem.goods.map((goodsItem) => {
                 return (
-                  <li key={picture.pictureCode}>
+                  <li key={goodsItem.goodsCode}>
                     <div
                       className="baby-love-admin-order-list-goods-picture-content"
                       style={{
                         backgroundImage: `url(${
-                          picture.pictureUrl || NoPictureIcon
+                          goodsItem.pictures?.[0]?.pictureUrl || NoPictureIcon
                         })`,
                       }}
                     ></div>
-                    {/* <Image
-                      src={picture.pictureUrl || NoPictureIcon}
-                      width="100%"
-                      height="100%"
-                      fit="contain"
-                      style={{ borderRadius: 4 }}
-                    /> */}
                     <Ellipsis
                       direction="end"
                       rows={1}
                       content={goodsItem.goodsTitle}
                     />
                     <span className="baby-love-admin-order-list-goods-count">
-                      X2
+                      X{goodsItem.ordersGoodsRelations?.buyCount || "?"}
                     </span>
                   </li>
                 );
@@ -116,16 +119,21 @@ class GoodsItem extends React.Component {
             <span className="baby-love-admin-order-list-item-price-label">
               实付：
             </span>
-            ¥1000
+            ¥{orderItem.totalPrice}
           </div>
           <div className="baby-love-admin-order-list-item-actions">
             <Button color="primary" fill="none" onClick={this.copyOrderNumber}>
               复制单号
             </Button>
-            <Button color="primary" fill="none" onClick={this.lookLogistics}>
+            <Button
+              color="primary"
+              fill="none"
+              disabled={!orderItem.expressCode}
+              onClick={this.lookLogistics}
+            >
               查看物流
             </Button>
-            <Button color="primary" fill="none" onClick={this.updateOrder}>
+            <Button color="primary" disabled={isCanNotUpdateOrder} fill="none" onClick={this.updateOrder}>
               修改订单
             </Button>
           </div>

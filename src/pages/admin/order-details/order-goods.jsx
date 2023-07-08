@@ -1,4 +1,6 @@
 import { Ellipsis } from "antd-mobile";
+import NoPictureIcon from "@/assets/no-picture.png";
+import { goTo } from "@/common/utils";
 import React from "react";
 
 import "./index.less";
@@ -10,9 +12,17 @@ class OrderGoods extends React.Component {
   }
 
   /**
+   * 去商品详情
+   */
+  toGoodsDetail = (goodsCode) => {
+    goTo(`/goods/details?goodsCode=${goodsCode}`)
+  }
+
+  /**
    * 渲染函数
    */
   render() {
+    const { goods, totalCount } = this.props;
     return (
       <div className="baby-love-admin-order-details-goods">
         <div className="baby-love-admin-order-details-goods-header">
@@ -20,29 +30,27 @@ class OrderGoods extends React.Component {
             BabyLove
           </span>
           <span className="baby-love-admin-order-details-goods-total-count">
-            共 12 件商品
+            共 {totalCount} 件商品
           </span>
         </div>
         <ul>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <li key={item}>
-              <div className="baby-love-admin-order-details-goods-picture"></div>
-              <div>
+          {(goods || []).map((item) => (
+            <li key={item} onClick={() => this.toGoodsDetail(item.goodsCode)}>
+              <div className="baby-love-admin-order-details-goods-picture" style={{ backgroundImage: `url(${item.pictures?.[0]?.pictureUrl || NoPictureIcon})`}}></div>
+              <div className="baby-love-admin-order-details-goods-info">
                 <div className="baby-love-admin-order-details-goods-title">
                   <Ellipsis
                     direction="end"
                     rows={2}
-                    content={
-                      "斯柯达尖峰时刻京东方时空的房间里纳斯达克雷锋精神凉快点附近收代理费会计师独立开发"
-                    }
+                    content={item.goodsTitle}
                   />
                 </div>
                 <div className="baby-love-admin-order-details-goods-details">
                   <span className="baby-love-admin-order-details-goods-item-price">
-                    ¥2345
+                    ¥ {item.goodsPrice}
                   </span>
                   <span className="baby-love-admin-order-details-goods-item-count">
-                    x3
+                    x{item.ordersGoodsRelations?.buyCount || '?'}
                   </span>
                 </div>
               </div>

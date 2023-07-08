@@ -1,36 +1,19 @@
-import { Button, Dialog, Toast } from "antd-mobile";
 import React from "react";
-import {
-  adminQueryAllShoppingCarts,
-  adminQueryShoppingCartAllGoods,
-  adminShoppingCartBatchRemoveGoods,
-  adminShoppingCartBatchUpdateSelected,
-  adminShoppingCartUpdateBuyCount,
-} from "../../../common/apis";
+import { adminQueryAllOrders } from "../../../common/apis";
 import request from "../../../common/http";
-import {
-  copy,
-  getShoppingCartCode,
-  goTo,
-  setShoppingCartCode,
-} from "../../../common/utils";
-import GoodsList from "./order-list";
+import { goTo } from "../../../common/utils";
+import OrderList from "./order-list";
 import SearchBar from "./order-search";
-// import OrderAdd from "./order-add";
+import Moment from "moment";
 
 import "./index.less";
 
-class OrderList extends React.Component {
+class Order extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allShoppingCartList: [],
-      shoppingCartList: [],
-      goodsList: [],
-      selectGoodsCodes: [],
-      totalPrice: 0,
-      isShowSelectShoppingCartModal: false,
-      isShowModalLoading: true,
+      orderList: [],
+      keyword: '',
       isShowLoading: false,
     };
   }
@@ -43,37 +26,42 @@ class OrderList extends React.Component {
    * 初始化数据
    */
   initData = async () => {
-    
-    await this.getGoodsList('e2e441e4-4fd9-49e4-a79a-d62eace2b079');
-    
+    await this.getOrderList();
   };
 
   /**
-   * 获取商品列表
-   * @param {string} shoppingCartCode 购物车编码
+   * 获取订单列表
    */
-  getGoodsList = async (shoppingCartCode) => {
-    if (!shoppingCartCode) {
-      return;
-    }
+  getOrderList = async () => {
     this.setState({ isShowLoading: true });
-    const { data } = await request.get(adminQueryShoppingCartAllGoods, {
-      params: { shoppingCartCode },
-    });
+    const { data } = await request.post(adminQueryAllOrders, { keyword: this.state.keyword });
 
-    if(data?.goods){
-      this.setState({ goodsList: data.goods, isShowLoading: false});
+    if (Array.isArray(data)) {
+      this.setState({ orderList: data.map(orderItem => {
+        orderItem.createdAt = Moment(orderItem.createdAt).format('YYYY-MM-DD HH:mm:ss');
+        return orderItem;
+      }), isShowLoading: false });
       return;
     }
     this.setState({ isShowLoading: false });
   };
 
   /**
-   * 跳转商品详情页
-   * @param {string} goodsCode 商品编码
+   * 搜索
    */
-  toGoodsDetails = (goodsCode) => {
-    goTo("/order/details?orderCode=" + goodsCode);
+  onSearch = (keyword) => {
+    clearTimeout(this.searchTimer);
+    this.searchTimer = setTimeout(() => {
+      this.setState({ keyword }, this.getOrderList)
+    }, 500);
+  }
+
+  /**
+   * 跳转订单详情页
+   * @param {string} orderCode 订单编码
+   */
+  toOrderDetails = (orderCode) => {
+    goTo("/order/details?orderCode=" + orderCode);
   };
 
   /**
@@ -84,34 +72,21 @@ class OrderList extends React.Component {
     e && e.stopPropagation();
   };
 
-
   render() {
-    const {
-      totalPrice,
-      shoppingCartList,
-      selectGoodsCodes,
-      isShowSelectShoppingCartModal,
-      goodsList,
-      isShowModalLoading,
-      isShowLoading,
-    } = this.state;
+    const { orderList, isShowLoading } = this.state;
 
     return (
       <div className="baby-love-admin-order-list">
-        <SearchBar />
-        <GoodsList
-          goodsList={goodsList}
-          selectGoodsCodes={selectGoodsCodes}
-          selectGoods={this.selectGoods}
-          changeCount={this.changeCount}
+        <SearchBar onSearch={this.onSearch}/>
+        <OrderList
+          orderList={orderList}
           stopPropagation={this.stopPropagation}
-          toGoodsDetails={this.toGoodsDetails}
+          toOrderDetails={this.toOrderDetails}
           isShowLoading={isShowLoading}
         />
-        {/* <OrderAdd /> */}
       </div>
     );
   }
 }
 
-export default OrderList;
+export default Order;

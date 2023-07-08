@@ -12,6 +12,12 @@ export const adminQueryGoodsDetails = '/admin/goods/queryGoodsDetails';
 export const adminQueryAllShoppingCarts = '/admin/shoppingCarts/queryAllShoppingCarts';
 export const adminQueryShoppingCartAllGoods = '/admin/shoppingCarts/queryAllGoods';
 export const adminShoppingCartBatchUpdateSelected = '/admin/shoppingCarts/batchUpdateSelected';
+export const adminQueryAllOrders = '/admin/orders/queryAllOrders';
+export const adminQueryOrderDetails = '/admin/orders/queryOrderDetails';
+export const adminAddOrder = '/admin/orders/addOrder';
+export const adminUpdateOrderBaseInfo = '/admin/orders/updateOrderBaseInfo';
+export const adminUpdateOrderGoodsBuyCount = '/admin/orders/updateOrderGoodsBuyCount';
+export const adminAddOrderGoods = '/admin/orders/addOrderGoods';
 
 
 export const customQueryShoppingCartAllGoods = '/custom/shoppingCarts/queryAllGoods';

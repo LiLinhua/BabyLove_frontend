@@ -1,4 +1,4 @@
-import { Button, Dialog, Toast } from "antd-mobile";
+import { Dialog, Toast } from "antd-mobile";
 import React from "react";
 import {
   adminQueryAllShoppingCarts,
@@ -13,10 +13,14 @@ import {
   getShoppingCartCode,
   goTo,
   setShoppingCartCode,
+  setAdminShoppingCartCode,
+  removeAdminShoppingCartCode,
+  getAdminShoppingCartCode,
 } from "../../../common/utils";
 import GoodsList from "./goods-list";
 import OrderInfo from "./order-info";
-import SelectShoppingCartModal from "./select-shopping-cart-modal";
+import ShoppingCartChangeActions from "./shopping-cart-change-actions";
+import ShoppingCartSelectModal from "./shopping-cart-select-modal";
 
 import "./index.less";
 
@@ -78,6 +82,29 @@ class ShoppingCart extends React.Component {
   };
 
   /**
+   * 重置当前的购物车
+   */
+  resetShoppingCart = () => {
+    const adminShoppingCartCode = getAdminShoppingCartCode();
+    if (adminShoppingCartCode) {
+      setShoppingCartCode(adminShoppingCartCode);
+      removeAdminShoppingCartCode();
+      Toast.show({
+        content: "重置成功，跳转中...",
+        icon: "success",
+      });
+      setTimeout(() => {
+        goTo(`/shopping-cart?shoppingCartCode=${adminShoppingCartCode}`, true);
+      }, 1000)
+      return;
+    }
+    Toast.show({
+      content: "本地无管理端购物车信息",
+      icon: "fail",
+    });
+  };
+
+  /**
    * 显示选择购物车弹窗
    * @param {boolean} isShow 是否显示选择购物车弹窗
    */
@@ -92,15 +119,17 @@ class ShoppingCart extends React.Component {
    * @param {Object} shoppingCart 购物车信息
    */
   selectShoppingCart = async (shoppingCart) => {
+    if(!getAdminShoppingCartCode()){
+      setAdminShoppingCartCode(await getShoppingCartCode());
+    }
     setShoppingCartCode(shoppingCart.shoppingCartCode);
 
-    goTo(`/shopping-cart?shoppingCartCode=${shoppingCart.shoppingCartCode}`);
+    goTo(`/shopping-cart?shoppingCartCode=${shoppingCart.shoppingCartCode}`, true);
 
-    this.setState({ isShowSelectShoppingCartModal: false }, () => {
-      const goodsList = this.getGoodsListFromShoppingCartInfo(shoppingCart);
-
-      this.setGoodsListToState(goodsList);
-    });
+    // this.setState({ isShowSelectShoppingCartModal: false }, () => {
+    //   const goodsList = this.getGoodsListFromShoppingCartInfo(shoppingCart);
+    //   this.setGoodsListToState(goodsList);
+    // });
   };
 
   /**
@@ -398,15 +427,10 @@ class ShoppingCart extends React.Component {
 
     return (
       <div className="baby-love-admin-shopping-cart">
-        <div className="baby-love-admin-shopping-cart-show-select-btn">
-          <Button
-            color="primary"
-            size="mini"
-            onClick={this.showSelectShoppingCartModal}
-          >
-            选择购物车
-          </Button>
-        </div>
+        <ShoppingCartChangeActions
+          resetShoppingCart={this.resetShoppingCart}
+          showSelectShoppingCartModal={this.showSelectShoppingCartModal}
+        />
         <GoodsList
           goodsList={goodsList}
           selectGoodsCodes={selectGoodsCodes}
@@ -423,7 +447,7 @@ class ShoppingCart extends React.Component {
           remove={this.remove}
           buy={this.buy}
         />
-        <SelectShoppingCartModal
+        <ShoppingCartSelectModal
           isShowSelectShoppingCartModal={isShowSelectShoppingCartModal}
           isShowModalLoading={isShowModalLoading}
           shoppingCartList={shoppingCartList}

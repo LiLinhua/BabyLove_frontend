@@ -28,7 +28,7 @@ export const getNavConfig = (shoppingCartCode) => {
             },
             {
                 title: "订单",
-                onClick: () => goTo(`/order/list?shoppingCartCode=${shoppingCartCode || ''}`, true),
+                onClick: () => goTo(`/order/list`, true),
             },
         ]
     }

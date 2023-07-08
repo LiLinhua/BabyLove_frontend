@@ -20,6 +20,26 @@
         overflow: scroll;
     }
 
+    .baby-love-admin-order-details-status {
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        // background-color: chartreuse;
+        width: 100%;
+        // box-shadow: 0px 0px 10px 0 #ccc;
+
+        svg {
+            font-size: 32px;
+        }
+
+        span {
+            font-size: 26px;
+            margin-left: 6px;
+        }
+    }
+
     .baby-love-admin-order-details-base-info {
         width: 100%;
         box-sizing: border-box;
@@ -30,6 +50,11 @@
 
         .adm-list-item-content-prefix {
             width: 70px;
+        }
+
+        .baby-love-admin-order-details-base-info-save{
+            width: 100%;
+            text-align: center;
         }
     }
 
@@ -85,6 +110,10 @@
             background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F89af5057-4785-4642-9c4b-d425322e1c75%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1691080053&t=def7f269cdd2734680ed3885ffe21cf6);
             background-size: cover;
             background-repeat: no-repeat;
+        }
+
+        .baby-love-admin-order-details-goods-info{
+            flex: 1;
         }
 
         .baby-love-admin-order-details-goods-title {
@@ -152,5 +181,16 @@
         .adm-button {
             margin-left: 8px;
         }
+    }
+}
+
+.baby-love-admin-order-details-add-goods{
+    .adm-input{
+        &:first-child{
+            margin-bottom: 10px;
+        }
+    }
+    .adm-list-item-content-prefix{
+        width: 70px;
     }
 }

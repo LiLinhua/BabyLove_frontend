@@ -110,6 +110,35 @@ export const setShoppingCartCode = (shoppingCartCode) => {
 }
 
 /**
+ * 设置管理后台本地的购物车编码
+ * @param {string} shoppingCartCode 
+ * @returns 
+ */
+export const setAdminShoppingCartCode = (shoppingCartCode) => {
+    if (!shoppingCartCode) {
+        return;
+    }
+
+    localStorage.setItem('babyloveAdminShoppingCartCode', shoppingCartCode);
+}
+
+/**
+ * 获取管理后台本地的购物车编码
+ * @returns 
+ */
+export const getAdminShoppingCartCode = () => {
+    return localStorage.getItem('babyloveAdminShoppingCartCode');
+}
+
+/**
+ * 删除管理后台本地的购物车编码
+ * @returns 
+ */
+export const removeAdminShoppingCartCode = () => {
+    localStorage.removeItem('babyloveAdminShoppingCartCode');
+}
+
+/**
  * 获取页面底部导航数据
  */
 export const getNavConfig = async () => {

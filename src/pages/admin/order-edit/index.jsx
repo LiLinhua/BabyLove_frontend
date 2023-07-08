@@ -1,10 +1,12 @@
 import { DotLoading } from "antd-mobile";
+import Moment from "moment";
 import React from "react";
-import { adminQueryGoodsDetails } from "../../../common/apis";
+import { adminQueryOrderDetails } from "../../../common/apis";
 import request from "../../../common/http";
 import OrderActions from "./order-actions";
 import OrderBaseInfo from "./order-base-info";
 import OrderGoods from "./order-goods";
+import OrderStatus from "./order-status";
 
 import "./index.less";
 
@@ -17,7 +19,7 @@ class OrderEdit extends React.Component {
     };
     // 产品编码
     const searchParams = new URLSearchParams(location.search);
-    this.goodsCode = searchParams.get("goodsCode");
+    this.orderCode = searchParams.get("orderCode");
   }
 
   componentDidMount() {
@@ -36,13 +38,14 @@ class OrderEdit extends React.Component {
    * 获取订单详情
    */
   getOrderDetails = async () => {
-    if (!this.goodsCode) {
+    if (!this.orderCode) {
       return;
     }
-    const { data } = await request.get(adminQueryGoodsDetails, {
-      params: { goodsCode: this.goodsCode },
+    const { data } = await request.post(adminQueryOrderDetails, {
+      orderCode: this.orderCode,
     });
     if (data) {
+      data.createdAt = Moment(data.createdAt).format("YYYY-MM-DD HH:mm:ss");
       this.setState({ orderDetails: data });
     }
 
@@ -52,8 +55,16 @@ class OrderEdit extends React.Component {
    * 渲染函数
    */
   render() {
-    const { goodsTitle, goodsSubtitle, goodsPrice, orderDetails, pictures } =
-      this.state.orderDetails || {};
+    const {
+      status,
+      orderCode,
+      expressWay,
+      expressCode,
+      totalPrice,
+      createdAt,
+      goods,
+      totalCount,
+    } = this.state.orderDetails || {};
 
     return (
       <div className="baby-love-admin-order-details">
@@ -62,10 +73,28 @@ class OrderEdit extends React.Component {
         ) : (
           <>
             <div className="baby-love-admin-order-details-info">
-              <OrderBaseInfo />
-              <OrderGoods />
+              <OrderStatus orderStatus={status} />
+              <OrderBaseInfo
+                orderCode={orderCode}
+                createdAt={createdAt}
+                orderStatus={status}
+                expressWay={expressWay}
+                expressCode={expressCode}
+                totalPrice={totalPrice}
+              />
+              <OrderGoods
+                goods={goods}
+                orderStatus={status}
+                totalCount={totalCount}
+                orderCode={orderCode}
+                flushOrderDetails={this.getOrderDetails}
+              />
             </div>
-            <OrderActions />
+            <OrderActions
+              orderCode={orderCode}
+              orderStatus={status}
+              flushOrderDetails={this.getOrderDetails}
+            />
           </>
         )}
       </div>

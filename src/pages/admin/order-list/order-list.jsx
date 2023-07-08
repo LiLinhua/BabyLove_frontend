@@ -9,37 +9,27 @@ class GoodsList extends React.Component {
     this.state = {};
   }
   render() {
-    const {
-      goodsList,
-      selectGoodsCodes,
-      selectGoods,
-      changeCount,
-      stopPropagation,
-      toGoodsDetails,
-      isShowLoading,
-    } = this.props;
+    const { orderList, stopPropagation, toOrderDetails, isShowLoading } =
+      this.props;
 
     if (isShowLoading) {
       return <DotLoading color="primary" />;
     }
 
-    if (!goodsList?.length) {
+    if (!orderList?.length) {
       return <p className="baby-love-admin-order-list-empty">暂无数据</p>;
     }
 
     return (
       <ul className="baby-love-admin-order-list-content">
-        {goodsList.map((goodsItem) => (
+        {orderList.map((orderItem) => (
           <li
-            key={goodsItem.goodsCode}
+            key={orderItem.orderCode}
             className="baby-love-admin-order-list-item"
-            onClick={() => toGoodsDetails(goodsItem.goodsCode)}
+            onClick={() => toOrderDetails(orderItem.orderCode)}
           >
             <OrderItem
-              goodsItem={goodsItem}
-              selectGoodsCodes={selectGoodsCodes}
-              selectGoods={selectGoods}
-              changeCount={changeCount}
+              orderItem={orderItem}
               stopPropagation={stopPropagation}
             />
           </li>
