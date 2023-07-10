@@ -54,6 +54,7 @@ class OrderGoods extends React.Component {
    */
   comfirmEditBuyCount = async (goodsCode) => {
     const { buyCount } = this.state;
+    const { flushOrderDetails } = this.props;
 
     const { success, message } = await request.post(
       adminUpdateOrderGoodsBuyCount,
@@ -69,7 +70,7 @@ class OrderGoods extends React.Component {
         content: "更新成功",
         icon: "success",
       });
-      this.props.flushOrderDetails();
+      flushOrderDetails();
     } else {
       Toast.show({
         content: message || "更新失败，请稍后再试",

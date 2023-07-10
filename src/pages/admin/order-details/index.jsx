@@ -41,6 +41,7 @@ class OrderDetails extends React.Component {
     if (!this.orderCode) {
       return;
     }
+    this.setLoading(true);
     const { data } = await request.post(adminQueryOrderDetails, {
       orderCode: this.orderCode,
     });

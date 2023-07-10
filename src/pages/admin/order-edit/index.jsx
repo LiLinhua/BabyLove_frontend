@@ -41,6 +41,7 @@ class OrderEdit extends React.Component {
     if (!this.orderCode) {
       return;
     }
+    this.setLoading(true);
     const { data } = await request.post(adminQueryOrderDetails, {
       orderCode: this.orderCode,
     });
@@ -48,7 +49,6 @@ class OrderEdit extends React.Component {
       data.createdAt = Moment(data.createdAt).format("YYYY-MM-DD HH:mm:ss");
       this.setState({ orderDetails: data });
     }
-
     this.setLoading(false);
   };
   /**
@@ -81,6 +81,7 @@ class OrderEdit extends React.Component {
                 expressWay={expressWay}
                 expressCode={expressCode}
                 totalPrice={totalPrice}
+                flushOrderDetails={this.getOrderDetails}
               />
               <OrderGoods
                 goods={goods}

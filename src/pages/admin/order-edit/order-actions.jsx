@@ -50,7 +50,6 @@ class OrderActions extends React.Component {
    * 确定添加商品
    */
   comfirmAddOrder = async () => {
-    debugger;
     const { goodsCode, buyCount } = await this.formRef.current.validateFields();
 
     const { success, message } = await request.post(adminAddOrderGoods, {
