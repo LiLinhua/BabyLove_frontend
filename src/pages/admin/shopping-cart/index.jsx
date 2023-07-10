@@ -6,6 +6,7 @@ import {
   adminShoppingCartBatchRemoveGoods,
   adminShoppingCartBatchUpdateSelected,
   adminShoppingCartUpdateBuyCount,
+  adminAddOrder,
 } from "../../../common/apis";
 import request from "../../../common/http";
 import {
@@ -384,35 +385,39 @@ class ShoppingCart extends React.Component {
   /**
    * 下单
    */
-  buy = () => {
+  buy = async () => {
     let { selectGoodsCodes } = this.state;
+
+    const result = await Dialog.confirm({
+      content: "确定下单吗？",
+    });
+    if (!result) {
+      return;
+    }
 
     if (!selectGoodsCodes.length) {
       return Toast.show({ content: "请先选择商品" });
     }
 
-    Dialog.confirm({
-      image: "/public/pictures/WX20230519-011105.png",
-      title: "专属客服下单",
-      content: (
-        <>
-          <p>1、长按保存图片添加专属客服微信；</p>
-          <p>2、复制购物车地址发给专属客服下单。</p>
-          <p>购物车地址：{location.href}</p>
-        </>
-      ),
-      confirmText: "复制地址",
-      onConfirm: () => {
-        const copyResult = copy(location.href);
-        if (copyResult) {
-          setTimeout(() => {
-            Toast.show({ content: "复制成功", icon: "success" });
-          }, 300);
-        } else {
-          Toast.show({ content: "复制失败，请手动复制", icon: "fail" });
-        }
-      },
+    const { success, message } = await request.post(adminAddOrder, {
+      shoppingCartCode: await getShoppingCartCode(),
     });
+    if (!success) {
+      // 下单失败
+      Toast.show({
+        icon: "fail",
+        content: message || "下单失败！",
+      });
+      return;
+    }
+
+    // 下单成功
+    Toast.show({
+      icon: "success",
+      content: "下单成功！",
+    });
+    // 取消购物车商品勾选
+    this.selectAllGoods(false);
   };
 
   render() {
