@@ -77,22 +77,22 @@ class OrderActions extends React.Component {
   /**
    * 联系售后
    */
-  connectPostSale = () => {
-    Dialog.confirm({
-      image: "/public/pictures/WX20230519-011105.png",
-      title: "长按保存图片添加售后客服微信",
-      // content: "长按保存图片添加售后客服微信",
-      confirmText: "复制单号",
-      onConfirm: () => {
-        const copyResult = copy(this.props.orderCode);
-        if (copyResult) {
-          Toast.show({ content: "复制成功", icon: "success" });
-        } else {
-          Toast.show({ content: "复制失败，请手动复制", icon: "fail" });
-        }
-      },
-    });
-  };
+  // connectPostSale = () => {
+  //   Dialog.confirm({
+  //     image: "/public/pictures/WX20230519-011105.png",
+  //     title: "长按保存图片添加售后客服微信",
+  //     // content: "长按保存图片添加售后客服微信",
+  //     confirmText: "复制单号",
+  //     onConfirm: () => {
+  //       const copyResult = copy(this.props.orderCode);
+  //       if (copyResult) {
+  //         Toast.show({ content: "复制成功", icon: "success" });
+  //       } else {
+  //         Toast.show({ content: "复制失败，请手动复制", icon: "fail" });
+  //       }
+  //     },
+  //   });
+  // };
 
   /**
    * 渲染函数
@@ -106,9 +106,9 @@ class OrderActions extends React.Component {
         <Button color="primary" size="small" disabled={isCanNotCancelOrder} onClick={this.cancelOrder} loading={this.state.isCanceling}>取消订单</Button>
         <Button color="primary" size="small" disabled={isCanNotUpdateOrder} onClick={this.toEditOrder}>修改订单</Button>
         <Button color="primary" size="small" disabled={!this.props.expressCode} onClick={this.lookLogistics}>查询物流</Button>
-        <Button color="primary" size="small" onClick={this.connectPostSale}>
+        {/* <Button color="primary" size="small" onClick={this.connectPostSale}>
           联系售后
-        </Button>
+        </Button> */}
       </div>
     );
   }
