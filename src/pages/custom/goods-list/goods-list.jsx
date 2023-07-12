@@ -23,6 +23,7 @@ class GoodsList extends Component {
               goodsPrice={goods.goodsPrice}
               pictures={goods.pictures}
               goodsCode={goods.goodsCode}
+              goodsInventory={goods.goodsInventory}
               getGoodsList={getGoodsList}
             />
           ))}

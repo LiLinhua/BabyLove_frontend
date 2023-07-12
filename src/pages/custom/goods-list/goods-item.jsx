@@ -64,7 +64,7 @@ class ListItem extends React.Component {
    * 渲染函数
    */
   render() {
-    const { goodsCode, goodsTitle, goodsPrice, pictures } = this.props;
+    const { goodsCode, goodsTitle, goodsPrice, pictures, goodsInventory } = this.props;
     const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div
@@ -81,6 +81,7 @@ class ListItem extends React.Component {
             key={picture.pictureCode}
             src={picture.pictureUrl || NoPictureIcon}
           />
+          <span className="baby-love-custom-goods-list-item-inventory">仅剩{goodsInventory}件</span>
         </div>
         <div className="baby-love-custom-goods-list-item-content">
           <Ellipsis direction="end" rows={2} content={goodsTitle} />

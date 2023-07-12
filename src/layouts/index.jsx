@@ -1,4 +1,4 @@
-import { isAdmin, isLoginPage, checkIsLogin, toLogin } from "@/common/utils";
+import { isAdmin, checkIsLoginPage, checkIsLogin, toLogin } from "@/common/utils";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { Provider } from "mobx-react";
@@ -7,8 +7,9 @@ import "./index.less";
 import shores from "./stores";
 
 export default function Layout() {
-  const isLogin = isLoginPage || !isAdmin || (isAdmin && checkIsLogin());
-  if (!isLogin) {
+  const isLoginPage = checkIsLoginPage();
+  const isLogined = isLoginPage || !isAdmin || (isAdmin && checkIsLogin());
+  if (!isLogined) {
     return toLogin();
   }
   return (

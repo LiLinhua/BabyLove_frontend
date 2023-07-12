@@ -57,7 +57,7 @@ class OrderActions extends React.Component {
    * 查看物流
    */
   lookLogistics = () => {
-    if(copy(this.props.orderCode)){
+    if(copy(this.props.expressCode)){
       Toast.show({
         icon: "success",
         content: "物流单号已复制，跳转查询中...",

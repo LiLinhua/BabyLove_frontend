@@ -9,7 +9,7 @@ class GoodsList extends React.Component {
     this.state = {};
   }
   render() {
-    const { orderList, stopPropagation, toOrderDetails, isShowLoading } =
+    const { orderList, stopPropagation, toOrderDetails, isShowLoading, getOrderList } =
       this.props;
 
     if (isShowLoading) {
@@ -31,6 +31,7 @@ class GoodsList extends React.Component {
             <OrderItem
               orderItem={orderItem}
               stopPropagation={stopPropagation}
+              getOrderList={getOrderList}
             />
           </li>
         ))}

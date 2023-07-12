@@ -94,6 +94,7 @@ class OrderEdit extends React.Component {
             <OrderActions
               orderCode={orderCode}
               orderStatus={status}
+              expressCode={expressCode}
               flushOrderDetails={this.getOrderDetails}
             />
           </>

@@ -8,8 +8,12 @@ import { customAddShoppingCart } from '../common/apis';
 // 是否是管理后台
 export const isAdmin = location.pathname.startsWith("/view/admin");
 
-// 是否是登录页
-export const isLoginPage = ["/view/admin/login", "/view/custom/login", "/view/login"].includes(location.pathname);
+/**
+ * 判断是否是登录页
+ */
+export const checkIsLoginPage = () => {
+    return ["/view/admin/login", "/view/custom/login", "/view/login"].includes(location.pathname);
+}
 
 /**
  * 页面跳转

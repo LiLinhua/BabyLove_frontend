@@ -18,6 +18,7 @@ export const adminAddOrder = '/admin/orders/addOrder';
 export const adminUpdateOrderBaseInfo = '/admin/orders/updateOrderBaseInfo';
 export const adminUpdateOrderGoodsBuyCount = '/admin/orders/updateOrderGoodsBuyCount';
 export const adminAddOrderGoods = '/admin/orders/addOrderGoods';
+export const adminRemoveOrder = '/admin/orders/removeOrder';
 
 
 export const customQueryShoppingCartAllGoods = '/custom/shoppingCarts/queryAllGoods';

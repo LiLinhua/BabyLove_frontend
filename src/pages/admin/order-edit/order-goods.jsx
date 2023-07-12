@@ -1,8 +1,8 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import { adminUpdateOrderGoodsBuyCount } from "@/common/apis";
+import { orderStatus } from "@/common/constant";
 import request from "@/common/http";
 import { goTo } from "@/common/utils";
-import { orderStatus } from "@/common/constant";
 import { Dialog, Ellipsis, Input, Toast } from "antd-mobile";
 import { DeleteOutline, EditSOutline } from "antd-mobile-icons";
 import React from "react";
@@ -170,22 +170,31 @@ class OrderGoods extends React.Component {
                   </span>
                 </div>
               </div>
-              <div className="baby-love-admin-order-details-goods-item-actions" style={isCanNotUpdateOrderGoods ? { pointerEvents: 'none', opacity: .5 } : null}>
-                <span
-                  onClick={(e) =>
-                    this.edit(
-                      e,
-                      item.goodsCode,
-                      item.ordersGoodsRelations?.buyCount
-                    )
+              {isCanNotUpdateOrderGoods ? null : (
+                <div
+                  className="baby-love-admin-order-details-goods-item-actions"
+                  style={
+                    isCanNotUpdateOrderGoods
+                      ? { pointerEvents: "none", opacity: 0.5 }
+                      : null
                   }
                 >
-                  编辑 <EditSOutline />
-                </span>
-                <span onClick={(e) => this.remove(e, item.goodsCode)}>
-                  删除 <DeleteOutline />
-                </span>
-              </div>
+                  <span
+                    onClick={(e) =>
+                      this.edit(
+                        e,
+                        item.goodsCode,
+                        item.ordersGoodsRelations?.buyCount
+                      )
+                    }
+                  >
+                    编辑 <EditSOutline />
+                  </span>
+                  <span onClick={(e) => this.remove(e, item.goodsCode)}>
+                    删除 <DeleteOutline />
+                  </span>
+                </div>
+              )}
             </li>
           ))}
         </ul>

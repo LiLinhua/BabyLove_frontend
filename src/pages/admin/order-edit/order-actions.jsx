@@ -1,4 +1,5 @@
 import { adminAddOrderGoods, adminUpdateOrderBaseInfo } from "@/common/apis";
+import { copy } from "@/common/utils";
 import { orderStatus } from "@/common/constant";
 import request from "@/common/http";
 import { Button, Dialog, Form, Input, Toast } from "antd-mobile";
@@ -15,6 +16,27 @@ class OrderActions extends React.Component {
   }
 
   formRef = React.createRef();
+
+  /**
+   * 查看物流
+   */
+  lookLogistics = () => {
+    if (copy(this.props.expressCode)) {
+      Toast.show({
+        icon: "success",
+        content: "物流单号已复制，跳转查询中...",
+        duration: 2000,
+      });
+      setTimeout(() => {
+        window.open("https://m.kuaidi100.com/index.jsp");
+      }, 2000);
+      return;
+    }
+    Toast.show({
+      icon: "fail",
+      content: "物流单号复制失败",
+    });
+  };
 
   /**
    * 取消订单
@@ -126,13 +148,25 @@ class OrderActions extends React.Component {
         >
           取消订单
         </Button>
-        <Button
-          color="primary"
-          disabled={isCanNotAddOrder}
-          onClick={this.addGoods}
-        >
-          添加商品
-        </Button>
+        {this.props.expressCode ? (
+          <Button
+            color="primary"
+            disabled={!this.props.expressCode}
+            onClick={this.lookLogistics}
+          >
+            查询物流
+          </Button>
+        ) : null}
+
+        {isCanNotAddOrder ? null : (
+          <Button
+            color="primary"
+            disabled={isCanNotAddOrder}
+            onClick={this.addGoods}
+          >
+            添加商品
+          </Button>
+        )}
       </div>
     );
   }

@@ -8,7 +8,7 @@ class GoodsSwiper extends React.Component {
   }
 
   render() {
-    const { pictures } = this.props;
+    const { pictures, goodsInventory } = this.props;
     return (
       <div className="baby-love-admin-goods-details-swiper">
         {pictures?.length ? (
@@ -24,6 +24,9 @@ class GoodsSwiper extends React.Component {
         ) : (
           <img src={NoPictureIcon} />
         )}
+        <span className="baby-love-admin-goods-details-inventory">
+          仅剩{goodsInventory}件
+        </span>
       </div>
     );
   }

@@ -40,6 +40,7 @@
                 background-color: rgba(0, 0, 0, .2);
                 color: chartreuse;
                 padding: 0 10px;
+                z-index: 9;
 
                 span {
                     display: inline-flex;
@@ -71,6 +72,7 @@
             }
 
             .baby-love-admin-goods-list-item-picture {
+                position: relative;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -84,6 +86,17 @@
 
                 .baby-love-admin-goods-list-item-empty-picture{
                     width: 128px;
+                }
+
+                .baby-love-custom-goods-list-item-inventory {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    background-color: #000;
+                    color: #fff;
+                    opacity: .5;
+                    padding: 4px;
+                    font-size: 12px;
                 }
             }
 

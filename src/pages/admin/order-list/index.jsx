@@ -83,6 +83,7 @@ class Order extends React.Component {
           stopPropagation={this.stopPropagation}
           toOrderDetails={this.toOrderDetails}
           isShowLoading={isShowLoading}
+          getOrderList={this.getOrderList}
         />
       </div>
     );

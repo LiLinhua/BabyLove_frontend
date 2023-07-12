@@ -35,7 +35,7 @@ class Login extends React.Component {
         setLoginSuccessFlag();
         // 产品编码
         const searchParams = new URLSearchParams(location.search);
-        return goTo(searchParams.get("callback") || "/", false, true);
+        return goTo(searchParams.get("callback") || "/", true, true);
       }
     } catch (error) {
       console.error(error);

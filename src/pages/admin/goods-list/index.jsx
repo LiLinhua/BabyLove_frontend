@@ -1,7 +1,7 @@
 import React from "react";
 import { adminQueryAllGoods } from "../../../common/apis";
-import { goTo } from "../../../common/utils";
 import request from "../../../common/http";
+import { goTo } from "../../../common/utils";
 import ShoppingCartFloat from "../../../components/shopping-cart-float";
 import GoodsAdd from "./goods-add";
 import GoodsList from "./goods-list";
@@ -34,7 +34,7 @@ class GoodsListIndex extends React.Component {
    * 添加商品
    */
   addGoods = () => {
-    goTo('/goods/edit');
+    goTo("/goods/edit");
   };
 
   /**

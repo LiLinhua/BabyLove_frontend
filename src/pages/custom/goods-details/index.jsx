@@ -79,8 +79,14 @@ class Goods extends React.Component {
    * 渲染函数
    */
   render() {
-    const { goodsTitle, goodsSubtitle, goodsPrice, goodsDetails, pictures } =
-      this.state.goodsDetails || {};
+    const {
+      goodsTitle,
+      goodsSubtitle,
+      goodsPrice,
+      goodsDetails,
+      goodsInventory,
+      pictures,
+    } = this.state.goodsDetails || {};
     return (
       <div className="baby-love-custom-goods">
         {/* 商品列表 */}
@@ -91,7 +97,10 @@ class Goods extends React.Component {
           ) : (
             <>
               {/* 轮播图 */}
-              <GoodsSwiper pictures={pictures} />
+              <GoodsSwiper
+                pictures={pictures}
+                goodsInventory={goodsInventory}
+              />
               {/* 商品信息 */}
               <GoodsBaseInfo
                 goodsTitle={goodsTitle}

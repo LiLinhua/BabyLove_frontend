@@ -1,6 +1,8 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import { copy, goTo } from "@/common/utils";
-import { Button, Ellipsis, Toast } from "antd-mobile";
+import { adminRemoveOrder } from "@/common/apis";
+import request from "@/common/http";
+import { Button, Ellipsis, Toast, Dialog } from "antd-mobile";
 import React from "react";
 import { orderStatus } from "@/common/constant";
 
@@ -61,6 +63,34 @@ class GoodsItem extends React.Component {
    */
   updateOrder = () => {
     goTo(`/order/edit?orderCode=${this.props.orderItem.orderCode}`);
+  };
+
+  /**
+   * 删除订单
+   */
+  removeOrder = async () => {
+    const result = await Dialog.confirm({
+      content: "确定删除订单吗？",
+    });
+    if (!result) {
+      return;
+    }
+
+    const { success, message } = await request.post(adminRemoveOrder, { orderCode: this.props.orderItem.orderCode });
+
+    if (!success) {
+      Toast.show({
+        icon: "fail",
+        content: message || "删除失败",
+      });
+      return;
+    }
+
+    Toast.show({
+      icon: "success",
+      content: "删除成功",
+    });
+    this.props.getOrderList();
   };
 
   render() {
@@ -134,7 +164,10 @@ class GoodsItem extends React.Component {
               查看物流
             </Button>
             <Button color="primary" disabled={isCanNotUpdateOrder} fill="none" onClick={this.updateOrder}>
-              修改订单
+              修改
+            </Button>
+            <Button color="primary" fill="none" onClick={this.removeOrder}>
+              删除
             </Button>
           </div>
         </div>

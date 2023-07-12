@@ -97,14 +97,11 @@ class OrderActions extends React.Component {
    * 渲染函数
    */
   render() {
-    const isCanNotCancelOrder = [
-      orderStatus.FINISHED.value,
-      orderStatus.CANCELED.value,
-    ].includes(this.props.orderStatus);
+    // const isCanNotCancelOrder = this.props.orderStatus !== orderStatus.WAIT_PAY;
 
     return (
       <div className="baby-love-admin-order-details-actions">
-        {isCanNotCancelOrder ? null : (
+        {/* {isCanNotCancelOrder ? null : (
           <Button
             color="primary"
             size="small"
@@ -114,7 +111,7 @@ class OrderActions extends React.Component {
           >
             取消订单
           </Button>
-        )}
+        )} */}
         {/* <Button color="primary" size="small" disabled={isCanNotUpdateOrder} onClick={this.toEditOrder}>修改订单</Button> */}
         {this.props.expressCode ? (
           <Button

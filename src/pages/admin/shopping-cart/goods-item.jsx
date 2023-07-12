@@ -36,10 +36,11 @@ class GoodsItem extends React.Component {
             fit="contain"
             style={{ borderRadius: 4 }}
           />
+          <span className="baby-love-admin-goods-list-item-inventory">仅剩{goodsItem.goodsInventory}件</span>
         </div>
         <div className="baby-love-admin-shopping-cart-goods-buy-info">
           <p className="baby-love-admin-shopping-cart-goods-title">
-            <Ellipsis direction="end" rows={1} content={goodsItem.goodsTitle} />
+            <Ellipsis direction="end" rows={2} content={goodsItem.goodsTitle} />
           </p>
           {/* <p className="baby-love-admin-shopping-cart-goods-subtitle">
                   {goodsItem.goodsSubtitle}
