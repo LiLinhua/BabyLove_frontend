@@ -2,6 +2,7 @@ import { defineConfig } from "umi";
 
 export default defineConfig({
   publicPath: '/public/babylove/',
+  hash: true,
   routes: [
     // { path: "/", component: "index" },
     { path: "/view", component: "index" },
