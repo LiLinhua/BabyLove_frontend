@@ -6,6 +6,7 @@ export default defineConfig({
   routes: [
     // { path: "/", component: "index" },
     { path: "/view", component: "index" },
+    { path: "/view/", component: "index" },
     // { path: "/", component: "custom/goods-list" },
     { path: "/view/goods/list", component: "custom/goods-list" },
     { path: "/view/goods/details", component: "custom/goods-details" },
@@ -16,7 +17,8 @@ export default defineConfig({
     { path: "/view/login", component: "login" },
     { path: "/view/admin/login", component: "login" },
 
-    { path: "/view/admin", component: "admin/goods-list" },
+    { path: "/view/admin", component: "admin" },
+    { path: "/view/admin/", component: "admin" },
     { path: "/view/admin/goods/list", component: "admin/goods-list" },
     { path: "/view/admin/goods/details", component: "admin/goods-details" },
     { path: "/view/admin/shopping-cart", component: "admin/shopping-cart" },
