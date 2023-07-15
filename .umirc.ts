@@ -23,10 +23,10 @@ export default defineConfig({
     { path: "/view/admin/goods/details", component: "admin/goods-details" },
     { path: "/view/admin/shopping-cart", component: "admin/shopping-cart" },
     { path: "/view/admin/goods/edit", component: "admin/goods-edit" },
-
     { path: "/view/admin/order/list", component: "admin/order-list" },
     { path: "/view/admin/order/details", component: "admin/order-details" },
     { path: "/view/admin/order/edit", component: "admin/order-edit" },
+    { path: "/view/admin/catalog/list", component: "admin/catalogs" },
   ],
   proxy: {
     '/admin': {

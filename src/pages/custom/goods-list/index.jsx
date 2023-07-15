@@ -3,6 +3,7 @@ import { customQueryAllGoods } from "../../../common/apis";
 import request from "../../../common/http";
 import ShoppingCartFloat from "../../../components/shopping-cart-float";
 import GoodsList from "./goods-list";
+import GoodsSearch from "./goods-search";
 
 import "./index.less";
 
@@ -22,9 +23,14 @@ class GoodsListIndex extends React.Component {
   /**
    * 查询商品列表
    */
-  getGoodsList = async () => {
+  getGoodsList = async (keyword, goodsCatalog) => {
     this.setState({ isLoading: true });
-    const { data } = await request.get(customQueryAllGoods);
+    const { data } = await request.get(customQueryAllGoods, {
+      params: {
+        keyword,
+        goodsCatalog,
+      },
+    });
     this.setState({ goodsList: data, isLoading: false });
   };
 
@@ -35,6 +41,7 @@ class GoodsListIndex extends React.Component {
     const { goodsList, isLoading } = this.state;
     return (
       <div className="baby-love-custom-goods">
+        <GoodsSearch onSearch={this.getGoodsList} />
         {/* 商品列表 */}
         <GoodsList
           goodsList={goodsList}

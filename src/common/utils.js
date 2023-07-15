@@ -28,7 +28,7 @@ export const goTo = (url, isReload, isUseOriginUrl) => {
     }
 
     if (!isUseOriginUrl) {
-        if (location.pathname.startsWith('/view/admin/')) {
+        if (location.pathname.startsWith('/view/admin')) {
             url = `/view/admin${url}`;
         } else {
             url = `/view${url}`;
@@ -176,39 +176,5 @@ export const copy = (content) => {
         return false;
     }
 }
-
-/**
- * 根据字符串随机生成颜色
- * @param {string} str 
- * @returns 
- */
-export const getRandomColor = (str) => {
-    let asciiSum = 0;
-    for (let i = 0; i < str.length; i++) {
-        asciiSum += str.charCodeAt(i);
-    }
-
-    const red = Math.abs(Math.sin(asciiSum) * 256).toFixed(0);
-    const green = Math.abs(Math.sin(asciiSum + 1) * 256).toFixed(0);
-    const blue = Math.abs(Math.sin(asciiSum + 2) * 256).toFixed(0);
-    return (alpha) => `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-}
-
-/**
- * 生成渐变样式
- * @param {string} text 
- * @returns 
- */
-export const getGradientStyle = (text) => {
-    const color = getRandomColor(text);
-    const color1 = color(1);
-    const color2 = color(0.7);
-
-    return {
-        backgroundImage: `linear-gradient(135deg, ${color1}, ${color2})`,
-        fontWeight: "bold",
-        textShadow: "14px 14px 14px rgba(0, 0, 0, 0.5)",
-    };
-};
 
 

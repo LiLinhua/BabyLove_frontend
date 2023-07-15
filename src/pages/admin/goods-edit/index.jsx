@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  Radio,
   Form,
   ImageUploader,
   Input,
@@ -14,6 +15,7 @@ import {
   adminAddGoodsPictures,
   adminQueryGoodsDetails,
   adminUpdateGoods,
+  adminQueryCatalogs,
 } from "../../../common/apis";
 import request from "../../../common/http";
 import "./index.less";
@@ -21,7 +23,9 @@ import "./index.less";
 class GoodsEdit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      catalogList: []
+    };
 
     const searchParams = new URLSearchParams(location.search);
     this.goodsCode = searchParams.get("goodsCode");
@@ -30,8 +34,22 @@ class GoodsEdit extends React.Component {
   formRef = React.createRef();
 
   componentDidMount() {
+    this.getCatalogList();
     this.getGoodsDetails();
   }
+
+  /**
+   * 获取目录列表
+   */
+  getCatalogList = async () => {
+    const { data } = await request.post(adminQueryCatalogs);
+
+    if (Array.isArray(data)) {
+      this.setState({
+        catalogList: data,
+      });
+    }
+  };
 
   /**
    * 获取商品详情
@@ -108,7 +126,7 @@ class GoodsEdit extends React.Component {
    * 渲染函数
    */
   render() {
-    const { goodsDetails } = this.state;
+    const { goodsDetails, catalogList } = this.state;
     return (
       <div className="baby-love-goods-edit">
         <div className="baby-love-goods-edit-form">
@@ -131,9 +149,13 @@ class GoodsEdit extends React.Component {
               label="商品分类"
               rules={[{ required: true, message: "商品分类不能为空" }]}
             >
-              <Checkbox.Group>
-                <Checkbox value="CHILDREN_CLOTHING">童装</Checkbox>
-              </Checkbox.Group>
+              <Radio.Group>
+                {
+                  catalogList.map(catalog => (
+                    <Radio value={catalog.catalogCode}>{catalog.catalogName}</Radio>
+                  ))
+                }
+              </Radio.Group>
             </Form.Item>
             <Form.Item
               name="goodsTitle"

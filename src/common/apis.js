@@ -19,6 +19,10 @@ export const adminUpdateOrderBaseInfo = '/admin/orders/updateOrderBaseInfo';
 export const adminUpdateOrderGoodsBuyCount = '/admin/orders/updateOrderGoodsBuyCount';
 export const adminAddOrderGoods = '/admin/orders/addOrderGoods';
 export const adminRemoveOrder = '/admin/orders/removeOrder';
+export const adminQueryCatalogs = '/admin/catalogs/queryAllCatalogs';
+export const adminCreateCatalog = '/admin/catalogs/createCatalog';
+export const adminUpdateCatalog = '/admin/catalogs/updateCatalog';
+export const adminRemoveCatalog = '/admin/catalogs/removeCatalog';
 
 
 export const customQueryShoppingCartAllGoods = '/custom/shoppingCarts/queryAllGoods';

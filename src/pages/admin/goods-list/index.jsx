@@ -5,6 +5,7 @@ import { goTo } from "../../../common/utils";
 import ShoppingCartFloat from "../../../components/shopping-cart-float";
 import GoodsAdd from "./goods-add";
 import GoodsList from "./goods-list";
+import GoodsSearch from "./goods-search";
 
 import "./index.less";
 
@@ -24,9 +25,14 @@ class GoodsListIndex extends React.Component {
   /**
    * 查询商品列表
    */
-  getGoodsList = async () => {
+  getGoodsList = async (keyword, goodsCatalog) => {
     this.setState({ isLoading: true });
-    const { data } = await request.get(adminQueryAllGoods);
+    const { data } = await request.get(adminQueryAllGoods, {
+      params: {
+        keyword,
+        goodsCatalog,
+      }
+    });
     this.setState({ goodsList: data, isLoading: false });
   };
 
@@ -44,6 +50,7 @@ class GoodsListIndex extends React.Component {
     const { goodsList, isLoading } = this.state;
     return (
       <div className="baby-love-admin-goods">
+        <GoodsSearch onSearch={this.getGoodsList} />
         {/* 商品列表 */}
         <GoodsList
           goodsList={goodsList}

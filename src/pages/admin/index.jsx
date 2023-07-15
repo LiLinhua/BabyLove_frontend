@@ -8,7 +8,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        menus: []
+      menus: [],
     };
     this.setMenus();
   }
@@ -17,21 +17,24 @@ class Index extends React.Component {
    * 设置菜单
    */
   setMenus = async () => {
-    this.setState({ menus: getAdminHomeNavConfig(await getShoppingCartCode())})
+    this.setState({
+      menus: getAdminHomeNavConfig(await getShoppingCartCode()),
+    });
   };
 
   render() {
     return (
       <div className="baby-love-admin-home">
-        {this.state.menus.map((menu) => (
-          <div
-            className="baby-love-admin-home-item"
-            onClick={menu.onClick}
-            style={menu.style}
-          >
-            {menu.title}
-          </div>
-        ))}
+        <div className="baby-love-admin-home-body">
+          {this.state.menus.map((menu) => (
+            <div
+              className={`baby-love-admin-home-item ${menu.className || ""}`}
+              onClick={menu.onClick}
+            >
+              {menu.title}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
