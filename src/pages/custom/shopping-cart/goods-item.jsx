@@ -70,8 +70,8 @@ class GoodsItem extends React.Component {
               />
               <AddCircleOutline
                 onClick={(e) => {
-                  changeCount(e, goodsItem, ++goodsItem.buyCount);
                   stopPropagation(e);
+                  changeCount(e, goodsItem, ++goodsItem.buyCount);
                 }}
               />
             </span>

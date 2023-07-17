@@ -13,6 +13,7 @@ export default defineConfig({
     { path: "/view/shopping-cart", component: "custom/shopping-cart" },
     { path: "/view/order/list", component: "custom/order-list" },
     { path: "/view/order/details", component: "custom/order-details" },
+    { path: "/view/raffle", component: "custom/raffle" },
 
     { path: "/view/login", component: "login" },
     { path: "/view/admin/login", component: "login" },

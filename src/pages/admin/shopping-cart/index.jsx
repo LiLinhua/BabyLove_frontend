@@ -290,7 +290,7 @@ class ShoppingCart extends React.Component {
   selectGoods = async (goodsCode, isSelect) => {
     let { selectGoodsCodes } = this.state;
 
-    const { success } = await request.post(
+    const { success, code, message } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
         shoppingCartCode: await getShoppingCartCode(),
@@ -301,21 +301,28 @@ class ShoppingCart extends React.Component {
     if (!success) {
       return;
     }
-
-    const index = selectGoodsCodes.indexOf(goodsCode);
-    if (isSelect && index === -1) {
-      selectGoodsCodes.push(goodsCode);
-      this.setState(
-        { selectGoodsCodes: [...selectGoodsCodes] },
-        this.setTotalPrice
-      );
-    } else if (!isSelect && index > -1) {
-      selectGoodsCodes.splice(index, 1);
-      this.setState(
-        { selectGoodsCodes: [...selectGoodsCodes] },
-        this.setTotalPrice
-      );
+    if(code === 'SOME_GOODS_EMPTY'){
+      Toast.show({
+        content: message || "商品库存不足",
+      });
     }
+
+    this.getGoodsList(this.shoppingCartCode);
+
+    // const index = selectGoodsCodes.indexOf(goodsCode);
+    // if (isSelect && index === -1) {
+    //   selectGoodsCodes.push(goodsCode);
+    //   this.setState(
+    //     { selectGoodsCodes: [...selectGoodsCodes] },
+    //     this.setTotalPrice
+    //   );
+    // } else if (!isSelect && index > -1) {
+    //   selectGoodsCodes.splice(index, 1);
+    //   this.setState(
+    //     { selectGoodsCodes: [...selectGoodsCodes] },
+    //     this.setTotalPrice
+    //   );
+    // }
   };
 
   /**
@@ -326,7 +333,7 @@ class ShoppingCart extends React.Component {
     const selectGoodsCodes = isSelectAll
       ? this.state.goodsList.map((goodsItem) => goodsItem.goodsCode)
       : [];
-    const { success } = await request.post(
+    const { code, success, message } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
         shoppingCartCode: await getShoppingCartCode(),
@@ -338,12 +345,20 @@ class ShoppingCart extends React.Component {
       return;
     }
 
-    this.setState(
-      {
-        selectGoodsCodes,
-      },
-      this.setTotalPrice
-    );
+    if(code === 'SOME_GOODS_EMPTY'){
+      Toast.show({
+        content: message || "商品库存不足",
+      });
+    }
+
+    this.getGoodsList(this.shoppingCartCode);
+
+    // this.setState(
+    //   {
+    //     selectGoodsCodes,
+    //   },
+    //   this.setTotalPrice
+    // );
   };
 
   /**

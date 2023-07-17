@@ -37,6 +37,7 @@ export const customShoppingCartBatchUpdateSelected = '/custom/shoppingCarts/batc
 export const customQueryAllOrders = '/custom/orders/queryAllOrders';
 export const customQueryOrderDetails = '/custom/orders/queryOrderDetails';
 export const customCancelOrder = '/custom/orders/cancelOrder';
+export const customQueryCatalogs = '/custom/catalogs/queryAllCatalogs';
 
 
 export const login = '/user/login';

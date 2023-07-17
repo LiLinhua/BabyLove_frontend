@@ -1,6 +1,6 @@
 import { SearchBar, Tag } from "antd-mobile";
 import React from "react";
-import { adminQueryCatalogs } from "../../../common/apis";
+import { customQueryCatalogs } from "../../../common/apis";
 import request from "../../../common/http";
 
 class GoodsSearch extends React.Component {
@@ -21,7 +21,7 @@ class GoodsSearch extends React.Component {
    * 获取目录列表
    */
   getCatalogList = async () => {
-    const { data } = await request.post(adminQueryCatalogs, {
+    const { data } = await request.post(customQueryCatalogs, {
       keyword: this.state.keyword,
     });
 
