@@ -36,7 +36,7 @@ class GoodsItem extends React.Component {
             fit="contain"
             style={{ borderRadius: 4 }}
           />
-          <span className="baby-love-custom-goods-list-item-inventory">仅剩{goodsItem.goodsInventory}件</span>
+          <span className="baby-love-custom-goods-list-item-inventory">{goodsItem.goodsInventory < 0 ? '已售罄' : `仅剩${goodsItem.goodsInventory}件`}</span>
         </div>
         <div className="baby-love-custom-shopping-cart-goods-buy-info">
           <p className="baby-love-custom-shopping-cart-goods-title">

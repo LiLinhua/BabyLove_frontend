@@ -130,7 +130,7 @@ class ListItem extends React.Component {
             key={picture.pictureCode}
             src={picture.pictureUrl || NoPictureIcon}
           />
-          <span className="baby-love-custom-goods-list-item-inventory">仅剩{goodsInventory}件</span>
+          <span className="baby-love-custom-goods-list-item-inventory">{goodsInventory < 0 ? '已售罄' : `仅剩${goodsInventory}件`}</span>
         </div>
         <div className="baby-love-admin-goods-list-item-content">
           <Ellipsis direction="end" rows={2} content={goodsTitle} />

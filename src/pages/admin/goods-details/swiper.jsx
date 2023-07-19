@@ -25,7 +25,7 @@ class GoodsSwiper extends React.Component {
           <img src={NoPictureIcon} />
         )}
         <span className="baby-love-admin-goods-details-inventory">
-          仅剩{goodsInventory}件
+          {goodsInventory < 0 ? "已售罄" : `仅剩${goodsInventory}件`}
         </span>
       </div>
     );
