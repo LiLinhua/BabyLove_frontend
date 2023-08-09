@@ -23,6 +23,11 @@ export const adminQueryCatalogs = '/admin/catalogs/queryAllCatalogs';
 export const adminCreateCatalog = '/admin/catalogs/createCatalog';
 export const adminUpdateCatalog = '/admin/catalogs/updateCatalog';
 export const adminRemoveCatalog = '/admin/catalogs/removeCatalog';
+export const adminQueryAllUsers = '/admin/users/queryAllUsers';
+export const adminAddUser = '/admin/users/addUser';
+export const adminUpdateUser = '/admin/users/updateUser';
+export const adminQueryUserDetails = '/admin/users/queryUserDetails';
+export const adminRemoveUser = '/admin/users/removeUser';
 
 
 export const customQueryShoppingCartAllGoods = '/custom/shoppingCarts/queryAllGoods';

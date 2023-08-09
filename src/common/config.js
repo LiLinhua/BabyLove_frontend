@@ -4,6 +4,16 @@ import { goTo } from './utils';
 export const getAdminHomeNavConfig = (shoppingCartCode) => {
     return [
         {
+            title: "开单",
+            className: 'baby-love-admin-home-item-open',
+            onClick: () => goTo('/goods/list', true),
+        },
+        {
+            title: "用户",
+            className: 'baby-love-admin-home-item-users',
+            onClick: () => goTo('/user/list', true),
+        },
+        {
             title: "商品",
             className: 'baby-love-admin-home-item-goods',
             onClick: () => goTo('/goods/list', true),

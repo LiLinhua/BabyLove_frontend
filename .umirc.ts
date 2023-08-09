@@ -28,6 +28,7 @@ export default defineConfig({
     { path: "/view/admin/order/details", component: "admin/order-details" },
     { path: "/view/admin/order/edit", component: "admin/order-edit" },
     { path: "/view/admin/catalog/list", component: "admin/catalogs" },
+    { path: "/view/admin/user/list", component: "admin/user-list" },
   ],
   proxy: {
     '/admin': {

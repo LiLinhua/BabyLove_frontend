@@ -18,7 +18,6 @@ const showTips = (message) => {
  * @param {Object} response 响应
  */
 function successHandler(response) {
-    console.log('===========http===========', response);
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
     // 否则的话抛出错误
     const { data } = response || {};
@@ -48,7 +47,7 @@ function errorHandler(res) {
         switch (status) {
             // 401: 未登录
             case 401:
-                showTips('请先登录');
+                showTips(data?.message || '请先登录');
                 removeLoginSuccessFlag();
                 toLogin();
                 break;
@@ -58,7 +57,7 @@ function errorHandler(res) {
                 break;
             // 其他错误，直接抛出错误提示
             default:
-                showTips(data.message || '请求错误，请稍后再试');
+                showTips(data?.message || '请求错误，请稍后再试');
         }
         return Promise.reject(res.response || {});
     }

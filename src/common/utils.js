@@ -46,7 +46,7 @@ export const goTo = (url, isReload, isUseOriginUrl) => {
  * 跳转登录页
  */
 export const toLogin = () => {
-    goTo(`/login?callback=${location.pathname}`, true);
+    goTo(`/login?callback=${encodeURIComponent(location.href)}`, true);
 };
 
 /**

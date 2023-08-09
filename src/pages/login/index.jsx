@@ -28,8 +28,8 @@ class Login extends React.Component {
 
     try {
       const { success } = await request.post(login, {
-        username,
-        password,
+        userName: username,
+        userPassword: password,
       });
       if (success) {
         setLoginSuccessFlag();
