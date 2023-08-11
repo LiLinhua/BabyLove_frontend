@@ -4,7 +4,7 @@ import request from "../../../common/http";
 import { goTo } from "../../../common/utils";
 import OrderList from "./order-list";
 import SearchBar from "./order-search";
-import Moment from "moment";
+import DayJS from "dayjs";
 
 import "./index.less";
 
@@ -38,7 +38,7 @@ class Order extends React.Component {
 
     if (Array.isArray(data)) {
       this.setState({ orderList: data.map(orderItem => {
-        orderItem.createdAt = Moment(orderItem.createdAt).format('YYYY-MM-DD HH:mm:ss');
+        orderItem.createdAt = DayJS(orderItem.createdAt).format('YYYY-MM-DD HH:mm:ss');
         return orderItem;
       }), isShowLoading: false });
       return;

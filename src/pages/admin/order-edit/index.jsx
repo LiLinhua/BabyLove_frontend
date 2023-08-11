@@ -1,5 +1,5 @@
 import { DotLoading } from "antd-mobile";
-import Moment from "moment";
+import DayJS from "dayjs";
 import React from "react";
 import { adminQueryOrderDetails } from "../../../common/apis";
 import request from "../../../common/http";
@@ -46,7 +46,7 @@ class OrderEdit extends React.Component {
       orderCode: this.orderCode,
     });
     if (data) {
-      data.createdAt = Moment(data.createdAt).format("YYYY-MM-DD HH:mm:ss");
+      data.createdAt = DayJS(data.createdAt).format("YYYY-MM-DD HH:mm:ss");
       this.setState({ orderDetails: data });
     }
     this.setLoading(false);

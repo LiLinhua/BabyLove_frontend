@@ -1,5 +1,5 @@
 import { DotLoading } from "antd-mobile";
-import Moment from "moment";
+import DayJS from "dayjs";
 import React from "react";
 import { customQueryOrderDetails } from "@/common/apis";
 import { getShoppingCartCode } from "@/common/utils";
@@ -48,7 +48,7 @@ class OrderDetails extends React.Component {
       shoppingCartCode: (await getShoppingCartCode())
     });
     if (data) {
-      data.createdAt = Moment(data.createdAt).format("YYYY-MM-DD HH:mm:ss");
+      data.createdAt = DayJS(data.createdAt).format("YYYY-MM-DD HH:mm:ss");
       this.setState({ orderDetails: data });
     }
 

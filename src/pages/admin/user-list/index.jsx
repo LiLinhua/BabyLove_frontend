@@ -1,10 +1,11 @@
-import Moment from "moment";
+import DayJS from "dayjs";
 import React from "react";
 import { adminQueryAllUsers } from "../../../common/apis";
 import request from "../../../common/http";
 import { goTo } from "../../../common/utils";
 import UserList from "./user-list";
 import SearchBar from "./user-search";
+import UserAdd from "./user-add";
 
 import "./index.less";
 
@@ -14,8 +15,8 @@ class Users extends React.Component {
     this.state = {
       userList: [],
       keyword: "",
-      userBirthday: null,
-      userWeddingDate: null,
+      userBirthdaySort: null,
+      userWeddingDateSort: null,
       isShowLoading: false,
     };
   }
@@ -36,30 +37,30 @@ class Users extends React.Component {
    */
   getUserList = async () => {
     this.setState({ isShowLoading: true });
-    const { keyword, userBirthday, userWeddingDate } = this.state;
+    const { keyword, userBirthdaySort, userWeddingDateSort } = this.state;
     const { data } = await request.post(adminQueryAllUsers, {
       keyword,
-      userBirthday,
-      userWeddingDate,
+      userBirthdaySort,
+      userWeddingDateSort,
     });
 
     if (Array.isArray(data)) {
       this.setState({
         userList: data.map((userItem) => {
           if (userItem.userBirthday) {
-            userItem.userBirthday = Moment(userItem.userBirthday).format(
+            userItem.userBirthday = DayJS(userItem.userBirthday).format(
               "YYYY-MM-DD HH:mm:ss"
             );
           }
           if (userItem.userWeddingDate) {
-            userItem.userWeddingDate = Moment(userItem.userWeddingDate).format(
+            userItem.userWeddingDate = DayJS(userItem.userWeddingDate).format(
               "YYYY-MM-DD HH:mm:ss"
             );
           }
-          userItem.createdAt = Moment(userItem.createdAt).format(
+          userItem.createdAt = DayJS(userItem.createdAt).format(
             "YYYY-MM-DD HH:mm:ss"
           );
-          userItem.isAdmin = userItem.isAdmin ? '是' : '否'
+          userItem.isAdmin = userItem.isAdmin ? "是" : "否";
           return userItem;
         }),
         isShowLoading: false,
@@ -72,10 +73,24 @@ class Users extends React.Component {
   /**
    * 搜索
    */
-  onSearch = (keyword) => {
+  onSearch = ({ keyword, userBirthdaySort, userWeddingDateSort }) => {
     clearTimeout(this.searchTimer);
     this.searchTimer = setTimeout(() => {
-      this.setState({ keyword }, this.getUserList);
+      this.setState(
+        {
+          keyword:
+            typeof keyword === "undefined" ? this.state.keyword : keyword,
+          userBirthdaySort:
+            typeof userBirthdaySort === "undefined"
+              ? this.state.userBirthdaySort
+              : userBirthdaySort,
+          userWeddingDateSort:
+            typeof userWeddingDateSort === "undefined"
+              ? this.state.userWeddingDateSort
+              : userWeddingDateSort,
+        },
+        this.getUserList
+      );
     }, 500);
   };
 
@@ -95,6 +110,13 @@ class Users extends React.Component {
     e && e.stopPropagation();
   };
 
+  /**
+   * 新增用户
+   */
+  addUser = () => {
+    goTo("/user/edit");
+  }
+
   render() {
     const { userList, isShowLoading } = this.state;
 
@@ -108,6 +130,8 @@ class Users extends React.Component {
           isShowLoading={isShowLoading}
           getUserList={this.getUserList}
         />
+        {/* 新增商品图标 */}
+        <UserAdd addUser={this.addUser} />
       </div>
     );
   }

@@ -131,9 +131,11 @@ class GoodsItem extends React.Component {
             <Button color="primary" fill="none" onClick={this.updateUser}>
               修改
             </Button>
-            <Button color="primary" fill="none" onClick={this.removeUser}>
-              删除
-            </Button>
+            {userItem.isAdmin === '是' ? null : (
+              <Button color="primary" fill="none" onClick={this.removeUser}>
+                删除
+              </Button>
+            )}
           </div>
         </div>
       </div>

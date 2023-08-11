@@ -13,10 +13,31 @@
     .baby-love-admin-user-search {
         background-color: #fff;
         width: 100%;
-        height: 52px;
+        // height: 52px;
         box-sizing: border-box;
-        padding: 10px 20px;
+        padding: 10px 0 10px 20px;
         z-index: 999;
+
+        .adm-search-bar {
+            display: inline-block;
+            width: 55%;
+        }
+
+        .baby-love-admin-user-search-sort {
+            display: inline-flex;
+            align-items: center;
+            width: 45%;
+            color: rgba(0, 0, 0, .6);
+
+            .adm-button {
+                padding: 0 10px;
+                color: rgba(0, 0, 0, .4);
+            }
+
+            .baby-love-admin-user-search-sort-selected {
+                color: var(--color);
+            }
+        }
     }
 
     .baby-love-admin-user-add {
@@ -72,13 +93,14 @@
                 display: inline-block;
                 width: 50%;
                 box-sizing: border-box;
-                padding: 2px 8px;
+                padding: 4px 8px;
 
-                .baby-love-admin-user-list-item-body-label{
+                .baby-love-admin-user-list-item-body-label {
                     color: rgba(0, 0, 0, .6);
-                    font-size: 14px;
+                    font-size: 16px;
                 }
-                .baby-love-admin-user-list-item-body-content{
+
+                .baby-love-admin-user-list-item-body-content {
                     color: #000;
                     width: 100%;
                     word-wrap: break-word;
@@ -93,9 +115,7 @@
             border-top: 1px solid #ccc;
             padding: 0 4px 0 16px;
 
-            .baby-love-admin-user-list-item-footer-created-time{
-
-            }
+            .baby-love-admin-user-list-item-footer-created-time {}
         }
     }
 
