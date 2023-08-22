@@ -17,6 +17,7 @@
     "mobx": "^6.9.0",
     "mobx-react": "^7.6.0",
     "react-quill": "^2.0.0",
+    "react-signature-canvas": "^1.0.6",
     "umi": "^4.0.68"
   },
   "devDependencies": {

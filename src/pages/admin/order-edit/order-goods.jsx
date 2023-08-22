@@ -144,7 +144,7 @@ class OrderGoods extends React.Component {
         </div>
         <ul>
           {(goods || []).map((item) => (
-            <li key={item} onClick={() => this.toGoodsDetail(item.goodsCode)}>
+            <li key={item.goodsCode} onClick={() => this.toGoodsDetail(item.goodsCode)}>
               <div
                 className="baby-love-admin-order-details-goods-picture"
                 style={{

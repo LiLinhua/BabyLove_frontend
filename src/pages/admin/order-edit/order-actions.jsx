@@ -1,9 +1,10 @@
 import { adminAddOrderGoods, adminUpdateOrderBaseInfo } from "@/common/apis";
-import { copy } from "@/common/utils";
 import { orderStatus } from "@/common/constant";
 import request from "@/common/http";
+import { copy } from "@/common/utils";
 import { Button, Dialog, Form, Input, Toast } from "antd-mobile";
 import React from "react";
+import UserSignature from "./user-signature";
 
 import "./index.less";
 
@@ -138,6 +139,7 @@ class OrderActions extends React.Component {
     ].includes(this.props.orderStatus);
     const isCanNotAddOrder =
       this.props.orderStatus !== orderStatus.WAIT_PAY.value;
+    const { orderCode, expressCode, flushOrderDetails, userSignature } = this.props;
     return (
       <div className="baby-love-admin-order-details-actions">
         <Button
@@ -148,10 +150,10 @@ class OrderActions extends React.Component {
         >
           取消订单
         </Button>
-        {this.props.expressCode ? (
+        {expressCode ? (
           <Button
             color="primary"
-            disabled={!this.props.expressCode}
+            disabled={!expressCode}
             onClick={this.lookLogistics}
           >
             查询物流
@@ -167,6 +169,7 @@ class OrderActions extends React.Component {
             添加商品
           </Button>
         )}
+        <UserSignature orderCode={orderCode} flushOrderDetails={flushOrderDetails} userSignature={userSignature}/>
       </div>
     );
   }

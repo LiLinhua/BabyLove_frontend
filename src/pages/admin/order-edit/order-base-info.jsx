@@ -30,26 +30,32 @@ class OrderBaseInfo extends React.Component {
       totalPrice: nextProps.totalPrice,
       expressWay: nextProps.expressWay,
       expressCode: nextProps.expressCode,
+      expressAddress: nextProps.expressAddress,
+      selectedUser: nextProps.selectedUser,
     });
   }
 
   /**
-   * 保存物流信息
+   * 保存订单基础信息
    */
-  saveExpress = async () => {
-    const { orderCode, flushOrderDetails } = this.props;
-    const { expressWay, expressCode, status } =
+  saveOrder = async () => {
+    const { orderCode, flushOrderDetails, selectedUser } = this.props;
+    const { expressWay, expressCode, expressAddress, status, userCode } =
       this.formRef.current.getFieldsValue([
         "expressWay",
         "expressCode",
+        "expressAddress",
         "status",
+        "userCode",
       ]);
     this.setState({ isSavingExpress: true });
     const { success, message } = await request.post(adminUpdateOrderBaseInfo, {
       orderCode,
       expressWay,
       expressCode,
+      expressAddress,
       orderStatus: orderTitleMapToStatus[status].value,
+      userCode: selectedUser?.userCode
     });
     if (success) {
       Toast.show({
@@ -88,8 +94,16 @@ class OrderBaseInfo extends React.Component {
    */
   render() {
     const { isShowOrderStatusPicker } = this.state;
-    const { orderCode, createdAt, totalPrice, expressWay, expressCode } =
-      this.props;
+    const {
+      orderCode,
+      createdAt,
+      totalPrice,
+      expressWay,
+      expressCode,
+      expressAddress,
+      showSelectUserModal,
+      selectedUser,
+    } = this.props;
 
     const isCanNotUpdateOrder = [
       // orderStatus.WAIT_GET.value,
@@ -137,6 +151,19 @@ class OrderBaseInfo extends React.Component {
             <Input placeholder="请选择订单状态" readOnly />
           </Form.Item>
           <Form.Item
+            name="userCode"
+            label="关联用户"
+            initialValue={
+              selectedUser
+                ? `${selectedUser.userName}(${selectedUser.userNickname || selectedUser.userCode})`
+                : ""
+            }
+            rules={[{ required: false, message: "关联用户不能为空" }]}
+            onClick={showSelectUserModal}
+          >
+            <Input placeholder="请关联用户" readOnly />
+          </Form.Item>
+          <Form.Item
             name="expressWay"
             label="配送方式"
             initialValue={`${expressWay || ""}`}
@@ -159,6 +186,17 @@ class OrderBaseInfo extends React.Component {
             />
           </Form.Item>
           <Form.Item
+            name="expressAddress"
+            label="配送地址"
+            initialValue={`${expressAddress || ""}`}
+            rules={[{ required: false, message: "配送地址不能为空" }]}
+          >
+            <Input
+              disabled={isCanNotUpdateOrder}
+              placeholder="请输入配送地址"
+            />
+          </Form.Item>
+          <Form.Item
             name="submit"
             className="baby-love-admin-order-details-base-info-save"
           >
@@ -166,7 +204,7 @@ class OrderBaseInfo extends React.Component {
               color="primary"
               disabled={isCanNotUpdateOrder}
               loading={this.state.isSavingExpress}
-              onClick={this.saveExpress}
+              onClick={this.saveOrder}
             >
               保存
             </Button>

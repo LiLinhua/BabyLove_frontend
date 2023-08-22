@@ -1,10 +1,10 @@
+import DayJS from "dayjs";
 import React from "react";
 import { adminQueryAllOrders } from "../../../common/apis";
 import request from "../../../common/http";
 import { goTo } from "../../../common/utils";
 import OrderList from "./order-list";
 import SearchBar from "./order-search";
-import DayJS from "dayjs";
 
 import "./index.less";
 
@@ -13,7 +13,8 @@ class Order extends React.Component {
     super(props);
     this.state = {
       orderList: [],
-      keyword: '',
+      showOrderList: [],
+      keyword: "",
       isShowLoading: false,
     };
   }
@@ -34,13 +35,22 @@ class Order extends React.Component {
    */
   getOrderList = async () => {
     this.setState({ isShowLoading: true });
-    const { data } = await request.post(adminQueryAllOrders, { keyword: this.state.keyword });
+    const { data } = await request.post(adminQueryAllOrders, {
+      keyword: this.state.keyword,
+    });
 
     if (Array.isArray(data)) {
-      this.setState({ orderList: data.map(orderItem => {
-        orderItem.createdAt = DayJS(orderItem.createdAt).format('YYYY-MM-DD HH:mm:ss');
+      const orderList = data.map((orderItem) => {
+        orderItem.createdAt = DayJS(orderItem.createdAt).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
         return orderItem;
-      }), isShowLoading: false });
+      });
+      this.setState({
+        showOrderList: orderList,
+        orderList: orderList,
+        isShowLoading: false,
+      });
       return;
     }
     this.setState({ isShowLoading: false });
@@ -48,13 +58,46 @@ class Order extends React.Component {
 
   /**
    * 搜索
+   * @param {string} keyword 关键词
+   * @param {string} type 搜索类型，可选值：order、user、goods
    */
-  onSearch = (keyword) => {
+  onSearch = (keyword, type) => {
     clearTimeout(this.searchTimer);
     this.searchTimer = setTimeout(() => {
-      this.setState({ keyword }, this.getOrderList)
+      switch (type) {
+        case "order":
+          this.setState({ keyword }, this.getOrderList);
+          break;
+        case "user":
+          this.setState({
+            showOrderList: !keyword || !keyword.trim() ? this.state.orderList : this.state.orderList.filter((order) => {
+              return (
+                order.user?.userName?.indexOf(keyword) > -1 ||
+                order.user?.userNickname?.indexOf(keyword) > -1 ||
+                order.user?.userPhone?.indexOf(keyword) > -1 ||
+                order.user?.userCode?.indexOf(keyword) > -1
+              );
+            }),
+          });
+          break;
+        case "goods":
+          this.setState({
+            showOrderList: !keyword || !keyword.trim() ? this.state.orderList : this.state.orderList.filter((order) => {
+              if(!Array.isArray(order.goods)){
+                return false;
+              }
+              return order.goods.find(goodsItem => {
+                return (
+                  goodsItem.goodsTitle?.indexOf(keyword) > -1 ||
+                  goodsItem.goodsCode?.indexOf(keyword) > -1
+                );
+              })
+            }),
+          });
+          break;
+      }
     }, 500);
-  }
+  };
 
   /**
    * 跳转订单详情页
@@ -73,13 +116,13 @@ class Order extends React.Component {
   };
 
   render() {
-    const { orderList, isShowLoading } = this.state;
+    const { showOrderList, isShowLoading } = this.state;
 
     return (
       <div className="baby-love-admin-order-list">
-        <SearchBar onSearch={this.onSearch}/>
+        <SearchBar onSearch={this.onSearch} />
         <OrderList
-          orderList={orderList}
+          orderList={showOrderList}
           stopPropagation={this.stopPropagation}
           toOrderDetails={this.toOrderDetails}
           isShowLoading={isShowLoading}

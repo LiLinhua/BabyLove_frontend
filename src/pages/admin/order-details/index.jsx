@@ -61,10 +61,12 @@ class OrderDetails extends React.Component {
       orderCode,
       expressWay,
       expressCode,
+      expressAddress,
       totalPrice,
       createdAt,
       goods,
       totalCount,
+      user,
     } = this.state.orderDetails || {};
 
     return (
@@ -80,7 +82,9 @@ class OrderDetails extends React.Component {
                 createdAt={createdAt}
                 expressWay={expressWay}
                 expressCode={expressCode}
+                expressAddress={expressAddress}
                 totalPrice={totalPrice}
+                user={user}
               />
               <OrderGoods goods={goods} totalCount={totalCount} />
             </div>

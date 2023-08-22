@@ -1,5 +1,5 @@
 import { copy } from "@/common/utils";
-import { Button, Toast } from "antd-mobile";
+import { Button, Ellipsis, Toast } from "antd-mobile";
 import React from "react";
 
 import "./index.less";
@@ -26,8 +26,15 @@ class OrderBaseInfo extends React.Component {
    * 渲染函数
    */
   render() {
-    const { orderCode, createdAt, totalPrice, expressWay, expressCode } =
-      this.props;
+    const {
+      orderCode,
+      createdAt,
+      totalPrice,
+      expressWay,
+      expressCode,
+      expressAddress,
+      user,
+    } = this.props;
     return (
       <div className="baby-love-admin-order-details-base-info">
         <div className="baby-love-admin-order-details-base-info-item">
@@ -43,6 +50,20 @@ class OrderBaseInfo extends React.Component {
           <span>¥{totalPrice}</span>
         </div>
         <div className="baby-love-admin-order-details-base-info-item">
+          <span>关联用户：</span>
+          <span>
+            <Ellipsis
+              direction="end"
+              rows={1}
+              content={
+                user
+                  ? `${user.userName}(${user.userNickname || user.userCode})`
+                  : "-"
+              }
+            />
+          </span>
+        </div>
+        <div className="baby-love-admin-order-details-base-info-item">
           <span>配送方式：</span>
           <span>{expressWay || "-"}</span>
         </div>
@@ -50,10 +71,19 @@ class OrderBaseInfo extends React.Component {
           <span>快递单号：</span>
           <span>{expressCode || "-"}</span>
           {expressCode && (
-            <Button color="primary" disabled={!expressCode} fill="none" onClick={expressCode ? this.copyExpressCode : null}>
+            <Button
+              color="primary"
+              disabled={!expressCode}
+              fill="none"
+              onClick={expressCode ? this.copyExpressCode : null}
+            >
               复制快递单号
             </Button>
           )}
+        </div>
+        <div className="baby-love-admin-order-details-base-info-item">
+          <span>配送地址：</span>
+          <span>{expressAddress || "-"}</span>
         </div>
       </div>
     );

@@ -3,9 +3,9 @@ import React from "react";
 import { adminQueryAllUsers } from "../../../common/apis";
 import request from "../../../common/http";
 import { goTo } from "../../../common/utils";
+import UserAdd from "./user-add";
 import UserList from "./user-list";
 import SearchBar from "./user-search";
-import UserAdd from "./user-add";
 
 import "./index.less";
 
@@ -15,6 +15,8 @@ class Users extends React.Component {
     this.state = {
       userList: [],
       keyword: "",
+      pageIndex: 1,
+      pageSize: 1000,
       userBirthdaySort: null,
       userWeddingDateSort: null,
       isShowLoading: false,
@@ -37,12 +39,21 @@ class Users extends React.Component {
    */
   getUserList = async () => {
     this.setState({ isShowLoading: true });
-    const { keyword, userBirthdaySort, userWeddingDateSort } = this.state;
-    const { data } = await request.post(adminQueryAllUsers, {
+    const {
       keyword,
       userBirthdaySort,
       userWeddingDateSort,
+      pageIndex,
+      pageSize,
+    } = this.state;
+    let { data } = await request.post(adminQueryAllUsers, {
+      keyword,
+      userBirthdaySort,
+      userWeddingDateSort,
+      pageIndex,
+      pageSize,
     });
+    data = data?.list;
 
     if (Array.isArray(data)) {
       this.setState({
@@ -115,7 +126,7 @@ class Users extends React.Component {
    */
   addUser = () => {
     goTo("/user/edit");
-  }
+  };
 
   render() {
     const { userList, isShowLoading } = this.state;
