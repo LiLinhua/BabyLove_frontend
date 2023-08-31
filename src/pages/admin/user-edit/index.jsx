@@ -57,6 +57,7 @@ class UserEdit extends React.Component {
       values.userCode = this.userCode;
       url = adminUpdateUser;
     }
+    values.userBalance = Number(values.userBalance);
     this.setState({ isLoading: true });
     const { success } = await request.post(url, values);
 
@@ -103,6 +104,7 @@ class UserEdit extends React.Component {
    */
   render() {
     const now = new Date();
+    const min = new Date(now - 100*365*24*60*60*1000);
     const { isShowBirthdayPicker, isShowWeddingDatePicker, isLoading } = this.state;
     const isRequired = !this.userCode;
     return (
@@ -178,6 +180,13 @@ class UserEdit extends React.Component {
               <TextArea placeholder="请输入用户喜好" autoSize />
             </Form.Item>
             <Form.Item
+              name="userBalance"
+              label="用户余额"
+              rules={[{ required: false }]}
+            >
+              <Input type="number" min={0} placeholder="请输入用户余额" />
+            </Form.Item>
+            <Form.Item
               name="userOthers"
               label="其他"
               rules={[{ required: false }]}
@@ -202,6 +211,7 @@ class UserEdit extends React.Component {
           onClose={() => {
             this.setState({ isShowBirthdayPicker: false });
           }}
+          min={min}
           max={now}
           onConfirm={this.setBirthday}
         />
@@ -211,6 +221,7 @@ class UserEdit extends React.Component {
           onClose={() => {
             this.setState({ isShowWeddingDatePicker: false });
           }}
+          min={min}
           max={now}
           onConfirm={this.setWeddingDate}
         />

@@ -119,6 +119,14 @@ class GoodsItem extends React.Component {
               {userItem.isAdmin}
             </div>
           </div>
+          <div className="baby-love-admin-user-list-item-body">
+            <div className="baby-love-admin-user-list-item-body-label">
+              账户余额：
+            </div>
+            <div className="baby-love-admin-user-list-item-body-content">
+              {userItem.userBalance}
+            </div>
+          </div>
         </div>
         <div
           className="baby-love-admin-user-list-item-footer"
