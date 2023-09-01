@@ -186,6 +186,13 @@ class GoodsEdit extends React.Component {
               <Input min={0} type="number" placeholder="请输入商品价格" />
             </Form.Item>
             <Form.Item
+              name="goodsOriginPrice"
+              label="商品原价"
+              rules={[{ required: true, message: "商品原价不能为空" }]}
+            >
+              <Input min={0} type="number" placeholder="请输入商品原价" />
+            </Form.Item>
+            <Form.Item
               name="goodsInventory"
               label="商品库存"
               rules={[{ required: true, message: "商品库存不能为空" }]}

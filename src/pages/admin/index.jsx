@@ -28,6 +28,7 @@ class Index extends React.Component {
         <div className="baby-love-admin-home-body">
           {this.state.menus.map((menu) => (
             <div
+              key={menu.title}
               className={`baby-love-admin-home-item ${menu.className || ""}`}
               onClick={menu.onClick}
             >

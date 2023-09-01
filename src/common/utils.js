@@ -53,21 +53,21 @@ export const toLogin = () => {
  * 设置登录成功标识
  */
 export const setLoginSuccessFlag = () => {
-    sessionStorage.setItem("babyLoveToken", "1");
+    localStorage.setItem("babyLoveToken", "1");
 };
 
 /**
  * 删除登录成功标识
  */
 export const removeLoginSuccessFlag = () => {
-    sessionStorage.removeItem("babyLoveToken");
+    localStorage.removeItem("babyLoveToken");
 };
 
 /**
  * 判断是否登录
  */
 export const checkIsLogin = () => {
-    return !!sessionStorage.getItem("babyLoveToken");
+    return !!localStorage.getItem("babyLoveToken");
 };
 
 

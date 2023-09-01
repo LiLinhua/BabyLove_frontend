@@ -169,7 +169,7 @@ class OrderActions extends React.Component {
             添加商品
           </Button>
         )}
-        <UserSignature orderCode={orderCode} flushOrderDetails={flushOrderDetails} userSignature={userSignature}/>
+        <UserSignature orderCode={orderCode} isCanNotModify={isCanNotCancelOrder} flushOrderDetails={flushOrderDetails} userSignature={userSignature}/>
       </div>
     );
   }

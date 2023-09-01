@@ -63,6 +63,7 @@ class OrderDetails extends React.Component {
       expressCode,
       expressAddress,
       totalPrice,
+      payWay,
       createdAt,
       goods,
       totalCount,
@@ -84,6 +85,7 @@ class OrderDetails extends React.Component {
                 expressCode={expressCode}
                 expressAddress={expressAddress}
                 totalPrice={totalPrice}
+                payWay={payWay}
                 user={user}
               />
               <OrderGoods goods={goods} totalCount={totalCount} />

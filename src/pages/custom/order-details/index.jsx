@@ -70,12 +70,12 @@ class OrderDetails extends React.Component {
     } = this.state.orderDetails || {};
 
     return (
-      <div className="baby-love-admin-order-details">
+      <div className="baby-love-custom-order-details">
         {this.state.isShowLoading ? (
           <DotLoading color="primary" />
         ) : (
           <>
-            <div className="baby-love-admin-order-details-info">
+            <div className="baby-love-custom-order-details-info">
               <OrderStatus orderStatus={status} />
               <OrderBaseInfo
                 orderCode={orderCode}

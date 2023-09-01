@@ -21,6 +21,7 @@ class GoodsList extends Component {
               goodsTitle={goods.goodsTitle}
               goodsSubtitle={goods.goodsSubtitle}
               goodsPrice={goods.goodsPrice}
+              goodsOriginPrice={goods.goodsOriginPrice}
               pictures={goods.pictures}
               goodsCode={goods.goodsCode}
               goodsInventory={goods.goodsInventory}

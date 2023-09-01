@@ -42,7 +42,7 @@ function errorHandler(res) {
         return Promise.reject(res.response || {});
     }
 
-    const { status, data } = res.response;
+    const { status, data } = res.response || {};
     if (status) {
         switch (status) {
             // 401: 未登录

@@ -136,6 +136,7 @@ class OrderEdit extends React.Component {
       expressCode,
       expressAddress,
       totalPrice,
+      payWay,
       createdAt,
       goods,
       totalCount,
@@ -164,6 +165,7 @@ class OrderEdit extends React.Component {
                 expressWay={expressWay}
                 expressCode={expressCode}
                 expressAddress={expressAddress}
+                payWay={payWay}
                 totalPrice={totalPrice}
                 selectedUser={selectedUser}
                 flushOrderDetails={this.getOrderDetails}

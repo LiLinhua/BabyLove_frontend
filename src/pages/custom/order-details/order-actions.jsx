@@ -100,7 +100,7 @@ class OrderActions extends React.Component {
     // const isCanNotCancelOrder = this.props.orderStatus !== orderStatus.WAIT_PAY;
 
     return (
-      <div className="baby-love-admin-order-details-actions">
+      <div className="baby-love-custom-order-details-actions">
         {/* {isCanNotCancelOrder ? null : (
           <Button
             color="primary"

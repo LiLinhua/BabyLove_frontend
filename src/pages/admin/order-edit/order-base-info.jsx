@@ -1,7 +1,7 @@
 import { adminUpdateOrderBaseInfo } from "@/common/apis";
-import { orderStatus, orderTitleMapToStatus } from "@/common/constant";
+import { orderStatus, orderTitleMapToStatus, payWays } from "@/common/constant";
 import request from "@/common/http";
-import { Button, Form, Input, Picker, Toast } from "antd-mobile";
+import { Button, Dialog, Form, Input, Picker, Toast, Radio } from "antd-mobile";
 import React from "react";
 
 import "./index.less";
@@ -28,6 +28,7 @@ class OrderBaseInfo extends React.Component {
       status: orderStatus[nextProps.orderStatus].title,
       createdAt: nextProps.createdAt,
       totalPrice: nextProps.totalPrice,
+      payWay: nextProps.payWay,
       expressWay: nextProps.expressWay,
       expressCode: nextProps.expressCode,
       expressAddress: nextProps.expressAddress,
@@ -39,23 +40,42 @@ class OrderBaseInfo extends React.Component {
    * 保存订单基础信息
    */
   saveOrder = async () => {
-    const { orderCode, flushOrderDetails, selectedUser } = this.props;
-    const { expressWay, expressCode, expressAddress, status, userCode } =
+    const {
+      orderCode,
+      flushOrderDetails,
+      selectedUser,
+      orderStatus: propsOrderStatus,
+    } = this.props;
+    const { expressWay, expressCode, expressAddress, status, payWay } =
       this.formRef.current.getFieldsValue([
         "expressWay",
         "expressCode",
         "expressAddress",
         "status",
-        "userCode",
+        "payWay",
       ]);
+
+    if (
+      propsOrderStatus !== orderTitleMapToStatus[status].value &&
+      [orderStatus.FINISHED.value, orderStatus.CANCELED.value].includes(orderTitleMapToStatus[status].value)
+    ) {
+      const result = await Dialog.confirm({
+        content: "保存后将无法再修改该订单，确认保存吗？",
+      });
+      if (!result) {
+        return;
+      }
+    }
+
     this.setState({ isSavingExpress: true });
     const { success, message } = await request.post(adminUpdateOrderBaseInfo, {
       orderCode,
       expressWay,
       expressCode,
       expressAddress,
+      payWay,
       orderStatus: orderTitleMapToStatus[status].value,
-      userCode: selectedUser?.userCode
+      userCode: selectedUser?.userCode,
     });
     if (success) {
       Toast.show({
@@ -101,6 +121,7 @@ class OrderBaseInfo extends React.Component {
       expressWay,
       expressCode,
       expressAddress,
+      payWay,
       showSelectUserModal,
       selectedUser,
     } = this.props;
@@ -155,13 +176,28 @@ class OrderBaseInfo extends React.Component {
             label="关联用户"
             initialValue={
               selectedUser
-                ? `${selectedUser.userName}(${selectedUser.userNickname || selectedUser.userCode})`
+                ? `${selectedUser.userName}(${
+                    selectedUser.userNickname || selectedUser.userCode
+                  })`
                 : ""
             }
             rules={[{ required: false, message: "关联用户不能为空" }]}
-            onClick={showSelectUserModal}
+            onClick={isCanNotUpdateOrder ? null : showSelectUserModal}
           >
             <Input placeholder="请关联用户" readOnly />
+          </Form.Item>
+          <Form.Item
+            name="payWay"
+            label="支付方式"
+            initialValue={`${payWay || undefined}`}
+            rules={[{ required: false, message: "支付方式不能为空" }]}
+          >
+            <Radio.Group disabled={isCanNotUpdateOrder}>
+                <Radio value={payWays.USER_BALANCE.value}>用户余额</Radio>
+                <Radio value={payWays.CASH.value}>现金</Radio>
+                <Radio value={payWays.ALIPAY.value}>支付宝</Radio>
+                <Radio value={payWays.WECHAT.value}>微信</Radio>
+            </Radio.Group>
           </Form.Item>
           <Form.Item
             name="expressWay"

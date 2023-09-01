@@ -1,5 +1,6 @@
 import { copy } from "@/common/utils";
 import { Button, Ellipsis, Toast } from "antd-mobile";
+import { payWays } from "@/common/constant";
 import React from "react";
 
 import "./index.less";
@@ -33,6 +34,7 @@ class OrderBaseInfo extends React.Component {
       expressWay,
       expressCode,
       expressAddress,
+      payWay,
       user,
     } = this.props;
     return (
@@ -62,6 +64,10 @@ class OrderBaseInfo extends React.Component {
               }
             />
           </span>
+        </div>
+        <div className="baby-love-admin-order-details-base-info-item">
+          <span>支付方式：</span>
+          <span>{payWays[payWay]?.title || "-"}</span>
         </div>
         <div className="baby-love-admin-order-details-base-info-item">
           <span>配送方式：</span>

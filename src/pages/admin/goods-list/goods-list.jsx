@@ -4,7 +4,7 @@ import GoodsItem from './goods-item';
 
 class GoodsList extends Component {
   render() {
-    const { goodsList, isLoading, getGoodsList } = this.props;
+    const { goodsList, isLoading, getGoodsList, onScroll } = this.props;
 
     let content = <DotLoading color="primary" />;
     if (!goodsList?.length) {
@@ -20,6 +20,7 @@ class GoodsList extends Component {
               goodsTitle={goods.goodsTitle}
               goodsSubtitle={goods.goodsSubtitle}
               goodsPrice={goods.goodsPrice}
+              goodsOriginPrice={goods.goodsOriginPrice}
               pictures={goods.pictures}
               goodsCode={goods.goodsCode}
               goodsInventory={goods.goodsInventory}
@@ -30,7 +31,7 @@ class GoodsList extends Component {
       );
     }
 
-    return <div className="baby-love-admin-goods-list">{content}</div>;
+    return <div className="baby-love-admin-goods-list" onScroll={onScroll}>{content}</div>;
   }
 }
 

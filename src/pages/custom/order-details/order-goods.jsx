@@ -24,32 +24,35 @@ class OrderGoods extends React.Component {
   render() {
     const { goods, totalCount } = this.props;
     return (
-      <div className="baby-love-admin-order-details-goods">
-        <div className="baby-love-admin-order-details-goods-header">
-          <span className="baby-love-admin-order-details-goods-total-shop">
+      <div className="baby-love-custom-order-details-goods">
+        <div className="baby-love-custom-order-details-goods-header">
+          <span className="baby-love-custom-order-details-goods-total-shop">
             BabyLove
           </span>
-          <span className="baby-love-admin-order-details-goods-total-count">
+          <span className="baby-love-custom-order-details-goods-total-count">
             共 {totalCount} 件商品
           </span>
         </div>
         <ul>
           {(goods || []).map((item) => (
             <li key={item} onClick={() => this.toGoodsDetail(item.goodsCode)}>
-              <div className="baby-love-admin-order-details-goods-picture" style={{ backgroundImage: `url(${item.pictures?.[0]?.pictureUrl || NoPictureIcon})`}}></div>
-              <div className="baby-love-admin-order-details-goods-info">
-                <div className="baby-love-admin-order-details-goods-title">
+              <div className="baby-love-custom-order-details-goods-picture" style={{ backgroundImage: `url(${item.pictures?.[0]?.pictureUrl || NoPictureIcon})`}}></div>
+              <div className="baby-love-custom-order-details-goods-info">
+                <div className="baby-love-custom-order-details-goods-title">
                   <Ellipsis
                     direction="end"
                     rows={2}
                     content={item.goodsTitle}
                   />
                 </div>
-                <div className="baby-love-admin-order-details-goods-details">
-                  <span className="baby-love-admin-order-details-goods-item-price">
-                    ¥ {item.goodsPrice}
+                <div className="baby-love-custom-order-details-goods-details">
+                  <span className="baby-love-custom-order-details-goods-item-price">
+                    ¥{item.goodsPrice}
+                    <span className="baby-love-custom-order-details-goods-item-origin-price">
+                      {item.goodsOriginPrice ? `¥${item.goodsOriginPrice}` : ""}
+                    </span>
                   </span>
-                  <span className="baby-love-admin-order-details-goods-item-count">
+                  <span className="baby-love-custom-order-details-goods-item-count">
                     x{item.ordersGoodsRelations?.buyCount || '?'}
                   </span>
                 </div>

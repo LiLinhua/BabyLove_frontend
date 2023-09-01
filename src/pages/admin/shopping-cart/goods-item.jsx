@@ -36,7 +36,11 @@ class GoodsItem extends React.Component {
             fit="contain"
             style={{ borderRadius: 4 }}
           />
-          <span className="baby-love-admin-goods-list-item-inventory">{goodsItem.goodsInventory < 0 ? '已售罄' : `仅剩${goodsItem.goodsInventory}件`}</span>
+          <span className="baby-love-admin-goods-list-item-inventory">
+            {goodsItem.goodsInventory < 0
+              ? "已售罄"
+              : `仅剩${goodsItem.goodsInventory}件`}
+          </span>
         </div>
         <div className="baby-love-admin-shopping-cart-goods-buy-info">
           <p className="baby-love-admin-shopping-cart-goods-title">
@@ -48,7 +52,11 @@ class GoodsItem extends React.Component {
           <div className="baby-love-admin-shopping-cart-goods-price-count">
             <span className="baby-love-admin-shopping-cart-goods-price">
               ¥{goodsItem.goodsPrice}
+              <span className="baby-love-admin-shopping-cart-goods-origin-price">
+                {goodsItem.goodsOriginPrice ? `¥${goodsItem.goodsOriginPrice}` : ""}
+              </span>
             </span>
+
             <span className="baby-love-admin-shopping-cart-goods-count">
               <span
                 onClick={(e) => {

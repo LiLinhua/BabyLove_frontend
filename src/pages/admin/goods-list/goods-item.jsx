@@ -104,8 +104,14 @@ class ListItem extends React.Component {
    * 渲染函数
    */
   render() {
-    const { goodsCode, goodsTitle, goodsPrice, pictures, goodsInventory } =
-      this.props;
+    const {
+      goodsCode,
+      goodsTitle,
+      goodsPrice,
+      goodsOriginPrice,
+      pictures,
+      goodsInventory,
+    } = this.props;
     const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div
@@ -130,7 +136,9 @@ class ListItem extends React.Component {
             key={picture.pictureCode}
             src={picture.pictureUrl || NoPictureIcon}
           />
-          <span className="baby-love-custom-goods-list-item-inventory">{goodsInventory < 0 ? '已售罄' : `仅剩${goodsInventory}件`}</span>
+          <span className="baby-love-custom-goods-list-item-inventory">
+            {goodsInventory < 0 ? "已售罄" : `仅剩${goodsInventory}件`}
+          </span>
         </div>
         <div className="baby-love-admin-goods-list-item-content">
           <Ellipsis direction="end" rows={2} content={goodsTitle} />
@@ -141,6 +149,9 @@ class ListItem extends React.Component {
           <p className="baby-love-admin-goods-list-item-buy">
             <span className="baby-love-admin-goods-list-item-price">
               ¥{goodsPrice}
+              <span className="baby-love-admin-goods-list-item-origin-price">
+                {goodsOriginPrice ? `¥${goodsOriginPrice}` : ""}
+              </span>
             </span>
             <span
               className="baby-love-admin-goods-list-item-add"

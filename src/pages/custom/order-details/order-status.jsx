@@ -20,7 +20,7 @@ class OrderStatus extends React.Component {
     } = orderStatus[this.props.orderStatus] || {};
     return (
       <div
-        className="baby-love-admin-order-details-status"
+        className="baby-love-custom-order-details-status"
         style={{ backgroundColor }}
       >
         {icon}

@@ -48,6 +48,9 @@ class GoodsItem extends React.Component {
           <div className="baby-love-custom-shopping-cart-goods-price-count">
             <span className="baby-love-custom-shopping-cart-goods-price">
               ¥{goodsItem.goodsPrice}
+              <span className="baby-love-custom-shopping-cart-goods-origin-price">
+                {goodsItem.goodsOriginPrice ? `¥${goodsItem.goodsOriginPrice}` : ""}
+              </span>
             </span>
             <span className="baby-love-custom-shopping-cart-goods-count">
               <span

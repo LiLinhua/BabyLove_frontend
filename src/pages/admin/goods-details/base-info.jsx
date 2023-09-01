@@ -6,13 +6,18 @@ class GoodsBaseInfo extends React.Component {
   }
 
   render() {
-    const { goodsTitle, goodsSubtitle, goodsPrice, goodsDetails } = this.props;
+    const { goodsTitle, goodsSubtitle, goodsPrice, goodsOriginPrice, goodsDetails } =
+      this.props;
     return (
       <>
         <div className="baby-love-admin-goods-details-base-info">
           <p className="baby-love-admin-goods-details-price">
             ¥{goodsPrice || "--"}
+            <span className="baby-love-admin-goods-details-origin-price">
+              {goodsOriginPrice ? `¥${goodsOriginPrice}` : ""}
+            </span>
           </p>
+
           <p className="baby-love-admin-goods-details-title">
             {goodsTitle || "--"}
           </p>

@@ -83,6 +83,7 @@ class Goods extends React.Component {
       goodsTitle,
       goodsSubtitle,
       goodsPrice,
+      goodsOriginPrice,
       goodsDetails,
       goodsInventory,
       pictures,
@@ -107,6 +108,7 @@ class Goods extends React.Component {
                 goodsSubtitle={goodsSubtitle}
                 goodsDetails={goodsDetails}
                 goodsPrice={goodsPrice}
+                goodsOriginPrice={goodsOriginPrice}
               />
               {/* 加入购物车 */}
               <AddToShoppingCart addToCart={this.addToCart} />

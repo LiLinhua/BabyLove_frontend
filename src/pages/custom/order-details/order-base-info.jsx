@@ -29,24 +29,24 @@ class OrderBaseInfo extends React.Component {
     const { orderCode, createdAt, totalPrice, expressWay, expressCode } =
       this.props;
     return (
-      <div className="baby-love-admin-order-details-base-info">
-        <div className="baby-love-admin-order-details-base-info-item">
+      <div className="baby-love-custom-order-details-base-info">
+        <div className="baby-love-custom-order-details-base-info-item">
           <span>订单编号：</span>
           <span>{orderCode}</span>
         </div>
-        <div className="baby-love-admin-order-details-base-info-item">
+        <div className="baby-love-custom-order-details-base-info-item">
           <span>订单时间：</span>
           <span>{createdAt}</span>
         </div>
-        <div className="baby-love-admin-order-details-base-info-item">
+        <div className="baby-love-custom-order-details-base-info-item">
           <span>订单总价：</span>
           <span>¥{totalPrice}</span>
         </div>
-        <div className="baby-love-admin-order-details-base-info-item">
+        <div className="baby-love-custom-order-details-base-info-item">
           <span>配送方式：</span>
           <span>{expressWay || "-"}</span>
         </div>
-        <div className="baby-love-admin-order-details-base-info-item">
+        <div className="baby-love-custom-order-details-base-info-item">
           <span>快递单号：</span>
           <span>{expressCode || "-"}</span>
           {expressCode && (

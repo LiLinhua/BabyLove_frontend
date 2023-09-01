@@ -47,7 +47,10 @@ class OrderGoods extends React.Component {
                 </div>
                 <div className="baby-love-admin-order-details-goods-details">
                   <span className="baby-love-admin-order-details-goods-item-price">
-                    ¥ {item.goodsPrice}
+                    ¥{item.goodsPrice}
+                    <span className="baby-love-admin-order-details-goods-item-origin-price">
+                      {item.goodsOriginPrice ? `¥${item.goodsOriginPrice}` : ""}
+                    </span>
                   </span>
                   <span className="baby-love-admin-order-details-goods-item-count">
                     x{item.ordersGoodsRelations?.buyCount || '?'}

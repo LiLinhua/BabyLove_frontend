@@ -67,3 +67,23 @@ export const orderTitleMapToStatus =
         backgroundColor: '#CCCCCC',
     }, // 已取消
 }
+
+export const payWays =
+{
+    USER_BALANCE: {
+        value: 'USER_BALANCE',
+        title: '用户余额',
+    },
+    CASH: {
+        value: 'CASH',
+        title: '现金',
+    },
+    ALIPAY: {
+        value: 'ALIPAY',
+        title: '支付宝',
+    },
+    WECHAT: {
+        value: 'WECHAT',
+        title: '微信',
+    },
+}

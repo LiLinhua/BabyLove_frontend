@@ -84,7 +84,7 @@ class UserSignature extends React.Component {
             <Button onClick={this.closeMask}>关闭</Button>
           </div>
         </Mask>
-        <Button color="primary" onClick={this.showMask}>
+        <Button color="primary" disabled={this.props.isCanNotModify} onClick={this.showMask}>
           客户签名
         </Button>
       </div>
