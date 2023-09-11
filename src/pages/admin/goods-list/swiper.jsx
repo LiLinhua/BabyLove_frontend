@@ -12,7 +12,7 @@ class GoodsSwiper extends React.Component {
     return (
       <div className="baby-love-admin-goods-swiper">
         {pictures?.length ? (
-          <Swiper autoplay loop style={{ '--height': '200px' }}>
+          <Swiper autoplay loop style={{ '--height': '240px' }}>
             {(pictures || []).map((picture) => (
               <Swiper.Item key={picture.pictureCode}>
                 <div className="baby-love-admin-goods-swiper-item">
