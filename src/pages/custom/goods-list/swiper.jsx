@@ -16,7 +16,9 @@ class GoodsSwiper extends React.Component {
             {(pictures || []).map((picture) => (
               <Swiper.Item key={picture.pictureCode}>
                 <div className="baby-love-custom-goods-swiper-item">
-                  <img src={picture.pictureUrl} />
+                  <a href={picture.link}>
+                    <img src={picture.pictureUrl} />
+                  </a>
                 </div>
               </Swiper.Item>
             ))}
