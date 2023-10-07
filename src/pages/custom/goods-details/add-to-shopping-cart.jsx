@@ -1,4 +1,5 @@
 import { Button } from "antd-mobile";
+import { goodsStatus as goodsStatusEnums } from "@/common/constant";
 import React from "react";
 
 class AddToShoppingCart extends React.Component {
@@ -7,10 +8,10 @@ class AddToShoppingCart extends React.Component {
   }
 
   render() {
-    const { addToCart } = this.props;
+    const { addToCart, goodsStatus, goodsInventory } = this.props;
     return (
       <div className="baby-love-custom-goods-details-add-to-cart">
-        <Button color="primary" onClick={addToCart}>
+        <Button disabled={goodsInventory < 1 || goodsStatus === goodsStatusEnums.OFFLINE.value} color="primary" onClick={addToCart}>
           加入购物车
         </Button>
       </div>

@@ -1,5 +1,6 @@
 import { Checkbox, Image, Input, Ellipsis } from "antd-mobile";
 import { AddCircleOutline, MinusCircleOutline } from "antd-mobile-icons";
+import { goodsStatus as goodsStatusEnums } from "@/common/constant";
 import NoPictureIcon from "@/assets/no-picture.png";
 import React from "react";
 
@@ -15,6 +16,7 @@ class GoodsItem extends React.Component {
       changeCount,
       stopPropagation,
     } = this.props;
+    const isOpacity = goodsItem.goodsStatus !== goodsStatusEnums.NORMAL.value || goodsItem.goodsInventory < 1;
     return (
       <>
         <div
@@ -28,7 +30,7 @@ class GoodsItem extends React.Component {
             }}
           />
         </div>
-        <div className="baby-love-custom-shopping-cart-goods-picture">
+        <div className={`baby-love-custom-shopping-cart-goods-picture`}>
           <Image
             src={goodsItem.pictures?.[0]?.pictureUrl || NoPictureIcon}
             width="100%"
@@ -36,9 +38,9 @@ class GoodsItem extends React.Component {
             fit="contain"
             style={{ borderRadius: 4 }}
           />
-          <span className="baby-love-custom-goods-list-item-inventory">{goodsItem.goodsInventory < 0 ? '已售罄' : `仅剩${goodsItem.goodsInventory}件`}</span>
+          <span className="baby-love-custom-goods-list-item-inventory">{goodsItem.goodsStatus !== goodsStatusEnums.NORMAL.value ? '已下架' : goodsItem.goodsInventory < 1 ? '已售罄' : `仅剩${goodsItem.goodsInventory}件`}</span>
         </div>
-        <div className="baby-love-custom-shopping-cart-goods-buy-info">
+        <div className={`baby-love-custom-shopping-cart-goods-buy-info ${isOpacity ? 'baby-love-opacity-disabled' : ''}`}>
           <p className="baby-love-custom-shopping-cart-goods-title">
             <Ellipsis direction="end" rows={2} content={goodsItem.goodsTitle} />
           </p>

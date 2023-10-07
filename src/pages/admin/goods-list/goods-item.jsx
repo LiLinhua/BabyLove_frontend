@@ -1,12 +1,14 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import ShoppingBagIcon from "@/assets/shopping-bag.png";
+import { goodsStatus as goodsStatusEnums } from "@/common/constant";
 import { Dialog, Ellipsis, Toast } from "antd-mobile";
-import { DeleteOutline, EditSOutline } from "antd-mobile-icons";
+import { DeleteOutline, EditSOutline, MinusCircleOutline } from "antd-mobile-icons";
 import { inject, observer } from "mobx-react";
 import React from "react";
 import {
   adminRemoveGoods,
   adminShoppingCartAddGoods,
+  adminModifyGoodsStatus,
 } from "../../../common/apis";
 import request from "../../../common/http";
 import { getShoppingCartCode, goTo } from "../../../common/utils";
@@ -101,11 +103,38 @@ class ListItem extends React.Component {
   };
 
   /**
+   * 下架商品
+   * @param {event} e 事件
+   * @param {string} goodsCode 商品编码
+   */
+  offline = async (e, goodsCode) => {
+    this.stopPropagation(e);
+
+    const isOffline = this.props.goodsStatus === goodsStatusEnums.NORMAL.value;
+    const tips = isOffline ? '下架' : '上架';
+    const result = await Dialog.confirm({
+      content: `确定${tips}该商品吗？`,
+    });
+    if (!result) {
+      return;
+    }
+    const { success } = await request.post(adminModifyGoodsStatus, { goodsCode, goodsStatus: isOffline ? goodsStatusEnums.OFFLINE.value : goodsStatusEnums.NORMAL.value });
+    if (success) {
+      Toast.show({
+        icon: "success",
+        content: `${tips}成功！`,
+      });
+      this.props.getGoodsList();
+    }
+  };
+
+  /**
    * 渲染函数
    */
   render() {
     const {
       goodsCode,
+      goodsStatus,
       goodsTitle,
       goodsPrice,
       goodsOriginPrice,
@@ -122,6 +151,9 @@ class ListItem extends React.Component {
           <span onClick={(e) => this.edit(e, goodsCode)}>
             编辑 <EditSOutline />
           </span>
+          <span onClick={(e) => this.offline(e, goodsCode)}>
+            { goodsStatus === goodsStatusEnums.NORMAL.value ? '下架' : '上架' } <MinusCircleOutline />
+          </span>
           <span onClick={(e) => this.remove(e, goodsCode)}>
             删除 <DeleteOutline />
           </span>
@@ -137,8 +169,11 @@ class ListItem extends React.Component {
             src={picture.pictureUrl || NoPictureIcon}
           />
           <span className="baby-love-custom-goods-list-item-inventory">
-            {goodsInventory < 0 ? "已售罄" : `仅剩${goodsInventory}件`}
+            {goodsInventory < 1 ? "已售罄" : `仅剩${goodsInventory}件`}
           </span>
+          {
+            goodsStatus !== goodsStatusEnums.NORMAL.value && <span className="baby-love-custom-goods-list-item-status">已下架</span>
+          }
         </div>
         <div className="baby-love-admin-goods-list-item-content">
           <Ellipsis direction="end" rows={2} content={goodsTitle} />
@@ -157,7 +192,7 @@ class ListItem extends React.Component {
               className="baby-love-admin-goods-list-item-add"
               onClick={(e) => this.addToCart(e, goodsCode)}
             >
-              <img src={ShoppingBagIcon} />
+              {goodsInventory > 0 && goodsStatus === goodsStatusEnums.NORMAL.value && <img src={ShoppingBagIcon} />}
             </span>
           </p>
         </div>

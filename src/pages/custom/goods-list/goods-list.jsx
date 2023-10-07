@@ -19,6 +19,7 @@ class GoodsList extends Component {
             <GoodsItem
               key={goods.goodsCode}
               goodsTitle={goods.goodsTitle}
+              goodsStatus={goods.goodsStatus}
               goodsSubtitle={goods.goodsSubtitle}
               goodsPrice={goods.goodsPrice}
               goodsOriginPrice={goods.goodsOriginPrice}

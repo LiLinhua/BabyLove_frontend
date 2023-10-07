@@ -1,6 +1,7 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import { Checkbox, Ellipsis, Image, Input } from "antd-mobile";
 import { AddCircleOutline, MinusCircleOutline } from "antd-mobile-icons";
+import { goodsStatus as goodsStatusEnums } from "@/common/constant";
 import React from "react";
 
 class GoodsItem extends React.Component {
@@ -15,6 +16,8 @@ class GoodsItem extends React.Component {
       changeCount,
       stopPropagation,
     } = this.props;
+    const isOpacity = goodsItem.goodsStatus !== goodsStatusEnums.NORMAL.value || goodsItem.goodsInventory < 1;
+
     return (
       <>
         <div
@@ -37,12 +40,10 @@ class GoodsItem extends React.Component {
             style={{ borderRadius: 4 }}
           />
           <span className="baby-love-admin-goods-list-item-inventory">
-            {goodsItem.goodsInventory < 0
-              ? "已售罄"
-              : `仅剩${goodsItem.goodsInventory}件`}
+            {goodsItem.goodsStatus !== goodsStatusEnums.NORMAL.value ? '已下架' : goodsItem.goodsInventory < 1 ? '已售罄' : `仅剩${goodsItem.goodsInventory}件`}
           </span>
         </div>
-        <div className="baby-love-admin-shopping-cart-goods-buy-info">
+        <div className={`baby-love-admin-shopping-cart-goods-buy-info ${isOpacity ? 'baby-love-opacity-disabled' : ''}`}>
           <p className="baby-love-admin-shopping-cart-goods-title">
             <Ellipsis direction="end" rows={2} content={goodsItem.goodsTitle} />
           </p>

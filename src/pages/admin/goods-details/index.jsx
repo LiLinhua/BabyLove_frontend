@@ -81,6 +81,7 @@ class Goods extends React.Component {
   render() {
     const {
       goodsTitle,
+      goodsStatus,
       goodsSubtitle,
       goodsPrice,
       goodsOriginPrice,
@@ -101,6 +102,7 @@ class Goods extends React.Component {
               <GoodsSwiper
                 pictures={pictures}
                 goodsInventory={goodsInventory}
+                goodsStatus={goodsStatus}
               />
               {/* 商品信息 */}
               <GoodsBaseInfo
@@ -111,7 +113,11 @@ class Goods extends React.Component {
                 goodsOriginPrice={goodsOriginPrice}
               />
               {/* 加入购物车 */}
-              <AddToShoppingCart addToCart={this.addToCart} />
+              <AddToShoppingCart
+                goodsInventory={goodsInventory}
+                goodsStatus={goodsStatus}
+                addToCart={this.addToCart}
+              />
             </>
           )}
 

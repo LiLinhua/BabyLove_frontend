@@ -1,6 +1,7 @@
 import { Dialog, DotLoading, Toast } from "antd-mobile";
 import React from "react";
 import {
+  customCheckOrder,
   customQueryShoppingCartAllGoods,
   customShoppingCartBatchRemoveGoods,
   customShoppingCartBatchUpdateSelected,
@@ -166,7 +167,7 @@ class ShoppingCart extends React.Component {
       return;
     }
 
-    if(code === 'SOME_GOODS_EMPTY'){
+    if (code === "SOME_GOODS_EMPTY") {
       Toast.show({
         content: message || "商品库存不足",
       });
@@ -195,9 +196,7 @@ class ShoppingCart extends React.Component {
    * @param {string} isSelectAll 是否选择全部
    */
   selectAllGoods = async (isSelectAll) => {
-    const selectGoodsCodes = isSelectAll
-      ? this.state.goodsList.map((goodsItem) => goodsItem.goodsCode)
-      : [];
+    const selectGoodsCodes = this.state.goodsList.map((goodsItem) => goodsItem.goodsCode);
     const { code, success, message } = await request.post(
       customShoppingCartBatchUpdateSelected,
       {
@@ -210,7 +209,7 @@ class ShoppingCart extends React.Component {
       return;
     }
 
-    if(code === 'SOME_GOODS_EMPTY'){
+    if (code === "SOME_GOODS_EMPTY") {
       Toast.show({
         content: message || "商品库存不足",
       });
@@ -255,21 +254,38 @@ class ShoppingCart extends React.Component {
       content: "删除成功！",
     });
 
-    goodsList = goodsList.filter(
-      (goodsItem) => !selectGoodsCodes.includes(goodsItem.goodsCode)
-    );
+    this.getGoodsList(this.shoppingCartCode);
 
-    this.setState({ goodsList, selectGoodsCodes: [] });
+    // goodsList = goodsList.filter(
+    //   (goodsItem) => !selectGoodsCodes.includes(goodsItem.goodsCode)
+    // );
+
+    // this.setState({ goodsList, selectGoodsCodes: [] });
+  };
+
+  /**
+   * 检查能否下单
+   */
+  check = async () => {
+    const { success } = await request.post(customCheckOrder, {
+      shoppingCartCode: this.shoppingCartCode,
+    });
+    return success;
   };
 
   /**
    * 下单
    */
-  buy = () => {
+  buy = async () => {
     let { selectGoodsCodes } = this.state;
 
     if (!selectGoodsCodes.length) {
       return Toast.show({ content: "请先选择商品" });
+    }
+
+    const isCanAddOrder = await this.check();
+    if(!isCanAddOrder){
+      return;
     }
 
     Dialog.confirm({

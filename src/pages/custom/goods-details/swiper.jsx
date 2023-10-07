@@ -1,5 +1,6 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import { Swiper } from "antd-mobile";
+import { goodsStatus as goodsStatusEnums } from "@/common/constant";
 import React from "react";
 
 class GoodsSwiper extends React.Component {
@@ -8,7 +9,7 @@ class GoodsSwiper extends React.Component {
   }
 
   render() {
-    const { pictures, goodsInventory } = this.props;
+    const { pictures, goodsInventory, goodsStatus } = this.props;
     return (
       <div className="baby-love-custom-goods-details-swiper">
         {pictures?.length ? (
@@ -25,8 +26,9 @@ class GoodsSwiper extends React.Component {
           <img src={NoPictureIcon} />
         )}
         <span className="baby-love-custom-goods-details-inventory">
-          {goodsInventory < 0 ? "已售罄" : `仅剩${goodsInventory}件`}
+          {goodsInventory < 1 ? "已售罄" : `仅剩${goodsInventory}件`}
         </span>
+        {goodsStatus === goodsStatusEnums.OFFLINE.value && <span className="baby-love-custom-goods-details-offline">已下架</span>}
       </div>
     );
   }

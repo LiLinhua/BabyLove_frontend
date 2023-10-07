@@ -306,6 +306,11 @@ class ShoppingCart extends React.Component {
         content: message || "商品库存不足",
       });
     }
+    if(code === 'SOME_GOODS_STATUS_ERROR'){
+      Toast.show({
+        content: message || "商品已下架",
+      });
+    }
 
     this.getGoodsList(this.shoppingCartCode);
 
@@ -330,9 +335,7 @@ class ShoppingCart extends React.Component {
    * @param {string} isSelectAll 是否选择全部
    */
   selectAllGoods = async (isSelectAll) => {
-    const selectGoodsCodes = isSelectAll
-      ? this.state.goodsList.map((goodsItem) => goodsItem.goodsCode)
-      : [];
+    const selectGoodsCodes = this.state.goodsList.map((goodsItem) => goodsItem.goodsCode);
     const { code, success, message } = await request.post(
       adminShoppingCartBatchUpdateSelected,
       {
@@ -390,11 +393,13 @@ class ShoppingCart extends React.Component {
       content: "删除成功！",
     });
 
-    goodsList = goodsList.filter(
-      (goodsItem) => !selectGoodsCodes.includes(goodsItem.goodsCode)
-    );
+    this.getGoodsList(this.shoppingCartCode);
 
-    this.setState({ goodsList, selectGoodsCodes: [] });
+    // goodsList = goodsList.filter(
+    //   (goodsItem) => !selectGoodsCodes.includes(goodsItem.goodsCode)
+    // );
+
+    // this.setState({ goodsList, selectGoodsCodes: [] });
   };
 
   /**

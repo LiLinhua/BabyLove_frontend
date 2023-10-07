@@ -87,3 +87,14 @@ export const payWays =
         title: '微信',
     },
 }
+
+export const goodsStatus = {
+    NORMAL: {
+        value: 'NORMAL',
+        title: '上架',
+    },
+    OFFLINE: {
+        value: 'OFFLINE',
+        title: '下架',
+    },
+};

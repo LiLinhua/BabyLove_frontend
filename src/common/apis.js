@@ -1,6 +1,7 @@
 export const adminAddGoods = '/admin/goods/addGoods';
 export const adminUpdateGoods = '/admin/goods/updateGoods';
 export const adminRemoveGoods = '/admin/goods/removeGoods';
+export const adminModifyGoodsStatus = '/admin/goods/modifyGoodsStatus';
 export const adminAddGoodsPictures = '/admin/goodsPictures/addGoodsPictures';
 export const adminShoppingCartAddGoods = '/admin/shoppingCarts/addGoods';
 export const adminShoppingCartBatchRemoveGoods = '/admin/shoppingCarts/batchRemoveGoods';
@@ -42,6 +43,7 @@ export const customShoppingCartBatchUpdateSelected = '/custom/shoppingCarts/batc
 export const customQueryAllOrders = '/custom/orders/queryAllOrders';
 export const customQueryOrderDetails = '/custom/orders/queryOrderDetails';
 export const customCancelOrder = '/custom/orders/cancelOrder';
+export const customCheckOrder = '/custom/orders/checkOrder';
 export const customQueryCatalogs = '/custom/catalogs/queryAllCatalogs';
 
 

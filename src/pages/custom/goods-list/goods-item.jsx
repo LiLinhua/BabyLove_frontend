@@ -1,11 +1,12 @@
 import NoPictureIcon from "@/assets/no-picture.png";
 import ShoppingBagIcon from "@/assets/shopping-bag.png";
+import { goodsStatus as goodsStatusEnums } from "@/common/constant";
 import { Ellipsis, Toast } from "antd-mobile";
 import { inject, observer } from "mobx-react";
 import React from "react";
 import { customShoppingCartAddGoods } from "../../../common/apis";
 import request from "../../../common/http";
-import { getShoppingCartCode,goTo } from "../../../common/utils";
+import { getShoppingCartCode, goTo } from "../../../common/utils";
 
 import "./index.less";
 
@@ -64,7 +65,15 @@ class ListItem extends React.Component {
    * 渲染函数
    */
   render() {
-    const { goodsCode, goodsTitle, goodsPrice, goodsOriginPrice, pictures, goodsInventory } = this.props;
+    const {
+      goodsCode,
+      goodsStatus,
+      goodsTitle,
+      goodsPrice,
+      goodsOriginPrice,
+      pictures,
+      goodsInventory,
+    } = this.props;
     const picture = pictures && pictures[0] ? pictures[0] : {};
     return (
       <div
@@ -81,7 +90,9 @@ class ListItem extends React.Component {
             key={picture.pictureCode}
             src={picture.pictureUrl || NoPictureIcon}
           />
-          <span className="baby-love-custom-goods-list-item-inventory">{goodsInventory < 0 ? '已售罄' : `仅剩${goodsInventory}件`}</span>
+          <span className="baby-love-custom-goods-list-item-inventory">
+            {goodsInventory < 1 ? "已售罄" : `仅剩${goodsInventory}件`}
+          </span>
         </div>
         <div className="baby-love-custom-goods-list-item-content">
           <Ellipsis direction="end" rows={2} content={goodsTitle} />
@@ -100,7 +111,7 @@ class ListItem extends React.Component {
               className="baby-love-custom-goods-list-item-add"
               onClick={(e) => this.addToCart(e, goodsCode)}
             >
-              <img src={ShoppingBagIcon} />
+              {goodsInventory > 0 && goodsStatus === goodsStatusEnums.NORMAL.value && <img src={ShoppingBagIcon} />}
             </span>
           </p>
         </div>
