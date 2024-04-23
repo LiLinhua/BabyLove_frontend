@@ -17,6 +17,10 @@
 
 UmiJS + Antd Mobile + ReactJS + Less + Axios + Mobx。
 
+## 后端服务
+
+https://gitee.com/LiLinhua/BabyLove_backend
+
 ## 本地启动
 
 ```bash
